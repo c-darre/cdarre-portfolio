@@ -4,19 +4,21 @@ Rails.application.routes.draw do
              path: "admin",
              path_names: { sign_in: "login", sign_out: "logout" }
 
-  # --- Back-office (contrôleurs créés à l'étape 3) ---
+  # --- Back-office (protégé par Admin::BaseController) ---
   namespace :admin do
     root to: "dashboard#index"
 
     resources :case_studies do
-      patch :reorder, on: :collection
+      member     { patch :toggle_published }   # publier / repasser en brouillon en 1 clic
+      collection { patch :reorder }            # glisser-déposer (SortableJS)
       resources :sections, controller: "case_study_sections", shallow: true do
-        patch :reorder, on: :collection
+        collection { patch :reorder }
       end
     end
 
     resources :visual_works do
-      patch :reorder, on: :collection
+      member     { patch :toggle_published }
+      collection { patch :reorder }
     end
 
     resources :awards

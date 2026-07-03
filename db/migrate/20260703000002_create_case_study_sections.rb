@@ -9,7 +9,7 @@ class CreateCaseStudySections < ActiveRecord::Migration[8.0]
       # body   => ActionText (has_rich_text), table dédiée polymorphe
       # images => Active Storage (has_many_attached)
     end
-    add_index :case_study_sections, [:case_study_id, :position]
-    add_index :case_study_sections, [:case_study_id, :section_type]
+    add_index :case_study_sections, [ :case_study_id, :position ]
+    add_index :case_study_sections, [ :case_study_id, :section_type ]
   end
 end
