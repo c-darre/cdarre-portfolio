@@ -1,14 +1,36 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  # --- Auth admin ---
+  devise_for :admin_users,
+             path: "admin",
+             path_names: { sign_in: "login", sign_out: "logout" }
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
+  # --- Back-office (contrôleurs créés à l'étape 3) ---
+  namespace :admin do
+    root to: "dashboard#index"
 
-  # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
-  # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-  # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
+    resources :case_studies do
+      patch :reorder, on: :collection
+      resources :sections, controller: "case_study_sections", shallow: true do
+        patch :reorder, on: :collection
+      end
+    end
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+    resources :visual_works do
+      patch :reorder, on: :collection
+    end
+
+    resources :awards
+  end
+
+  # --- Pages publiques (contrôleurs créés à l'étape 4) ---
+  root to: "pages#home"
+  get "a-propos", to: "pages#about",   as: :about
+  get "contact",  to: "pages#contact", as: :contact
+
+  resources :case_studies, only: %i[index show], param: :slug, path: "projets"
+  resources :visual_works, only: %i[index show],               path: "galerie"
+
+  # --- SEO / infra ---
+  get "sitemap.xml", to: "sitemaps#show", defaults: { format: "xml" }, as: :sitemap
+  get "up", to: "rails/health#show", as: :rails_health_check
 end
