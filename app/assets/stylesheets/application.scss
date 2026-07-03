@@ -1,1 +1,2 @@
-// Sassy
+@import "tokens";     // surcharges de variables Bootstrap (doit précéder l'import)
+@import "bootstrap";  // sources SCSS de la gem (via --load-path, cf. initializer)
