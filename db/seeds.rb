@@ -33,13 +33,13 @@ fibr.assign_attributes(
 )
 fibr.save!
 build_sections(fibr, [
-  ["probleme",    "Problème",    "<p>[À rédiger — le constat utilisateur et le manque adressé.]</p>"],
-  ["contraintes", "Contraintes", "<p>[À rédiger — délai bootcamp, périmètre API Ecobalyse, données.]</p>"],
-  ["demarche",    "Démarche",    "<p>[À rédiger — de l'idée au scope : arbitrages produit.]</p>"],
-  ["design",      "Design",      "<p>[À rédiger — parcours, UI, décisions d'interface.]</p>"],
-  ["technique",   "Technique",   "<p>[À rédiger — IA Vision, schéma relationnel, intégration Ecobalyse.]</p>"],
-  ["impact",      "Impact",      "<p>[À rédiger — déploiement, pitch, retours.]</p>"],
-  ["reflexion",   "Réflexion",   "<p>[À rédiger — ce que je referais autrement.]</p>"]
+  [ "probleme",    "Problème",    "<p>[À rédiger — le constat utilisateur et le manque adressé.]</p>" ],
+  [ "contraintes", "Contraintes", "<p>[À rédiger — délai bootcamp, périmètre API Ecobalyse, données.]</p>" ],
+  [ "demarche",    "Démarche",    "<p>[À rédiger — de l'idée au scope : arbitrages produit.]</p>" ],
+  [ "design",      "Design",      "<p>[À rédiger — parcours, UI, décisions d'interface.]</p>" ],
+  [ "technique",   "Technique",   "<p>[À rédiger — IA Vision, schéma relationnel, intégration Ecobalyse.]</p>" ],
+  [ "impact",      "Impact",      "<p>[À rédiger — déploiement, pitch, retours.]</p>" ],
+  [ "reflexion",   "Réflexion",   "<p>[À rédiger — ce que je referais autrement.]</p>" ]
 ])
 
 # --- 2. User Selfcare Portal (Renault Group, anonymisé côté détails sensibles) ---
@@ -57,12 +57,12 @@ usp.assign_attributes(
 )
 usp.save!
 build_sections(usp, [
-  ["probleme",    "Problème",    "<p>[À rédiger.]</p>"],
-  ["contraintes", "Contraintes", "<p>[À rédiger — multi-pays, bilingue, ServiceNow, équipes distantes.]</p>"],
-  ["demarche",    "Démarche",    "<p>[À rédiger.]</p>"],
-  ["design",      "Design",      "<p>[À rédiger — design system, nommage, parcours restructurés.]</p>"],
-  ["impact",      "Impact",      "<p>[À rédiger.]</p>"],
-  ["reflexion",   "Réflexion",   "<p>[À rédiger.]</p>"]
+  [ "probleme",    "Problème",    "<p>[À rédiger.]</p>" ],
+  [ "contraintes", "Contraintes", "<p>[À rédiger — multi-pays, bilingue, ServiceNow, équipes distantes.]</p>" ],
+  [ "demarche",    "Démarche",    "<p>[À rédiger.]</p>" ],
+  [ "design",      "Design",      "<p>[À rédiger — design system, nommage, parcours restructurés.]</p>" ],
+  [ "impact",      "Impact",      "<p>[À rédiger.]</p>" ],
+  [ "reflexion",   "Réflexion",   "<p>[À rédiger.]</p>" ]
 ])
 
 # --- 3. Clienteling (PROJET CONCEPT — clairement affiché comme tel, zéro résultat inventé) ---
@@ -79,11 +79,11 @@ cli.assign_attributes(
 )
 cli.save!
 build_sections(cli, [
-  ["probleme",    "Problème",    "<p>[À rédiger.]</p>"],
-  ["contraintes", "Contraintes", "<p>[À rédiger — contraintes auto-imposées du concept.]</p>"],
-  ["demarche",    "Démarche",    "<p>[À rédiger.]</p>"],
-  ["design",      "Design",      "<p>[À rédiger.]</p>"],
-  ["reflexion",   "Réflexion",   "<p>[À rédiger.]</p>"]
+  [ "probleme",    "Problème",    "<p>[À rédiger.]</p>" ],
+  [ "contraintes", "Contraintes", "<p>[À rédiger — contraintes auto-imposées du concept.]</p>" ],
+  [ "demarche",    "Démarche",    "<p>[À rédiger.]</p>" ],
+  [ "design",      "Design",      "<p>[À rédiger.]</p>" ],
+  [ "reflexion",   "Réflexion",   "<p>[À rédiger.]</p>" ]
 ])
 
 # --- Award (source : PROFIL_CURSUS §3.1) ---
@@ -99,9 +99,9 @@ award.save!
 
 # --- Galerie : entrées d'exemple (à remplacer par tes vraies créations) ---
 [
-  ["Identité visuelle — [projet à nommer]", "identite"],
-  ["Concept visuel — [projet à nommer]",    "concept"],
-  ["Motion — affichage urbain",             "motion"]
+  [ "Identité visuelle — [projet à nommer]", "identite" ],
+  [ "Concept visuel — [projet à nommer]",    "concept" ],
+  [ "Motion — affichage urbain",             "motion" ]
 ].each_with_index do |(title, cat), i|
   vw = VisualWork.find_or_initialize_by(title: title)
   vw.assign_attributes(category: cat, position: i, published: false,
