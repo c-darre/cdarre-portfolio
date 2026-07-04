@@ -1,0 +1,50 @@
+<% content_for :title, "À propos" %>
+<% content_for :meta_description,
+   "Parcours de Cyprien Darré : dix ans de design et de communication corporate " \
+   "(Renault Group), puis une reconversion en développement web (Le Wagon, RNCP niveau 6). " \
+   "Profil hybride design × code." %>
+
+<section class="py-5">
+  <div class="container">
+    <div class="col-lg-8">
+      <h1 class="h2 mb-4">À propos</h1>
+
+      <p class="lead">
+        Profil hybride entre design, métier et ingénierie : je conçois les parcours,
+        je rédige l'UX et je code le produit.
+      </p>
+
+      <h2 class="h5 mt-5">Dix ans côté design & communication</h2>
+      <p>
+        Formé aux Beaux-Arts puis en design graphique, j'ai travaillé en agence, en
+        collectivité, puis six ans dans l'écosystème Renault Group (Alliance IT Services / DSI),
+        en mission de conseil. J'y ai notamment conçu le portail interne AITS —
+        1er Prix du meilleur site SharePoint du Groupe en 2021 — et piloté la refonte UX/UI
+        et l'UX Writing bilingue (FR/EN) du User Selfcare Portal, catalogue de services IT
+        utilisé par plus de 100 000 personnes dans 35 pays, en reportant directement au VP.
+      </p>
+
+      <h2 class="h5 mt-4">Le pivot vers le code</h2>
+      <p>
+        Je butais là où le design rencontre l'ingénierie : je briefais des développeurs,
+        j'identifiais des manques techniques, je dessinais des systèmes que je ne pouvais
+        pas construire. Je suis allé apprendre à les construire — d'abord en autodidacte,
+        puis au Wagon (titre RNCP niveau 6 de Concepteur Développeur d'Applications Web, 2026),
+        avec Ruby on Rails et une brique d'IA appliquée (LLM, RAG, agents). J'y ai été
+        idéateur et lead developer de FIB__R, une application d'éco-score textile déployée.
+      </p>
+
+      <h2 class="h5 mt-4">Aujourd'hui</h2>
+      <p>
+        Je cherche des produits à systèmes — design systems, parcours transactionnels,
+        outils métier — dans des environnements structurés, là où le double bagage
+        design × code apporte le plus. Basé à Bordeaux, ouvert à Paris et Rennes.
+      </p>
+
+      <div class="d-flex flex-wrap gap-2 mt-4">
+        <%= link_to "Voir les études de cas", case_studies_path, class: "btn btn-dark" %>
+        <%= link_to "Me contacter", contact_path, class: "btn btn-outline-dark" %>
+      </div>
+    </div>
+  </div>
+</section>

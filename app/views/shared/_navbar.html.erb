@@ -1,0 +1,20 @@
+<header>
+  <nav class="navbar navbar-expand-md bg-white border-bottom" aria-label="Navigation principale">
+    <div class="container">
+      <%= link_to profile[:name], root_path, class: "navbar-brand fw-semibold" %>
+      <button class="navbar-toggler" type="button"
+              data-bs-toggle="collapse" data-bs-target="#navPublic"
+              aria-controls="navPublic" aria-expanded="false" aria-label="Ouvrir le menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navPublic">
+        <ul class="navbar-nav ms-auto align-items-md-center gap-md-2">
+          <li class="nav-item"><%= nav_link "Projets",  case_studies_path %></li>
+          <li class="nav-item"><%= nav_link "Galerie",  visual_works_path %></li>
+          <li class="nav-item"><%= nav_link "À propos", about_path %></li>
+          <li class="nav-item"><%= nav_link "Contact",  contact_path %></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

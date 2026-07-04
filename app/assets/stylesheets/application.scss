@@ -1,2 +1,4 @@
-@import "tokens";     // surcharges de variables Bootstrap (doit précéder l'import)
-@import "bootstrap";  // sources SCSS de la gem (via --load-path, cf. initializer)
+@import "tokens";     // variables Bootstrap surchargées (doit précéder Bootstrap)
+@import "bootstrap";  // sources SCSS de la gem (via --load-path)
+@import "base";       // fondations (typo, focus clavier)
+@import "components"; // composants maison (cartes, footer)

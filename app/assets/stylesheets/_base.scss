@@ -1,0 +1,9 @@
+// Fondations.
+
+.letter-spaced { letter-spacing: .08em; }
+
+// Focus clavier bien visible partout (complète l'anneau Bootstrap).
+:focus-visible {
+  outline: 2px solid $ink;
+  outline-offset: 2px;
+}

@@ -1,0 +1,27 @@
+<% content_for :title, "Contact" %>
+<% content_for :meta_description,
+   "Contacter Cyprien Darré — Product Designer × Design Engineer, basé à Bordeaux, " \
+   "ouvert à Paris et Rennes." %>
+
+<section class="py-5">
+  <div class="container">
+    <div class="col-lg-7">
+      <h1 class="h2 mb-3">Contact</h1>
+      <p class="text-body-secondary mb-4">
+        Basé à Bordeaux, ouvert à une mobilité Paris ou Rennes.
+        Le plus simple : LinkedIn<% if profile[:email] %> ou un email direct<% end %>.
+      </p>
+
+      <div class="d-grid gap-2 d-sm-flex">
+        <%= link_to "LinkedIn", profile[:linkedin], class: "btn btn-dark", target: "_blank", rel: "noopener" %>
+        <%= link_to "GitHub", profile[:github], class: "btn btn-outline-dark", target: "_blank", rel: "noopener" %>
+        <% if profile[:email] %>
+          <%= mail_to profile[:email], "Écrire un email", class: "btn btn-outline-dark" %>
+        <% end %>
+        <% if (cv = cv_path_if_available) %>
+          <%= link_to "Télécharger le CV (PDF)", cv, class: "btn btn-outline-dark" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>

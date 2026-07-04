@@ -1,0 +1,70 @@
+<section class="hero py-5">
+  <div class="container py-md-4">
+    <div class="col-lg-9">
+      <p class="text-uppercase small letter-spaced text-body-secondary mb-2"><%= profile[:tagline] %></p>
+      <h1 class="display-5 fw-semibold mb-3"><%= profile[:pitch] %></h1>
+      <p class="lead text-body-secondary mb-4">
+        Dix ans d'UX/UI, de direction artistique et de stratégie de contenu à l'échelle
+        internationale, complétés par une certification de développeur web
+        (Ruby on Rails, IA appliquée).
+      </p>
+      <div class="d-flex flex-wrap gap-2 mb-4">
+        <%= link_to "Voir les études de cas", case_studies_path, class: "btn btn-dark" %>
+        <%= link_to "À propos", about_path, class: "btn btn-outline-dark" %>
+      </div>
+      <ul class="list-inline small text-body-secondary facts-strip mb-0">
+        <li class="list-inline-item">+100 000 utilisateurs · 35 pays</li>
+        <li class="list-inline-item">1er Prix SharePoint — Groupe Renault 2021</li>
+        <li class="list-inline-item">RNCP niveau 6 — Le Wagon, 2026</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="py-5 border-top">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-baseline mb-4">
+      <h2 class="h3 mb-0">Études de cas</h2>
+      <%= link_to "Toutes les études", case_studies_path, class: "small" %>
+    </div>
+    <% if @case_studies.any? %>
+      <div class="row g-4">
+        <% @case_studies.each do |case_study| %>
+          <div class="col-md-6 col-lg-4">
+            <%= render "case_studies/card", case_study: case_study %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-body-secondary">Les études de cas arrivent — rédaction en cours.</p>
+    <% end %>
+  </div>
+</section>
+
+<% if @award %>
+  <section class="pb-5">
+    <div class="container">
+      <div class="border rounded p-4 d-flex flex-column flex-md-row align-items-md-center gap-3">
+        <span class="badge text-bg-dark align-self-start">Récompense</span>
+        <div>
+          <h2 class="h5 mb-1"><%= @award.title %><% if @award.year %> · <%= @award.year %><% end %></h2>
+          <% if @award.description.present? %>
+            <p class="mb-0 text-body-secondary"><%= @award.description %></p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </section>
+<% end %>
+
+<section class="pb-5">
+  <div class="container">
+    <div class="border rounded p-4 p-md-5 bg-body-tertiary">
+      <h2 class="h4">Craft visuel</h2>
+      <p class="text-body-secondary mb-3">
+        Identités, concepts et motion — le versant création pure, distinct des études de cas produit.
+      </p>
+      <%= link_to "Explorer la galerie", visual_works_path, class: "btn btn-outline-dark" %>
+    </div>
+  </div>
+</section>

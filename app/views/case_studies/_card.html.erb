@@ -1,0 +1,26 @@
+<article class="card h-100 case-card">
+  <% if case_study.hero_image.attached? %>
+    <div class="ratio ratio-16x9">
+      <%= image_tag case_study.hero_image,
+                    class: "card-img-top object-fit-cover",
+                    alt: "Aperçu de l'étude de cas : #{case_study.title}" %>
+    </div>
+  <% end %>
+  <div class="card-body">
+    <% if case_study.role.present? %>
+      <p class="small text-body-secondary mb-1"><%= case_study.role %></p>
+    <% end %>
+    <h3 class="h5 card-title mb-1">
+      <%= link_to case_study.title, case_study_path(case_study),
+                  class: "stretched-link text-body text-decoration-none" %>
+    </h3>
+    <% if case_study.subtitle.present? %>
+      <p class="card-text text-body-secondary small"><%= case_study.subtitle %></p>
+    <% end %>
+  </div>
+  <% if case_study.key_metric.present? %>
+    <div class="card-footer bg-transparent border-top-0 pb-3">
+      <span class="badge text-bg-light border fw-normal"><%= case_study.key_metric %></span>
+    </div>
+  <% end %>
+</article>
