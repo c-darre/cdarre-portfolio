@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc><%= root_url %></loc></url>
+  <url><loc><%= about_url %></loc></url>
+  <url><loc><%= contact_url %></loc></url>
+  <url><loc><%= case_studies_url %></loc></url>
+  <url><loc><%= visual_works_url %></loc></url>
+<% @case_studies.each do |case_study| %>
+  <url>
+    <loc><%= case_study_url(case_study) %></loc>
+    <lastmod><%= case_study.updated_at.iso8601 %></lastmod>
+  </url>
+<% end %>
+<% @visual_works.each do |work| %>
+  <url>
+    <loc><%= visual_work_url(work) %></loc>
+    <lastmod><%= work.updated_at.iso8601 %></lastmod>
+  </url>
+<% end %>
+</urlset>

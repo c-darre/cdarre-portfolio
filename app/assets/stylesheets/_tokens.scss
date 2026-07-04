@@ -1,3 +1,22 @@
-// Design tokens — on affinera à l'étape 4 (vues). Exemple minimal :
-$enable-rounded: true;
-$font-family-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+// Design tokens — unique point de personnalisation de Bootstrap.
+// Direction : sobre, éditorial, contrasté. Pas de webfont : pile système
+// (performance, zéro dépendance externe, rendu natif par OS).
+
+// Couleurs
+$ink:   #1d1d1f;   // quasi-noir : texte et boutons
+$paper: #fcfcfa;   // blanc cassé très léger : fond
+
+$primary:         $ink;
+$body-color:      $ink;
+$body-bg:         $paper;
+$link-color:      #2c5282;    // bleu assourdi, contraste AA sur fond clair
+$link-decoration: underline;  // liens soulignés par défaut (accessibilité)
+
+// Typographie
+$font-family-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$headings-font-weight: 600;
+$lead-font-weight: 400;
+
+// Forme
+$border-radius:  .375rem;
+$enable-shadows: false;

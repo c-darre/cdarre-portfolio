@@ -1,29 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
-    <title><%= content_for(:title) || "Cdarre Portfolio" %></title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Cdarre Portfolio">
-    <meta name="mobile-web-app-capable" content="yes">
+    <title><%= page_title %></title>
+    <%= render "shared/meta_tags" %>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
-    <%= yield :head %>
-
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <%= yield :head %>
   </head>
 
-  <body>
-    <%= yield %>
+  <body class="d-flex flex-column min-vh-100">
+    <%# Lien d'évitement : invisible sauf au focus clavier (Tab depuis le haut de page) %>
+    <a href="#contenu"
+       class="visually-hidden-focusable position-absolute top-0 start-0 m-2 p-2 bg-white border rounded z-3">
+      Aller au contenu
+    </a>
+
+    <%= render "shared/navbar" %>
+
+    <main id="contenu" class="flex-grow-1">
+      <% if notice %>
+        <div class="container pt-3"><div class="alert alert-success mb-0" role="alert"><%= notice %></div></div>
+      <% end %>
+      <% if alert %>
+        <div class="container pt-3"><div class="alert alert-danger mb-0" role="alert"><%= alert %></div></div>
+      <% end %>
+      <%= yield %>
+    </main>
+
+    <%= render "shared/footer" %>
   </body>
 </html>

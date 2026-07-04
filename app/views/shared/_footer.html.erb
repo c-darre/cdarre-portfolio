@@ -1,0 +1,18 @@
+<footer class="site-footer border-top mt-5">
+  <div class="container py-4 d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+    <div>
+      <div class="fw-semibold"><%= profile[:name] %></div>
+      <div class="small text-body-secondary"><%= profile[:tagline] %> · <%= profile[:location] %></div>
+    </div>
+    <ul class="list-inline mb-0 small">
+      <li class="list-inline-item"><%= link_to "LinkedIn", profile[:linkedin], target: "_blank", rel: "noopener" %></li>
+      <li class="list-inline-item"><%= link_to "GitHub", profile[:github], target: "_blank", rel: "noopener" %></li>
+      <% if profile[:email] %>
+        <li class="list-inline-item"><%= mail_to profile[:email], "Email" %></li>
+      <% end %>
+      <% if (cv = cv_path_if_available) %>
+        <li class="list-inline-item"><%= link_to "CV (PDF)", cv %></li>
+      <% end %>
+    </ul>
+  </div>
+</footer>

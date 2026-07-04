@@ -23,7 +23,7 @@ module AdminHelper
 
   # Paires [libellé, valeur] prêtes pour un <select>.
   def section_type_options
-    SECTION_TYPE_LABELS.map { |value, label| [label, value] }
+    SECTION_TYPE_LABELS.map { |value, label| [ label, value ] }
   end
 
   def category_label(key)
@@ -31,6 +31,6 @@ module AdminHelper
   end
 
   def category_options
-    CATEGORY_LABELS.map { |value, label| [label, value] }
+    CATEGORY_LABELS.map { |value, label| [ label, value ] }
   end
 end
