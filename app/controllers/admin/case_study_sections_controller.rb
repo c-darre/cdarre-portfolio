@@ -4,13 +4,13 @@ module Admin
     before_action :set_section,    only: %i[edit update destroy]
 
     def new
-      # position par défaut = à la fin de la liste des sections existantes
       @section = @case_study.case_study_sections.build(position: next_position)
     end
 
     def create
       @section = @case_study.case_study_sections.build(section_params)
       if @section.save
+        attach_new_images(@section)   # images attachées après save (record persisté)
         redirect_to edit_admin_case_study_path(@case_study), notice: "Section ajoutée."
       else
         render :new, status: :unprocessable_entity
@@ -21,6 +21,8 @@ module Admin
 
     def update
       if @section.update(section_params)
+        purge_selected_images(@section)   # retire celles cochées « supprimer »
+        attach_new_images(@section)       # ajoute les nouvelles (sans écraser les autres)
         redirect_to edit_admin_case_study_path(@section.case_study), notice: "Section mise à jour."
       else
         render :edit, status: :unprocessable_entity
@@ -56,9 +58,19 @@ module Admin
       (@case_study.case_study_sections.maximum(:position) || -1) + 1
     end
 
+    def attach_new_images(section)
+      files = Array(params.dig(:case_study_section, :images)).reject(&:blank?)
+      section.images.attach(files) if files.any?
+    end
+
+    def purge_selected_images(section)
+      ids = Array(params.dig(:case_study_section, :purge_image_ids)).reject(&:blank?)
+      section.images.where(id: ids).each(&:purge) if ids.any?  # purge synchrone : ok à cette échelle
+    end
+
+    # Images gérées séparément → volontairement HORS des params d'assignation.
     def section_params
-      # :body = champ ActionText (rich text) ; images: [] = upload multiple.
-      params.require(:case_study_section).permit(:section_type, :heading, :body, images: [])
+      params.require(:case_study_section).permit(:section_type, :heading, :body)
     end
   end
 end

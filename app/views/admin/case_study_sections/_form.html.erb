@@ -1,0 +1,49 @@
+<%= form_with model: section, url: url do |form| %>
+  <% if section.errors.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <% section.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col-md-5 mb-3">
+      <%= form.label :section_type, "Type de section", class: "form-label" %>
+      <%= form.select :section_type, section_type_options, {}, class: "form-select", required: true %>
+    </div>
+    <div class="col-md-7 mb-3">
+      <%= form.label :heading, "Titre affiché (optionnel)", class: "form-label" %>
+      <%= form.text_field :heading, class: "form-control" %>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :body, "Contenu", class: "form-label" %>
+    <%= form.rich_text_area :body %>  <%# éditeur Trix (ActionText) %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :images, "Images de la section", class: "form-label" %>
+
+    <% if section.images.attached? %>
+      <div class="d-flex flex-wrap gap-2 mb-2">
+        <% section.images.each do |image| %>
+          <label class="border rounded p-1" style="cursor: pointer;">
+            <%= image_tag image, style: "height: 90px; width: auto; display: block;" %>
+            <span class="small d-block text-center mt-1">
+              <%= check_box_tag "case_study_section[purge_image_ids][]", image.id, false, class: "form-check-input me-1" %>
+              supprimer
+            </span>
+          </label>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%= form.file_field :images, multiple: true, class: "form-control", accept: "image/*" %>
+    <div class="form-text">Les nouvelles images s'ajoutent aux existantes.</div>
+  </div>
+
+  <%= form.submit "Enregistrer la section", class: "btn btn-dark" %>
+  <%= link_to "Annuler", edit_admin_case_study_path(section.case_study), class: "btn btn-link" %>
+<% end %>
