@@ -2,9 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import Sortable from "sortablejs"
 
 // Réordonnancement par glisser-déposer.
-// - data-reorder-url-value : l'URL PATCH cible (diffère selon la ressource)
-// - chaque ligne déplaçable porte data-id="<id>"
-// - la saisie se fait via une poignée [data-reorder-handle]
+// data-reorder-url-value : URL PATCH cible ; chaque ligne porte data-id ; poignée [data-reorder-handle].
 export default class extends Controller {
   static values = { url: String }
 
@@ -21,9 +19,7 @@ export default class extends Controller {
   }
 
   persist() {
-    const ids = Array.from(this.element.querySelectorAll("[data-id]"))
-                     .map((el) => el.dataset.id)
-
+    const ids = Array.from(this.element.querySelectorAll("[data-id]")).map((el) => el.dataset.id)
     fetch(this.urlValue, {
       method: "PATCH",
       headers: {

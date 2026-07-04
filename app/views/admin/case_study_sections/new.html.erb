@@ -1,0 +1,6 @@
+<%# new.html.erb %>
+<% content_for :title, "Nouvelle section — Admin" %>
+<h1 class="h3 mb-4">Nouvelle section — <%= @case_study.title %></h1>
+<div class="row"><div class="col-lg-9">
+  <%= render "form", section: @section, url: admin_case_study_sections_path(@case_study) %>
+</div></div>

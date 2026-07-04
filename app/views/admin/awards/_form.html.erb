@@ -1,0 +1,40 @@
+<%= form_with model: [:admin, award] do |form| %>
+  <% if award.errors.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <% award.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :title, "Intitulé", class: "form-label" %>
+    <%= form.text_field :title, class: "form-control", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :year, "Année", class: "form-label" %>
+    <%= form.number_field :year, class: "form-control", style: "max-width: 160px;" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :description, "Description", class: "form-label" %>
+    <%= form.text_area :description, class: "form-control", rows: 3 %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :badge, "Badge / visuel (optionnel)", class: "form-label" %>
+    <% if award.badge.attached? %>
+      <div class="mb-2"><%= image_tag award.badge, style: "height: 80px; width: auto;", class: "img-thumbnail" %></div>
+    <% end %>
+    <%= form.file_field :badge, class: "form-control", accept: "image/*" %>
+  </div>
+
+  <div class="form-check mb-4">
+    <%= form.check_box :published, class: "form-check-input" %>
+    <%= form.label :published, "Publiée", class: "form-check-label" %>
+  </div>
+
+  <%= form.submit "Enregistrer", class: "btn btn-dark" %>
+  <%= link_to "Annuler", admin_awards_path, class: "btn btn-link" %>
+<% end %>

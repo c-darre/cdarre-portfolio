@@ -1,0 +1,61 @@
+<%= form_with model: [:admin, case_study] do |form| %>
+  <% if case_study.errors.any? %>
+    <div class="alert alert-danger">
+      <p class="mb-1 fw-semibold"><%= pluralize(case_study.errors.count, "erreur") %> :</p>
+      <ul class="mb-0">
+        <% case_study.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :title, "Titre", class: "form-label" %>
+    <%= form.text_field :title, class: "form-control", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :subtitle, "Sous-titre", class: "form-label" %>
+    <%= form.text_field :subtitle, class: "form-control" %>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <%= form.label :role, "Rôle", class: "form-label" %>
+      <%= form.text_field :role, class: "form-control", placeholder: "Lead UX/UI + UX Writing" %>
+    </div>
+    <div class="col-md-6 mb-3">
+      <%= form.label :key_metric, "Métrique clé (Hero)", class: "form-label" %>
+      <%= form.text_field :key_metric, class: "form-control", placeholder: "+100 000 utilisateurs · 35 pays" %>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :context, "Contexte (résumé Hero)", class: "form-label" %>
+    <%= form.text_area :context, class: "form-control", rows: 3 %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :slug, "Slug (URL)", class: "form-label" %>
+    <%= form.text_field :slug, class: "form-control", placeholder: "auto-généré depuis le titre si vide" %>
+    <div class="form-text">Laisse vide pour auto-générer. Une fois l'étude publiée et indexée, évite de le changer.</div>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :hero_image, "Image d'en-tête", class: "form-label" %>
+    <% if case_study.hero_image.attached? %>
+      <div class="mb-2">
+        <%= image_tag case_study.hero_image, style: "max-height: 160px; width: auto;", class: "img-thumbnail" %>
+      </div>
+    <% end %>
+    <%= form.file_field :hero_image, class: "form-control", accept: "image/*" %>
+    <div class="form-text">Remplace l'image actuelle si tu en choisis une nouvelle.</div>
+  </div>
+
+  <div class="form-check mb-4">
+    <%= form.check_box :published, class: "form-check-input" %>
+    <%= form.label :published, "Publiée (visible sur le site)", class: "form-check-label" %>
+  </div>
+
+  <%= form.submit "Enregistrer", class: "btn btn-dark" %>
+  <%= link_to "Annuler", admin_case_studies_path, class: "btn btn-link" %>
+<% end %>

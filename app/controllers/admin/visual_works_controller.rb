@@ -13,6 +13,7 @@ module Admin
     def create
       @visual_work = VisualWork.new(visual_work_params)
       if @visual_work.save
+        attach_new_images(@visual_work)
         redirect_to admin_visual_works_path, notice: "Création ajoutée."
       else
         render :new, status: :unprocessable_entity
@@ -23,6 +24,8 @@ module Admin
 
     def update
       if @visual_work.update(visual_work_params)
+        purge_selected_images(@visual_work)
+        attach_new_images(@visual_work)
         redirect_to admin_visual_works_path, notice: "Création mise à jour."
       else
         render :edit, status: :unprocessable_entity
@@ -52,8 +55,18 @@ module Admin
       @visual_work = VisualWork.find(params[:id])
     end
 
+    def attach_new_images(work)
+      files = Array(params.dig(:visual_work, :images)).reject(&:blank?)
+      work.images.attach(files) if files.any?
+    end
+
+    def purge_selected_images(work)
+      ids = Array(params.dig(:visual_work, :purge_image_ids)).reject(&:blank?)
+      work.images.where(id: ids).each(&:purge) if ids.any?
+    end
+
     def visual_work_params
-      params.require(:visual_work).permit(:title, :category, :description, :published, images: [])
+      params.require(:visual_work).permit(:title, :category, :description, :published)
     end
   end
 end

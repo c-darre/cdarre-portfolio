@@ -1,0 +1,47 @@
+<% content_for :title, "Éditer l'étude — Admin" %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="h3 mb-0">Éditer : <%= @case_study.title %></h1>
+  <%= link_to "← Toutes les études", admin_case_studies_path, class: "btn btn-link" %>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-7">
+    <div class="card"><div class="card-body">
+      <h2 class="h5 mb-3">Informations</h2>
+      <%= render "form", case_study: @case_study %>
+    </div></div>
+  </div>
+
+  <div class="col-lg-5">
+    <div class="card"><div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h5 mb-0">Sections</h2>
+        <%= link_to "+ Ajouter", new_admin_case_study_section_path(@case_study), class: "btn btn-sm btn-dark" %>
+      </div>
+
+      <% if @case_study.case_study_sections.any? %>
+        <p class="text-body-secondary small">Glisse par la poignée pour réordonner.</p>
+        <div class="list-group"
+             data-controller="reorder"
+             data-reorder-url-value="<%= reorder_admin_case_study_sections_path(@case_study) %>">
+          <% @case_study.case_study_sections.each do |section| %>
+            <div class="list-group-item d-flex align-items-center gap-2" data-id="<%= section.id %>">
+              <span class="text-body-tertiary" data-reorder-handle style="cursor: grab;" aria-hidden="true">⠿</span>
+              <div class="flex-grow-1">
+                <span class="badge text-bg-light border"><%= section_type_label(section.section_type) %></span>
+                <% if section.heading.present? %><span class="small"><%= section.heading %></span><% end %>
+              </div>
+              <%= link_to "Éditer", edit_admin_section_path(section), class: "btn btn-sm btn-outline-dark" %>
+              <%= button_to "Suppr.", admin_section_path(section), method: :delete,
+                    class: "btn btn-sm btn-outline-danger",
+                    form: { data: { turbo_confirm: "Supprimer cette section ?" } } %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-body-secondary mb-0">Aucune section. Suis le modèle : Problème → Contraintes → Démarche → Design → [Technique] → Impact → Réflexion.</p>
+      <% end %>
+    </div></div>
+  </div>
+</div>

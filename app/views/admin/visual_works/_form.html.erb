@@ -1,0 +1,51 @@
+<%= form_with model: [:admin, visual_work] do |form| %>
+  <% if visual_work.errors.any? %>
+    <div class="alert alert-danger">
+      <ul class="mb-0">
+        <% visual_work.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :title, "Titre", class: "form-label" %>
+    <%= form.text_field :title, class: "form-control", required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :category, "Catégorie", class: "form-label" %>
+    <%= form.select :category, category_options, { include_blank: "—" }, class: "form-select" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :description, "Description courte", class: "form-label" %>
+    <%= form.text_area :description, class: "form-control", rows: 3 %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :images, "Images", class: "form-label" %>
+    <% if visual_work.images.attached? %>
+      <div class="d-flex flex-wrap gap-2 mb-2">
+        <% visual_work.images.each do |image| %>
+          <label class="border rounded p-1" style="cursor: pointer;">
+            <%= image_tag image, style: "height: 90px; width: auto; display: block;" %>
+            <span class="small d-block text-center mt-1">
+              <%= check_box_tag "visual_work[purge_image_ids][]", image.id, false, class: "form-check-input me-1" %>
+              supprimer
+            </span>
+          </label>
+        <% end %>
+      </div>
+    <% end %>
+    <%= form.file_field :images, multiple: true, class: "form-control", accept: "image/*" %>
+    <div class="form-text">Les nouvelles images s'ajoutent aux existantes.</div>
+  </div>
+
+  <div class="form-check mb-4">
+    <%= form.check_box :published, class: "form-check-input" %>
+    <%= form.label :published, "Publiée", class: "form-check-label" %>
+  </div>
+
+  <%= form.submit "Enregistrer", class: "btn btn-dark" %>
+  <%= link_to "Annuler", admin_visual_works_path, class: "btn btn-link" %>
+<% end %>

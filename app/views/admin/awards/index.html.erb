@@ -1,0 +1,28 @@
+<% content_for :title, "Récompenses — Admin" %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="h3 mb-0">Récompenses</h1>
+  <%= link_to "+ Nouvelle récompense", new_admin_award_path, class: "btn btn-dark" %>
+</div>
+
+<% if @awards.any? %>
+  <div class="list-group">
+    <% @awards.each do |award| %>
+      <div class="list-group-item d-flex align-items-center gap-3">
+        <% if award.badge.attached? %>
+          <%= image_tag award.badge, style: "height: 40px; width: auto;" %>
+        <% end %>
+        <div class="flex-grow-1">
+          <div class="fw-semibold"><%= award.title %></div>
+          <div class="small text-body-secondary"><%= award.year %></div>
+        </div>
+        <%= link_to "Éditer", edit_admin_award_path(award), class: "btn btn-sm btn-outline-dark" %>
+        <%= button_to "Suppr.", admin_award_path(award), method: :delete,
+              class: "btn btn-sm btn-outline-danger",
+              form: { data: { turbo_confirm: "Supprimer cette récompense ?" } } %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="text-body-secondary">Aucune récompense.</p>
+<% end %>
