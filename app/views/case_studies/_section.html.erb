@@ -1,0 +1,25 @@
+<section id="section-<%= section.id %>" class="case-section py-4">
+  <% if section.heading.present? %>
+    <p class="text-uppercase small letter-spaced text-body-secondary mb-1">
+      <%= section_type_label(section.section_type) %>
+    </p>
+    <h2 class="h4 mb-3"><%= section.heading %></h2>
+  <% else %>
+    <h2 class="h4 mb-3"><%= section_type_label(section.section_type) %></h2>
+  <% end %>
+
+  <%# Le body ActionText sort déjà wrappé dans <div class="trix-content"> %>
+  <div class="case-prose"><%= section.body %></div>
+
+  <% section.images.each do |image| %>
+    <figure class="my-4">
+      <button type="button" class="lightbox-trigger"
+              data-action="lightbox#open"
+              data-src="<%= url_for(image) %>"
+              data-alt="<%= attachment_alt(image) %>"
+              aria-label="Agrandir : <%= attachment_alt(image) %>">
+        <%= image_tag image, class: "img-fluid rounded border", alt: attachment_alt(image) %>
+      </button>
+    </figure>
+  <% end %>
+</section>
