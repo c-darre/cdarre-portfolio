@@ -41,4 +41,12 @@ module ApplicationHelper
             class: class_names("nav-link", active: active),
             aria: { current: (active ? "page" : nil) }
   end
+
+  # Alt d'une image Active Storage dérivé du nom de fichier :
+  # "maquette-avant-refonte.png" → "Maquette avant refonte".
+  # D'où l'importance de bien nommer les fichiers à l'upload.
+  def attachment_alt(attachment, fallback: "Visuel")
+    name = attachment.filename.base.to_s.tr("-_", " ").squish
+    name.present? ? name.upcase_first : fallback
+  end
 end

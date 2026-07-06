@@ -2,3 +2,5 @@
 @import "bootstrap";  // sources SCSS de la gem (via --load-path)
 @import "base";       // fondations (typo, focus clavier)
 @import "components"; // composants maison (cartes, footer)
+@import "cases";      // pages d'études de cas (prose Trix, ancres, double lecture)
+@import "gallery";    // galerie + lightbox

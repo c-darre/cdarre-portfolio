@@ -1,0 +1,39 @@
+// Pages d'études de cas.
+
+// Ancres : marge de scroll pour ne pas coller le titre au bord haut,
+// défilement doux si l'utilisateur n'a pas demandé de réduire les animations.
+.case-section { scroll-margin-top: 1.5rem; }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+.case-meta dt { color: var(--bs-secondary-color); font-weight: 500; }
+
+.double-reading { background: var(--bs-tertiary-bg); }
+
+// Prose : largeur de lecture confortable + typo du contenu ActionText.
+.case-prose {
+  max-width: 72ch;
+
+  .trix-content {
+    // Trix produit des <h1> pour ses titres : on les ramène visuellement
+    // à un niveau de sous-titre (limite connue, assumée et documentée).
+    h1 { font-size: 1.15rem; font-weight: 600; margin: 1.5rem 0 .5rem; }
+    p  { margin-bottom: 1rem; }
+    ul, ol { margin-bottom: 1rem; padding-left: 1.25rem; }
+    blockquote {
+      border-left: 3px solid var(--bs-border-color);
+      padding-left: 1rem;
+      color: var(--bs-secondary-color);
+      margin: 1.25rem 0;
+    }
+    pre {
+      background: var(--bs-tertiary-bg);
+      border: 1px solid var(--bs-border-color);
+      border-radius: .375rem;
+      padding: 1rem;
+      font-size: .875rem;
+      overflow-x: auto;
+    }
+  }
+}
