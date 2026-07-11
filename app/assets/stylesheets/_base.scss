@@ -1,9 +1,8 @@
-// Fondations.
+// Fondations transverses (au-delà de la coquille _shell).
+// L'essentiel de la DA vit dans _shell/_tokens ; ce fichier reste minimal.
 
 .letter-spaced { letter-spacing: .08em; }
 
-// Focus clavier bien visible partout (complète l'anneau Bootstrap).
-:focus-visible {
-  outline: 2px solid $ink;
-  outline-offset: 2px;
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
 }

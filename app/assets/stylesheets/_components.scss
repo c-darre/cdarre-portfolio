@@ -1,25 +1,3 @@
-// Composants maison — le strict nécessaire au-dessus de Bootstrap.
-
-.case-card {
-  transition: border-color .15s ease, transform .15s ease;
-
-  // :focus-within = même retour visuel au clavier qu'à la souris
-  &:hover,
-  &:focus-within {
-    border-color: $ink;
-    transform: translateY(-2px);
-  }
-}
-
-.facts-strip .list-inline-item + .list-inline-item::before {
-  content: "·";
-  margin-right: .5rem;
-  color: var(--bs-secondary-color);
-}
-
-.site-footer { background: var(--bs-tertiary-bg); }
-
-// Respect de la préférence utilisateur « réduire les animations »
-@media (prefers-reduced-motion: reduce) {
-  .case-card { transition: none; &:hover, &:focus-within { transform: none; } }
-}
+// (Vidé) — les composants de l'ancienne home (cards, facts-strip) ont été
+// remplacés par les dispositifs DA de _home/_cases/_gallery.
+// Fichier conservé comme point d'extension futur.
