@@ -1,5 +1,7 @@
-// Home — section (00) : le hero. (Les tranches 2-3 ajouteront profil/index/contact.)
+// Home — DA « Algorithme & Artisanat ».
+// Section (00) hero · Section (01) profil. (Tranche 3 : index + contact.)
 
+// ===================== (00) HERO =====================
 .hero {
   .kicker { margin-bottom: 28px; }
 
@@ -24,4 +26,62 @@
 
 @media (max-width: 960px) {
   .hero .vertical { display: none; }
+}
+
+// ===================== (01) PROFIL =====================
+.profil-grid {
+  display: grid;
+  grid-template-columns: minmax(240px, 360px) 1fr;  // asymétrie assumée
+  gap: clamp(36px, 6vw, 100px);
+  align-items: start;
+}
+
+// Cadre portrait : filet 1px, jamais de cartouche ni d'ombre.
+.frame {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border: 1px solid $filet;
+  background: $grege;
+  display: flex; align-items: center; justify-content: center;
+
+  .ph { color: $voile; text-align: center; }           // placeholder photo à venir
+  .fig-tl { position: absolute; top: 10px; left: 12px; color: $voile; }
+  .fig-br { position: absolute; bottom: 10px; right: 12px; color: $voile; }
+
+  // L'accident : la légende casse le filet inférieur (fond papier opaque).
+  figcaption {
+    position: absolute;
+    left: 16px; bottom: -9px;
+    background: $papier;
+    padding: 0 10px;
+  }
+}
+
+.profil-text {
+  max-width: 62ch;
+
+  .lead {
+    font-size: clamp(1.3rem, 2vw, 1.55rem);
+    line-height: 1.45;
+    color: $median;              // grand corps → AA large respecté
+    margin-bottom: 28px;
+  }
+  p + p { margin-top: 18px; }
+}
+
+// Hiérarchie par le ton : table de faits en filets.
+.facts { margin-top: 48px; }
+.fact {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  padding: 13px 0;
+  border-top: 1px solid $filet;
+
+  &:last-child { border-bottom: 1px solid $filet; }
+}
+
+@media (max-width: 960px) {
+  .profil-grid { grid-template-columns: 1fr; }
+  .frame { max-width: 320px; }
 }
