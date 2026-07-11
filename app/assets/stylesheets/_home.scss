@@ -1,0 +1,27 @@
+// Home — section (00) : le hero. (Les tranches 2-3 ajouteront profil/index/contact.)
+
+.hero {
+  .kicker { margin-bottom: 28px; }
+
+  h1 {
+    font-weight: 300;
+    font-size: clamp(2.5rem, 6.4vw, 6rem);
+    line-height: 1.07;
+    letter-spacing: -0.015em;
+    max-width: 16ch;
+  }
+
+  // Trace machine : texte pivoté sur la tranche droite (décoratif → voile permis).
+  .vertical {
+    position: absolute;
+    right: clamp(20px, 3vw, 40px);
+    top: 50%;
+    transform: translateY(-50%);
+    writing-mode: vertical-rl;
+    color: $voile;
+  }
+}
+
+@media (max-width: 960px) {
+  .hero .vertical { display: none; }
+}

@@ -1,6 +1,9 @@
-@import "tokens";     // variables Bootstrap surchargées (doit précéder Bootstrap)
+@import "fonts";      // @font-face auto-hébergées (doit précéder tout usage)
+@import "tokens";     // palette DA + interdits appliqués à Bootstrap
 @import "bootstrap";  // sources SCSS de la gem (via --load-path)
-@import "base";       // fondations (typo, focus clavier)
-@import "components"; // composants maison (cartes, footer)
-@import "cases";      // pages d'études de cas (prose Trix, ancres, double lecture)
-@import "gallery";    // galerie + lightbox
+@import "shell";      // la feuille, les 3 voix, header/footer, sections écran
+@import "home";       // hero (tranches 2-3 : profil, index, contact)
+@import "base";       // legacy — absorbé en fin de refonte
+@import "components"; // legacy (cards) — remplacé en tranche 3
+@import "cases";      // pages études — refonte en tranche 4
+@import "gallery";    // galerie — refonte en tranche 4

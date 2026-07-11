@@ -1,22 +1,41 @@
-// Design tokens — unique point de personnalisation de Bootstrap.
-// Direction : sobre, éditorial, contrasté. Pas de webfont : pile système
-// (performance, zéro dépendance externe, rendu natif par OS).
+// =====================================================================
+// DA « Algorithme & Artisanat » — tokens du site public.
+// Trois interdits absolus : ombre, dégradé, coin arrondi.
+// Trois leviers : espace blanc, contraste typographique, filets 1px.
+// =====================================================================
 
-// Couleurs
-$ink:   #1d1d1f;   // quasi-noir : texte et boutons
-$paper: #fcfcfa;   // blanc cassé très léger : fond
+// --- Palette (chaude, quasi achromatique — jamais de blanc ni de noir purs)
+$papier:    #F1EDE4;  // le fond : la feuille
+$grege:     #DEDBD3;  // la table sous la feuille
+$encre:     #1B1917;  // le texte : noir chaud
+$voile:     #ABA69C;  // décoratif / états inactifs UNIQUEMENT (contraste AA insuffisant)
+$median:    #7E786D;  // texte secondaire en GRAND corps uniquement (AA large)
+$filet:     #C9C3B8;  // les lignes d'un pixel
+$vermillon: #E8481D;  // l'unique geste chromatique — parcimonie extrême
 
-$primary:         $ink;
-$body-color:      $ink;
-$body-bg:         $paper;
-$link-color:      #2c5282;    // bleu assourdi, contraste AA sur fond clair
-$link-decoration: underline;  // liens soulignés par défaut (accessibilité)
+// Alias transitoire : _components/_cases/_gallery (pas encore refondus)
+// référencent $ink. À supprimer en fin de refonte.
+$ink: $encre;
 
-// Typographie
-$font-family-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-$headings-font-weight: 600;
-$lead-font-weight: 400;
+// --- Les trois interdits, appliqués à tout Bootstrap
+$enable-rounded:   false;
+$enable-shadows:   false;
+$enable-gradients: false;
 
-// Forme
-$border-radius:  .375rem;
-$enable-shadows: false;
+// --- Mapping Bootstrap
+$body-bg:          $papier;
+$body-color:       $encre;
+$primary:          $encre;
+$secondary:        $median;
+$border-color:     $filet;
+$link-color:       $encre;
+$link-decoration:  underline;
+$body-tertiary-bg: $grege;   // les aplats « ton » (bande récompense, cadres)
+
+// --- Typographie
+$font-family-sans-serif: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+$font-family-monospace:  "IBM Plex Mono", ui-monospace, monospace;
+$font-size-base:      1.0625rem;  // 17px
+$font-weight-base:    300;
+$headings-font-weight: 300;
+$lead-font-weight:    300;
