@@ -55,51 +55,57 @@
   </div>
 </section>
 
-<%# ===== SECTIONS LEGACY — remplacées en tranche 3 ===== %>
-<section class="py-5 border-top">
-  <div class="container">
-    <div class="d-flex justify-content-between align-items-baseline mb-4">
-      <h2 class="h3 mb-0">Études de cas</h2>
-      <%= link_to "Toutes les études", case_studies_path, class: "small" %>
-    </div>
-    <% if @case_studies.any? %>
-      <div class="row g-4">
-        <% @case_studies.each do |case_study| %>
-          <div class="col-md-6 col-lg-4">
-            <%= render "case_studies/card", case_study: case_study %>
-          </div>
+<%# ================= (02) TRAVAUX — DA ================= %>
+<section id="travaux" class="screen" aria-label="Travaux">
+  <span class="corner corner-tl mono">(02) — Travaux</span>
+  <span class="corner corner-tr mono">Études de cas &amp; récompense</span>
+
+  <p class="index-intro">Trois études, une même trame&nbsp;:
+    du problème au <em>produit</em>.</p>
+
+  <% if @case_studies.any? %>
+    <div class="index">
+      <% @case_studies.each_with_index do |case_study, i| %>
+        <%= link_to case_study_path(case_study), class: "index-row" do %>
+          <span class="row-num mono">(<%= format("%03d", i + 1) %>)</span>
+          <span class="row-title"><%= case_study.title %></span>
+          <span class="row-meta mono"><%= case_study.key_metric.presence || case_study.role %></span>
+          <span class="row-arrow" aria-hidden="true">↗</span>
         <% end %>
-      </div>
-    <% else %>
-      <p class="text-body-secondary">Les études de cas arrivent — rédaction en cours.</p>
-    <% end %>
-  </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="text-body-secondary">Les études de cas arrivent — rédaction en cours.</p>
+  <% end %>
+
+  <% if @award %>
+    <div class="award-band">
+      <span class="mono">Récompense</span>
+      <span class="title"><%= @award.title %></span>
+      <% if @award.year %><span class="mono"><%= @award.year %></span><% end %>
+    </div>
+  <% end %>
+
+  <%= link_to visual_works_path, class: "gallery-row" do %>
+    <span class="mono">(+) Galerie visuelle — identités · concepts · motion</span>
+    <span class="g-arrow" aria-hidden="true">↗</span>
+  <% end %>
 </section>
 
-<% if @award %>
-  <section class="pb-5">
-    <div class="container">
-      <div class="border p-4 d-flex flex-column flex-md-row align-items-md-center gap-3">
-        <span class="badge text-bg-dark align-self-start">Récompense</span>
-        <div>
-          <h2 class="h5 mb-1"><%= @award.title %><% if @award.year %> · <%= @award.year %><% end %></h2>
-          <% if @award.description.present? %>
-            <p class="mb-0 text-body-secondary"><%= @award.description %></p>
-          <% end %>
-        </div>
-      </div>
-    </div>
-  </section>
-<% end %>
+<%# ================= (03) CONTACT — DA ================= %>
+<section id="contact" class="screen contact" aria-label="Contact">
+  <span class="corner corner-tl mono">(03) — Contact</span>
+  <span class="corner corner-tr mono">Réponse rapide — FR / EN</span>
 
-<section class="pb-5">
-  <div class="container">
-    <div class="border p-4 p-md-5 bg-body-tertiary">
-      <h2 class="h4">Craft visuel</h2>
-      <p class="text-body-secondary mb-3">
-        Identités, concepts et motion — le versant création pure, distinct des études de cas produit.
-      </p>
-      <%= link_to "Explorer la galerie", visual_works_path, class: "btn btn-outline-dark" %>
-    </div>
+  <h2>Un poste, un projet — <em>parlons-en</em>.</h2>
+
+  <%= mail_to profile[:email], profile[:email], class: "email" %>
+
+  <div class="links mono">
+    <%= link_to "LinkedIn ↗", profile[:linkedin], target: "_blank", rel: "noopener" %>
+    <%= link_to "GitHub ↗", profile[:github], target: "_blank", rel: "noopener" %>
   </div>
+
+  <span class="corner corner-bl mono"><span class="dot">●</span> Disponible immédiatement</span>
+  <span class="corner corner-br mono"><%= profile[:location] %></span>
 </section>
