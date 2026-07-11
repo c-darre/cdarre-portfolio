@@ -1,46 +1,92 @@
-// Galerie + lightbox (partagée avec les études de cas).
+// Galerie — DA « Algorithme & Artisanat ».
+// Grille de vignettes filetées + lightbox <dialog> natif.
 
-.gallery-card {
-  transition: border-color .15s ease, transform .15s ease;
-  &:hover, &:focus-within { border-color: $ink; transform: translateY(-2px); }
+.gallery-head { margin-bottom: 44px; max-width: 52ch; }
+.gallery-head .intro {
+  font-size: clamp(1.3rem, 2vw, 1.55rem);
+  line-height: 1.45;
+  color: $median;
 }
 
-// Vignette cliquable : un <button> nu autour de l'image (focusable au clavier).
-.lightbox-trigger {
-  display: block;
-  width: 100%;
-  padding: 0;
-  border: 0;
-  background: none;
+// Filtres : monospace, séparés par des filets, l'actif en encre.
+.gallery-filters {
+  display: flex; flex-wrap: wrap; gap: 0;
+  margin-bottom: 40px;
+  border-top: 1px solid $filet;
+  border-bottom: 1px solid $filet;
+}
+.gallery-filter {
+  padding: 12px 18px;
+  text-decoration: none;
+  color: $voile;                       // inactif : voile
+  border-right: 1px solid $filet;
+
+  &:hover { color: $encre; }
+  &.is-active { color: $encre; }       // actif : encre pleine
+  &.is-active::before { content: "● "; color: $vermillon; }  // geste vermillon
+}
+
+// Grille de vignettes.
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(16px, 2.5vw, 32px);
+}
+@media (max-width: 720px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+
+.gallery-item { text-decoration: none; color: $encre; }
+.gallery-item .thumb {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border: 1px solid $filet;            // filet, jamais d'ombre
+  background: $grege;
+  overflow: hidden;
+
+  img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .ph { position: absolute; inset: 0; display: flex; align-items: center;
+        justify-content: center; color: $voile; }
+}
+.gallery-item .cap {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: baseline;
+  padding: 12px 2px 0;
+}
+.gallery-item:hover .cap .title { text-decoration: underline; text-underline-offset: 3px; }
+.gallery-item .cap .cat { color: $median; }
+
+// --- Page show d'une création ---
+.visual-show { max-width: 900px; }
+.visual-show .eyebrow { margin-bottom: 12px; }
+.visual-show h1 {
+  font-weight: 300;
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+.visual-show .desc { color: $median; max-width: 60ch; margin-bottom: 40px; }
+.visual-show figure { margin: 0 0 clamp(20px, 3vw, 36px); }
+.visual-show .shot {
+  width: 100%; display: block;
+  border: 1px solid $filet;
   cursor: zoom-in;
-  img { display: block; width: 100%; }
+  padding: 0; background: none;
 }
 
-// Dialog natif.
+// --- Lightbox : <dialog> natif (focus piégé, Échap, ::backdrop par le navigateur) ---
 .lightbox-dialog {
-  border: 0;
-  padding: 0;
-  background: transparent;
+  border: 0; padding: 0; background: transparent;
   max-width: min(92vw, 1200px);
 
-  &::backdrop { background: rgba(#000, .82); }
+  &::backdrop { background: rgba(0, 0, 0, .82); }
 
-  img {
-    display: block;
-    max-width: 100%;
-    max-height: 88vh;
-    object-fit: contain;
-    border-radius: .375rem;
-  }
+  img { display: block; max-width: 100%; max-height: 88vh; object-fit: contain; }
 }
-
 .lightbox-close {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 1;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .gallery-card { transition: none; &:hover, &:focus-within { transform: none; } }
+  position: fixed; top: 1rem; right: 1rem; z-index: 1;
+  font-family: $font-family-monospace; font-size: 12px;
+  text-transform: uppercase; letter-spacing: .08em;
+  background: $papier; color: $encre;
+  border: 1px solid $encre; padding: 6px 12px; cursor: pointer;
 }

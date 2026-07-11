@@ -1,8 +1,8 @@
-<%# Dialog natif : focus piégé, Esc et rôle modal fournis par le navigateur. %>
+<%# Dialog natif : focus piégé, Échap et rôle modal fournis par le navigateur. %>
 <dialog class="lightbox-dialog"
         data-lightbox-target="dialog"
         data-action="click->lightbox#backdropClose">
-  <button type="button" class="btn-close btn-close-white lightbox-close"
-          data-action="lightbox#close" aria-label="Fermer l'aperçu"></button>
+  <button type="button" class="lightbox-close"
+          data-action="lightbox#close" aria-label="Fermer l'aperçu">Fermer ✕</button>
   <img data-lightbox-target="image" src="" alt="">
 </dialog>
