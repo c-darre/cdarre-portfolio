@@ -1,0 +1,49 @@
+// Page À propos — DA « Algorithme & Artisanat ».
+
+.about-body { max-width: 760px; }
+
+.about-lead {
+  font-weight: 300;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  max-width: 24ch;
+  margin-bottom: clamp(40px, 6vh, 64px);
+}
+
+.about-block {
+  padding: clamp(24px, 4vh, 36px) 0;
+  border-top: 1px solid $filet;
+
+  .ab-label { color: $median; margin-bottom: 12px; }
+  p:not(.ab-label) { max-width: 68ch; line-height: 1.7; }
+}
+
+// Timeline : dispositif index appliqué au parcours.
+.timeline {
+  margin-top: clamp(32px, 5vh, 48px);
+  border-top: 1px solid $filet;
+
+  .tl-head { color: $median; padding: 16px 0 8px; }
+  .tl-row {
+    display: grid;
+    grid-template-columns: minmax(110px, 160px) 1fr;
+    gap: 16px;
+    padding: 13px 0;
+    border-top: 1px solid $filet;
+  }
+}
+
+.about-cta {
+  display: flex; gap: 28px; align-items: baseline;
+  margin-top: clamp(40px, 6vh, 64px);
+
+  a { text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .next-link:hover { color: $vermillon; }
+}
+
+@media (max-width: 720px) {
+  .timeline .tl-row { grid-template-columns: 1fr; gap: 2px; }
+  .about-cta { flex-direction: column; gap: 12px; }
+}
