@@ -17,25 +17,28 @@
     <%= yield :head %>
   </head>
 
-  <body class="d-flex flex-column min-vh-100">
-    <%# Lien d'évitement : invisible sauf au focus clavier (Tab depuis le haut de page) %>
+  <body>
     <a href="#contenu"
-       class="visually-hidden-focusable position-absolute top-0 start-0 m-2 p-2 bg-white border rounded z-3">
+       class="visually-hidden-focusable position-absolute top-0 start-0 m-2 p-2 border z-3 mono"
+       style="background: #F1EDE4;">
       Aller au contenu
     </a>
 
-    <%= render "shared/navbar" %>
+    <%# La feuille posée sur la table — tout le site vit dedans. %>
+    <div class="sheet">
+      <%= render "shared/navbar" %>
 
-    <main id="contenu" class="flex-grow-1">
-      <% if notice %>
-        <div class="container pt-3"><div class="alert alert-success mb-0" role="alert"><%= notice %></div></div>
-      <% end %>
-      <% if alert %>
-        <div class="container pt-3"><div class="alert alert-danger mb-0" role="alert"><%= alert %></div></div>
-      <% end %>
-      <%= yield %>
-    </main>
+      <main id="contenu">
+        <% if notice %>
+          <div class="container pt-3"><div class="alert alert-success mb-0" role="alert"><%= notice %></div></div>
+        <% end %>
+        <% if alert %>
+          <div class="container pt-3"><div class="alert alert-danger mb-0" role="alert"><%= alert %></div></div>
+        <% end %>
+        <%= yield %>
+      </main>
 
-    <%= render "shared/footer" %>
+      <%= render "shared/footer" %>
+    </div>
   </body>
 </html>
