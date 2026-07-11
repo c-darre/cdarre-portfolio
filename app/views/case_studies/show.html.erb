@@ -8,87 +8,91 @@
 
 <div data-controller="lightbox">
   <article>
-    <%# ---------- Hero ---------- %>
-    <header class="case-hero py-5 border-bottom">
-      <div class="container">
-        <div class="col-lg-8">
-          <p class="text-uppercase small letter-spaced text-body-secondary mb-2">Étude de cas</p>
-          <h1 class="h1 mb-2"><%= @case_study.title %></h1>
-          <% if @case_study.subtitle.present? %>
-            <p class="lead text-body-secondary mb-4"><%= @case_study.subtitle %></p>
-          <% end %>
+    <%# ---------- Hero éditorial ---------- %>
+    <header class="case-hero" style="padding-left: clamp(20px,3vw,40px); padding-right: clamp(20px,3vw,40px);">
+      <div style="position: relative;">
+        <p class="eyebrow mono">Étude de cas</p>
+        <h1><%= @case_study.title %></h1>
+        <% if @case_study.subtitle.present? %>
+          <p class="subtitle"><%= @case_study.subtitle %></p>
+        <% end %>
 
-          <dl class="row small mb-0 case-meta">
-            <% if @case_study.role.present? %>
-              <dt class="col-sm-3">Rôle</dt>
-              <dd class="col-sm-9"><%= @case_study.role %></dd>
-            <% end %>
-            <% if @case_study.context.present? %>
-              <dt class="col-sm-3">Contexte</dt>
-              <dd class="col-sm-9"><%= @case_study.context %></dd>
-            <% end %>
-            <% if @case_study.key_metric.present? %>
-              <dt class="col-sm-3">Repère</dt>
-              <dd class="col-sm-9"><span class="badge text-bg-light border fw-normal"><%= @case_study.key_metric %></span></dd>
-            <% end %>
-          </dl>
-        </div>
+        <dl class="case-meta mono">
+          <% if @case_study.role.present? %>
+            <dt>Rôle</dt><dd><%= @case_study.role %></dd>
+          <% end %>
+          <% if @case_study.context.present? %>
+            <dt>Contexte</dt><dd><%= @case_study.context %></dd>
+          <% end %>
+          <% if @case_study.key_metric.present? %>
+            <dt>Repère</dt><dd><span class="dot">●</span> <%= @case_study.key_metric %></dd>
+          <% end %>
+        </dl>
 
         <% if @case_study.hero_image.attached? %>
-          <div class="mt-4">
-            <%= image_tag @case_study.hero_image, class: "img-fluid rounded border",
-                          alt: attachment_alt(@case_study.hero_image, fallback: "Visuel principal — #{@case_study.title}") %>
+          <div class="case-hero-image">
+            <%= image_tag @case_study.hero_image,
+                  alt: attachment_alt(@case_study.hero_image, fallback: "Visuel principal — #{@case_study.title}") %>
           </div>
         <% end %>
       </div>
     </header>
 
-    <%# ---------- Encart « double lecture » ---------- %>
-    <% paths = reading_paths(@sections) %>
-    <% if paths.any? %>
-      <div class="container">
-        <aside class="double-reading border rounded p-4 my-5" aria-label="Deux parcours de lecture">
-          <p class="small text-body-secondary mb-3">
-            Cette étude se lit à deux niveaux — choisis ton angle d'entrée :
-          </p>
-          <div class="row g-4">
+    <div style="padding-left: clamp(20px,3vw,40px); padding-right: clamp(20px,3vw,40px);">
+      <%# ---------- Encart double lecture ---------- %>
+      <% paths = reading_paths(@sections) %>
+      <% if paths.any? %>
+        <aside class="double-reading" aria-label="Deux parcours de lecture">
+          <p class="dr-intro mono">Deux angles d'entrée — même étude.</p>
+          <div class="dr-cols">
             <% paths.each do |label, sections| %>
-              <div class="col-md-6">
-                <h2 class="h6 mb-2"><%= label %></h2>
-                <ol class="mb-0 small">
+              <div>
+                <h2><%= label %></h2>
+                <ol>
                   <% sections.each do |section| %>
-                    <li>
-                      <a href="#section-<%= section.id %>">
-                        <%= section.heading.presence || section_type_label(section.section_type) %>
-                      </a>
-                    </li>
+                    <li><a href="#section-<%= section.id %>"><%= section.heading.presence || section_type_label(section.section_type) %></a></li>
                   <% end %>
                 </ol>
               </div>
             <% end %>
           </div>
         </aside>
-      </div>
-    <% end %>
+      <% end %>
 
-    <%# ---------- Sections ---------- %>
-    <div class="container pb-5">
-      <div class="col-lg-8">
-        <%= render partial: "section", collection: @sections %>
+      <%# ---------- Sections ---------- %>
+      <div class="case-body">
+        <% @sections.each do |section| %>
+          <section id="section-<%= section.id %>" class="case-section">
+            <p class="sec-label mono"><%= section_type_label(section.section_type) %></p>
+            <% if section.heading.present? %><h2><%= section.heading %></h2><% end %>
+
+            <div class="case-prose"><%= section.body %></div>
+
+            <% section.images.each do |image| %>
+              <figure>
+                <button type="button" class="shot"
+                        data-action="lightbox#open"
+                        data-src="<%= url_for(image) %>"
+                        data-alt="<%= attachment_alt(image) %>"
+                        aria-label="Agrandir : <%= attachment_alt(image) %>">
+                  <%= image_tag image, loading: "lazy", alt: attachment_alt(image) %>
+                </button>
+              </figure>
+            <% end %>
+          </section>
+        <% end %>
       </div>
+
+      <%# ---------- Étude suivante ---------- %>
+      <nav class="case-next" aria-label="Navigation entre études">
+        <%= link_to "← Tous les projets", case_studies_path, class: "mono" %>
+        <% if @next_case_study %>
+          <%= link_to "Suivante : #{@next_case_study.title} →",
+                case_study_path(@next_case_study), class: "next-link" %>
+        <% end %>
+      </nav>
     </div>
   </article>
-
-  <%# ---------- Étude suivante ---------- %>
-  <nav class="border-top py-4" aria-label="Navigation entre études">
-    <div class="container d-flex justify-content-between align-items-center flex-wrap gap-2">
-      <%= link_to "← Toutes les études", case_studies_path, class: "small" %>
-      <% if @next_case_study %>
-        <%= link_to "Étude suivante : #{@next_case_study.title} →",
-                    case_study_path(@next_case_study), class: "small fw-semibold" %>
-      <% end %>
-    </div>
-  </nav>
 
   <%= render "shared/lightbox" %>
 </div>
