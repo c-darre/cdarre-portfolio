@@ -7,34 +7,35 @@
 <% end %>
 
 <div data-controller="lightbox">
-  <article class="py-5">
-    <div class="container">
-      <div class="col-lg-8">
-        <p class="text-uppercase small letter-spaced text-body-secondary mb-2">
-          <%= category_label(@visual_work.category) if @visual_work.category.present? %>
-        </p>
-        <h1 class="h2 mb-3"><%= @visual_work.title %></h1>
-        <% if @visual_work.description.present? %>
-          <p class="text-body-secondary mb-4"><%= @visual_work.description %></p>
-        <% end %>
-      </div>
+  <section class="screen" aria-label="<%= @visual_work.title %>">
+    <span class="corner corner-tl mono">Galerie — Pièce</span>
+    <span class="corner corner-tr mono"><%= category_label(@visual_work.category) if @visual_work.category.present? %></span>
+
+    <article class="visual-show">
+      <% if @visual_work.category.present? %>
+        <p class="eyebrow mono"><%= category_label(@visual_work.category) %></p>
+      <% end %>
+      <h1><%= @visual_work.title %></h1>
+      <% if @visual_work.description.present? %>
+        <p class="desc"><%= @visual_work.description %></p>
+      <% end %>
 
       <% @visual_work.images.each do |image| %>
-        <figure class="my-4">
-          <button type="button" class="lightbox-trigger"
+        <figure>
+          <button type="button" class="shot"
                   data-action="lightbox#open"
                   data-src="<%= url_for(image) %>"
                   data-alt="<%= attachment_alt(image, fallback: @visual_work.title) %>"
                   aria-label="Agrandir : <%= attachment_alt(image, fallback: @visual_work.title) %>">
-            <%= image_tag image, class: "img-fluid rounded border",
-                          alt: attachment_alt(image, fallback: @visual_work.title) %>
+            <%= image_tag image, loading: "lazy",
+                  alt: attachment_alt(image, fallback: @visual_work.title) %>
           </button>
         </figure>
       <% end %>
 
-      <%= link_to "← Retour à la galerie", visual_works_path, class: "small" %>
-    </div>
-  </article>
+      <p><%= link_to "← Retour à la galerie", visual_works_path, class: "mono" %></p>
+    </article>
+  </section>
 
   <%= render "shared/lightbox" %>
 </div>

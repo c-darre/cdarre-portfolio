@@ -2,54 +2,50 @@
 <% content_for :meta_description,
    "Galerie de créations visuelles de Cyprien Darré : identités, concepts, motion design." %>
 
-<section class="py-5">
-  <div class="container">
-    <header class="mb-4 col-lg-8">
-      <h1 class="h2 mb-2">Galerie visuelle</h1>
-      <p class="text-body-secondary mb-0">
-        Identités, concepts et motion — le versant création pure, complémentaire des études de cas.
-      </p>
-    </header>
+<section class="screen" aria-label="Galerie visuelle">
+  <span class="corner corner-tl mono">Index — Galerie</span>
+  <span class="corner corner-tr mono"><%= @visual_works.size %> pièce(s)</span>
 
-    <% if @categories.many? %>
-      <nav class="d-flex flex-wrap gap-2 mb-4" aria-label="Filtrer par catégorie">
-        <%= link_to "Toutes", visual_works_path,
-              class: class_names("btn btn-sm", @current_category.nil? ? "btn-dark" : "btn-outline-dark"),
-              aria: { current: (@current_category.nil? ? "page" : nil) } %>
-        <% @categories.each do |cat| %>
-          <%= link_to category_label(cat), visual_works_path(categorie: cat),
-                class: class_names("btn btn-sm", @current_category == cat ? "btn-dark" : "btn-outline-dark"),
-                aria: { current: (@current_category == cat ? "page" : nil) } %>
-        <% end %>
-      </nav>
-    <% end %>
+  <div class="gallery-head">
+    <p class="intro">Identités, concepts et motion — le versant
+      <em>création pure</em>, complémentaire des études de cas.</p>
+  </div>
 
-    <% if @visual_works.any? %>
-      <div class="row row-cols-2 row-cols-md-3 g-3 g-md-4">
-        <% @visual_works.each do |work| %>
-          <div class="col">
-            <article class="card h-100 gallery-card">
-              <% if work.images.attached? %>
-                <div class="ratio ratio-1x1">
-                  <%= image_tag work.images.first, class: "card-img-top object-fit-cover",
-                                alt: attachment_alt(work.images.first, fallback: work.title) %>
-                </div>
-              <% end %>
-              <div class="card-body py-3">
-                <h2 class="h6 card-title mb-1">
-                  <%= link_to work.title, visual_work_path(work),
-                              class: "stretched-link text-body text-decoration-none" %>
-                </h2>
-                <% if work.category.present? %>
-                  <p class="small text-body-secondary mb-0"><%= category_label(work.category) %></p>
-                <% end %>
-              </div>
-            </article>
+  <% if @categories.many? %>
+    <nav class="gallery-filters mono" aria-label="Filtrer par catégorie">
+      <%= link_to "Toutes", visual_works_path,
+            class: class_names("gallery-filter", "is-active": @current_category.nil?),
+            aria: { current: (@current_category.nil? ? "page" : nil) } %>
+      <% @categories.each do |cat| %>
+        <%= link_to category_label(cat), visual_works_path(categorie: cat),
+              class: class_names("gallery-filter", "is-active": @current_category == cat),
+              aria: { current: (@current_category == cat ? "page" : nil) } %>
+      <% end %>
+    </nav>
+  <% end %>
+
+  <% if @visual_works.any? %>
+    <div class="gallery-grid">
+      <% @visual_works.each do |work| %>
+        <%= link_to visual_work_path(work), class: "gallery-item" do %>
+          <div class="thumb">
+            <% if work.images.attached? %>
+              <%= image_tag work.images.first, loading: "lazy",
+                    alt: attachment_alt(work.images.first, fallback: work.title) %>
+            <% else %>
+              <span class="ph mono">Visuel</span>
+            <% end %>
+          </div>
+          <div class="cap">
+            <span class="title"><%= work.title %></span>
+            <% if work.category.present? %>
+              <span class="cat mono"><%= category_label(work.category) %></span>
+            <% end %>
           </div>
         <% end %>
-      </div>
-    <% else %>
-      <p class="text-body-secondary">Rien dans cette catégorie pour l'instant.</p>
-    <% end %>
-  </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p>Rien dans cette catégorie pour l'instant.</p>
+  <% end %>
 </section>

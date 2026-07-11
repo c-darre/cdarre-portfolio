@@ -1,28 +1,22 @@
-<% content_for :title, "Études de cas" %>
+<% content_for :title, "Projets" %>
 <% content_for :meta_description,
    "Études de cas produit de Cyprien Darré : refonte UX/UI, design system, " \
    "développement Ruby on Rails et IA appliquée." %>
 
-<section class="py-5">
-  <div class="container">
-    <header class="mb-4 col-lg-8">
-      <h1 class="h2 mb-2">Études de cas</h1>
-      <p class="text-body-secondary mb-0">
-        Chaque étude suit la même trame : problème, contraintes, démarche, design,
-        technique quand le projet est codé, impact, réflexion.
-      </p>
-    </header>
+<section class="screen" aria-label="Études de cas">
+  <span class="corner corner-tl mono">Index — Projets</span>
+  <span class="corner corner-tr mono"><%= @case_studies.size %> étude(s)</span>
 
-    <% if @case_studies.any? %>
-      <div class="row g-4">
-        <% @case_studies.each do |case_study| %>
-          <div class="col-md-6 col-lg-4">
-            <%= render "card", case_study: case_study %>
-          </div>
-        <% end %>
-      </div>
-    <% else %>
-      <p class="text-body-secondary">Les études arrivent — rédaction en cours.</p>
-    <% end %>
-  </div>
+  <p class="index-intro">Chaque étude suit la même trame&nbsp;: problème,
+    contraintes, démarche, design, technique, impact, <em>réflexion</em>.</p>
+
+  <% if @case_studies.any? %>
+    <div class="index">
+      <% @case_studies.each_with_index do |case_study, i| %>
+        <%= render "index_row", case_study: case_study, row_number: i + 1 %>
+      <% end %>
+    </div>
+  <% else %>
+    <p>Les études arrivent — rédaction en cours.</p>
+  <% end %>
 </section>
