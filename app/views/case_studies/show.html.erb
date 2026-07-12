@@ -32,7 +32,7 @@
         <% if @case_study.hero_image.attached? %>
           <div class="case-hero-image">
             <%= image_tag @case_study.hero_image,
-                  alt: attachment_alt(@case_study.hero_image, fallback: "Visuel principal — #{@case_study.title}") %>
+                  alt: attachment_alt(@case_study.hero_image, fallback: "Visuel principal : #{@case_study.title}") %>
           </div>
         <% end %>
       </div>

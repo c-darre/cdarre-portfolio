@@ -2,7 +2,6 @@
 // Coquille DA : la feuille sur la table, les 3 voix, header/footer.
 // =====================================================================
 
-// La feuille posée sur la table : séparée du fond par le ton seul, sans ombre.
 body {
   background: $grege;
   padding: clamp(10px, 1.4vw, 18px);
@@ -32,12 +31,23 @@ em {
   font-style: italic;
   font-weight: 400;
   letter-spacing: 0;
-  font-size: 1.05em; // compensation optique
+  font-size: 1.05em;
+}
+
+// Balisage éditorial : mot en serif italique souligné (lead profil, accroches).
+.mark {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.08em;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
 }
 
 :focus-visible { outline: 2px solid $encre; outline-offset: 3px; }
 
-.dot { color: $vermillon; }   // geste chromatique n°1 : la pastille « disponible »
+.dot { color: $vermillon; }
 
 // --- Sections plein écran : un écran = une information.
 .screen {
@@ -50,23 +60,34 @@ em {
 }
 .screen + .screen { border-top: 1px solid $filet; }
 
-// Métadonnées épinglées aux coins du cadre.
+// Métadonnées épinglées aux coins.
 .corner { position: absolute; }
 .corner-tl { top: 20px; left: clamp(20px, 3vw, 40px); }
 .corner-tr { top: 20px; right: clamp(20px, 3vw, 40px); text-align: right; }
 .corner-bl { bottom: 20px; left: clamp(20px, 3vw, 40px); }
 .corner-br { bottom: 20px; right: clamp(20px, 3vw, 40px); text-align: right; }
 
+// Appel au défilement : flèche sobre centrée en bas de section.
+.scroll-cue {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: $median;
+  text-decoration: none;
+
+  &:hover { color: $encre; }
+}
+
 // --- En-tête public.
 .site-header {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 1fr auto;
   align-items: baseline;
   padding: 18px clamp(20px, 3vw, 40px);
   border-bottom: 1px solid $filet;
 
   .brand { text-decoration: none; font-weight: 500; }
-  .edition { text-align: center; }
   nav { display: flex; gap: clamp(14px, 2vw, 28px); justify-content: flex-end; flex-wrap: wrap; }
   .site-nav-link { text-decoration: none; }
   .site-nav-link:hover,
@@ -78,19 +99,17 @@ em {
   border-top: 1px solid $filet;
   padding: 20px clamp(20px, 3vw, 40px);
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 1fr auto;
   gap: 16px;
-  background: $papier;   // écrase le grège de l'ancien style
+  background: $papier;
 
-  .c { text-align: center; }
   .r { text-align: right; }
 }
 
 @media (max-width: 720px) {
-  .site-header { grid-template-columns: 1fr auto; }
-  .site-header .edition { display: none; }
   .screen { min-height: auto; padding: 72px 20px; }
   .corner-bl, .corner-br { position: static; margin-top: 40px; text-align: left; display: block; }
+  .scroll-cue { position: static; transform: none; align-self: center; margin-top: 32px; }
   .site-footer { grid-template-columns: 1fr; }
-  .site-footer .c, .site-footer .r { text-align: left; }
+  .site-footer .r { text-align: left; }
 }

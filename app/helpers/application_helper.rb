@@ -3,7 +3,7 @@ module ApplicationHelper
   PROFILE = {
     name:     "Cyprien Darré",
     tagline:  "Product Designer × Design Engineer",
-    pitch:    "Je conçois l'expérience, je la rédige, et je la code.",
+    pitch:    "Des idées au produit : concevoir, écrire, coder.",
     location: "Bordeaux → Paris",
     email:    "cyprien.darre@gmail.com",
     linkedin: "https://www.linkedin.com/in/cyprien-darre",
@@ -14,7 +14,7 @@ module ApplicationHelper
 
   def page_title
     if content_for?(:title)
-      "#{content_for(:title)} — #{PROFILE[:name]}"
+      "#{content_for(:title)} · #{PROFILE[:name]}"
     else
       "#{PROFILE[:name]} · #{PROFILE[:tagline]}"
     end
@@ -31,7 +31,6 @@ module ApplicationHelper
     "/cv-cyprien-darre.pdf" if File.exist?(Rails.root.join("public/cv-cyprien-darre.pdf"))
   end
 
-  # Lien de navigation DA (plus de classes Bootstrap).
   def nav_link(label, path)
     active = current_page?(path)
     link_to label, path,
@@ -39,7 +38,6 @@ module ApplicationHelper
             aria: { current: (active ? "page" : nil) }
   end
 
-  # Alt d'une image Active Storage dérivé du nom de fichier.
   def attachment_alt(attachment, fallback: "Visuel")
     name = attachment.filename.base.to_s.tr("-_", " ").squish
     name.present? ? name.upcase_first : fallback

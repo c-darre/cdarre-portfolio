@@ -1,6 +1,6 @@
 <% content_for :title, @visual_work.title %>
 <% content_for :meta_description,
-   truncate(@visual_work.description.to_s.presence || "Création visuelle — #{@visual_work.title}",
+   truncate(@visual_work.description.to_s.presence || "Création visuelle : #{@visual_work.title}",
             length: 155, separator: " ") %>
 <% if @visual_work.images.attached? %>
   <% content_for :og_image, request.base_url + url_for(@visual_work.images.first) %>
@@ -8,7 +8,7 @@
 
 <div data-controller="lightbox">
   <section class="screen" aria-label="<%= @visual_work.title %>">
-    <span class="corner corner-tl mono">Galerie — Pièce</span>
+    <span class="corner corner-tl mono">Galerie · Pièce</span>
     <span class="corner corner-tr mono"><%= category_label(@visual_work.category) if @visual_work.category.present? %></span>
 
     <article class="visual-show">

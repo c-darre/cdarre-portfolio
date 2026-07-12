@@ -3,12 +3,13 @@
    "Galerie de créations visuelles de Cyprien Darré : identités, concepts, motion design." %>
 
 <section class="screen" aria-label="Galerie visuelle">
-  <span class="corner corner-tl mono">Index — Galerie</span>
+  <span class="corner corner-tl mono">Index · Galerie</span>
   <span class="corner corner-tr mono"><%= @visual_works.size %> pièce(s)</span>
 
   <div class="gallery-head">
-    <p class="intro">Identités, concepts et motion — le versant
-      <em>création pure</em>, complémentaire des études de cas.</p>
+    <p class="intro">De la <span class="mark">surface</span> au
+      <span class="mark">fond</span>, en passant par la
+      <span class="mark">forme</span>.</p>
   </div>
 
   <% if @categories.many? %>

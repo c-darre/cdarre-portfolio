@@ -1,7 +1,7 @@
 class PagesController < ApplicationController
   def home
-    @case_studies = CaseStudy.published.ordered.limit(3)  # jamais de brouillon en public
-    @award        = Award.published.order(:position).first
+    # Toutes les études publiées : le portfolio est prévu pour grandir.
+    @case_studies = CaseStudy.published.ordered.with_attached_hero_image
   end
 
   def about; end

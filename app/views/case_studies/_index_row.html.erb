@@ -1,8 +1,9 @@
-<%# Rangée d'index réutilisable (dispositif signature de la DA).
-    Attend une variable locale `row_number` (entier) pour la numérotation (00N). %>
+<%# Rangée d'index : (00N) + titre, sous-titre mono dessous, flèche à droite. %>
 <%= link_to case_study_path(case_study), class: "index-row" do %>
   <span class="row-num mono">(<%= format("%03d", row_number) %>)</span>
   <span class="row-title"><%= case_study.title %></span>
-  <span class="row-meta mono"><%= case_study.key_metric.presence || case_study.role %></span>
+  <% if case_study.subtitle.present? %>
+    <span class="row-sub mono"><%= case_study.subtitle %></span>
+  <% end %>
   <span class="row-arrow" aria-hidden="true">↗</span>
 <% end %>
