@@ -1,103 +1,80 @@
-<%# ================= (00) ACCUEIL — DA ================= %>
+<%# ================= (00) WORDING ================= %>
 <section class="screen hero" aria-label="Introduction">
-  <span class="corner corner-tl mono">Bordeaux → Paris — France</span>
-  <span class="corner corner-tr mono"><%= profile[:tagline] %></span>
+  <span class="corner corner-tl mono">Bordeaux → Paris · France</span>
 
-  <p class="kicker mono">Concevoir · Rédiger · Coder</p>
-  <h1>Je conçois <em>l'expérience</em>, je la rédige, et je la <em>code</em>.</h1>
+  <p class="kicker mono">Communication · Design · Code</p>
+  <h1>Des idées au <em>produit</em> : concevoir, écrire, coder.</h1>
 
-  <span class="vertical mono" aria-hidden="true">Algorithme &amp; Artisanat — Édition (2026)</span>
-
-  <span class="corner corner-bl mono"><span class="dot">●</span> Disponible immédiatement</span>
-  <span class="corner corner-br mono">(Scroll) ↓</span>
+  <span class="vertical mono" aria-hidden="true"><%= profile[:tagline] %></span>
+  <a class="scroll-cue mono" href="#profil" aria-label="Défiler vers la section suivante">↓</a>
 </section>
 
-<%# ================= (01) PROFIL — DA ================= %>
+<%# ================= (01) PROFIL ================= %>
 <section id="profil" class="screen" aria-label="Profil">
-  <span class="corner corner-tl mono">(01) — Profil</span>
+  <span class="corner corner-tl mono">(01) · Profil</span>
   <span class="corner corner-tr mono">2014 → 2026</span>
 
   <div class="profil-grid">
     <figure class="frame">
       <span class="fig-tl mono" aria-hidden="true">Fig. 01</span>
-      <span class="ph mono">Portrait — à venir</span>
+      <span class="ph mono">Portrait · à venir</span>
       <span class="fig-br mono" aria-hidden="true">3:4</span>
-      <figcaption class="mono"><%= profile[:name] %></figcaption>
     </figure>
 
     <div class="profil-text">
-      <p class="lead">Dix ans côté design, une certification côté code —
-        le pont entre les <em>deux mondes</em> est le poste.</p>
+      <p class="lead">Transformer des <span class="mark">idées</span> en
+        <span class="mark">messages clairs</span>, <span class="mark">engageants</span>
+        et porteurs de <span class="mark">sens</span>.</p>
 
-      <p>Dix ans de design, de direction artistique et de communication
-        corporate — de l'agence à Renault Group, où j'ai porté l'UX/UI et
-        l'écriture bilingue de systèmes utilisés par plus de
+      <p>Une expertise <em>hybride</em>, de la stratégie à la production.
+        Dix ans à concevoir des dispositifs de communication et des interfaces
+        pour de grands groupes : direction artistique, UX/UI, design system,
+        UX writing bilingue, sur des systèmes utilisés par plus de
         100&nbsp;000&nbsp;personnes dans 35&nbsp;pays.</p>
 
-      <p>Je butais là où le design rencontre l'ingénierie&nbsp;: je briefais
-        des développeurs, je dessinais des systèmes que je ne pouvais pas
-        construire. Je suis allé apprendre à les <em>construire</em> —
-        titre RNCP niveau&nbsp;6 (Le&nbsp;Wagon, 2026) et FIB__R, une
-        application d'éco-score textile conçue, rédigée et codée de bout
-        en bout, déployée.</p>
+      <p>Renforcée depuis 2026 par l'ingénierie : développement full-stack
+        Ruby on Rails et intégration d'IA (LLM, RAG), certifiés par un titre
+        RNCP niveau&nbsp;6 et une application déployée.</p>
 
-      <p>Aujourd'hui, je cherche les produits à systèmes — design systems,
-        parcours transactionnels, outils métier — là où cette
-        <em>double lecture</em> fait la différence.</p>
+      <p>L'objectif : des écosystèmes de marque cohérents, des workflows
+        fluides entre création, contenu et technique. Allier esthétique et
+        <em>performance</em>.</p>
 
-      <div class="facts" role="list">
-        <div class="fact mono" role="listitem"><span>Expérience</span><span>10+ ans — design &amp; communication</span></div>
-        <div class="fact mono" role="listitem"><span>Échelle</span><span>+100 000 utilisateurs — 35 pays</span></div>
-        <div class="fact mono" role="listitem"><span>Récompense</span><span>1er prix SharePoint — Groupe Renault 2021</span></div>
-        <div class="fact mono" role="listitem"><span>Certification</span><span>RNCP niv. 6 — Le Wagon 2026</span></div>
+      <div class="facts">
+        <p class="facts-head mono">Champs d'action</p>
+        <div class="fact mono"><span>Stratégie</span><span>Communication · Brand · UX writing FR/EN · Pilotage</span></div>
+        <div class="fact mono"><span>Design</span><span>UX/UI · Design system · Direction artistique · Motion</span></div>
+        <div class="fact mono"><span>Ingénierie</span><span>Ruby on Rails · JavaScript · SQL · IA (LLM, RAG)</span></div>
+        <div class="fact mono"><span>Posture</span><span>Rigueur · Autonomie · Traduction technique · Management</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<%# ================= (02) TRAVAUX — DA ================= %>
+<%# ================= (02) TRAVAUX ================= %>
 <section id="travaux" class="screen" aria-label="Travaux">
-  <span class="corner corner-tl mono">(02) — Travaux</span>
-  <span class="corner corner-tr mono">Études de cas &amp; récompense</span>
+  <span class="corner corner-tl mono">(02) · Travaux</span>
+  <span class="corner corner-tr mono">Études de cas</span>
 
-  <p class="index-intro">Trois études, une même trame&nbsp;:
-    du problème au <em>produit</em>.</p>
+  <p class="index-intro">Questionner, construire, mesurer.
+    Puis <em>recommencer</em>.</p>
 
   <% if @case_studies.any? %>
     <div class="index">
       <% @case_studies.each_with_index do |case_study, i| %>
-        <%= link_to case_study_path(case_study), class: "index-row" do %>
-          <span class="row-num mono">(<%= format("%03d", i + 1) %>)</span>
-          <span class="row-title"><%= case_study.title %></span>
-          <span class="row-meta mono"><%= case_study.key_metric.presence || case_study.role %></span>
-          <span class="row-arrow" aria-hidden="true">↗</span>
-        <% end %>
+        <%= render "case_studies/index_row", case_study: case_study, row_number: i + 1 %>
       <% end %>
     </div>
   <% else %>
-    <p class="text-body-secondary">Les études de cas arrivent — rédaction en cours.</p>
-  <% end %>
-
-  <% if @award %>
-    <div class="award-band">
-      <span class="mono">Récompense</span>
-      <span class="title"><%= @award.title %></span>
-      <% if @award.year %><span class="mono"><%= @award.year %></span><% end %>
-    </div>
-  <% end %>
-
-  <%= link_to visual_works_path, class: "gallery-row" do %>
-    <span class="mono">(+) Galerie visuelle — identités · concepts · motion</span>
-    <span class="g-arrow" aria-hidden="true">↗</span>
+    <p>Les études de cas arrivent : rédaction en cours.</p>
   <% end %>
 </section>
 
-<%# ================= (03) CONTACT — DA ================= %>
+<%# ================= (03) CONTACT ================= %>
 <section id="contact" class="screen contact" aria-label="Contact">
-  <span class="corner corner-tl mono">(03) — Contact</span>
-  <span class="corner corner-tr mono">Réponse rapide — FR / EN</span>
+  <span class="corner corner-tl mono">(03) · Contact</span>
 
-  <h2>Un poste, un projet — <em>parlons-en</em>.</h2>
+  <h2>Discutons-<em>en</em>.</h2>
 
   <%= mail_to profile[:email], profile[:email], class: "email" %>
 
@@ -105,7 +82,4 @@
     <%= link_to "LinkedIn ↗", profile[:linkedin], target: "_blank", rel: "noopener" %>
     <%= link_to "GitHub ↗", profile[:github], target: "_blank", rel: "noopener" %>
   </div>
-
-  <span class="corner corner-bl mono"><span class="dot">●</span> Disponible immédiatement</span>
-  <span class="corner corner-br mono"><%= profile[:location] %></span>
 </section>

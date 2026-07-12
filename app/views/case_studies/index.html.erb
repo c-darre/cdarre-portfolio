@@ -4,11 +4,11 @@
    "développement Ruby on Rails et IA appliquée." %>
 
 <section class="screen" aria-label="Études de cas">
-  <span class="corner corner-tl mono">Index — Projets</span>
+  <span class="corner corner-tl mono">Index · Projets</span>
   <span class="corner corner-tr mono"><%= @case_studies.size %> étude(s)</span>
 
-  <p class="index-intro">Chaque étude suit la même trame&nbsp;: problème,
-    contraintes, démarche, design, technique, impact, <em>réflexion</em>.</p>
+  <p class="index-intro">Questionner, construire, mesurer.
+    Puis <em>recommencer</em>.</p>
 
   <% if @case_studies.any? %>
     <div class="index">
@@ -17,6 +17,6 @@
       <% end %>
     </div>
   <% else %>
-    <p>Les études arrivent — rédaction en cours.</p>
+    <p>Les études arrivent : rédaction en cours.</p>
   <% end %>
 </section>
