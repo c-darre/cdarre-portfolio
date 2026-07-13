@@ -7,9 +7,9 @@
   <span class="corner corner-tr mono"><%= @visual_works.size %> pièce(s)</span>
 
   <div class="gallery-head">
-    <p class="intro">De la <span class="mark">surface</span> au
-      <span class="mark">fond</span>, en passant par la
-      <span class="mark">forme</span>.</p>
+    <p class="intro">De la <span class="inflexion">surface</span> au
+      <span class="inflexion">fond</span>, en passant par la
+      <span class="inflexion">forme</span>.</p>
   </div>
 
   <% if @categories.many? %>
@@ -48,5 +48,9 @@
     </div>
   <% else %>
     <p>Rien dans cette catégorie pour l'instant.</p>
+  <% end %>
+  <%= link_to case_studies_path, class: "cross-row" do %>
+    <span class="mono">(←) Études de cas · travaux produit</span>
+    <span class="x-arrow" aria-hidden="true">↗</span>
   <% end %>
 </section>

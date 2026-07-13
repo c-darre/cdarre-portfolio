@@ -1,0 +1,101 @@
+// Contact : bouton CTA + popup formulaire. DA : ton, filets, angles droits.
+// Les variantes négatif vivent ICI, à côté du composant.
+
+.contact-cta {
+  font-family: $font-family-monospace;
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  background: transparent;
+  color: $encre;
+  border: 1px solid $encre;
+  padding: 16px 28px;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease;
+
+  .arr { display: inline-block; margin-left: 8px; transition: transform .18s ease; }
+
+  &:hover { background: $encre; color: $papier;
+    .arr { transform: translateX(3px); } }
+}
+
+// --- Variante négatif : bordure et texte papier au repos, inversion au survol.
+.screen-negatif .contact-cta {
+  color: $papier;
+  border-color: $papier;
+  background: transparent;
+
+  &:hover { background: $papier; color: $encre; }
+}
+
+.screen-negatif .links a { color: $papier; }
+
+.contact-dialog {
+  border: 1px solid $encre;
+  padding: 0;
+  background: $papier;
+  width: min(92vw, 560px);
+
+  &::backdrop { background: rgba(27, 25, 23, .55); }
+}
+
+.cd-inner { padding: clamp(24px, 4vw, 36px); }
+
+.cd-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 24px;
+}
+.cd-close {
+  background: none; border: 0; cursor: pointer;
+  color: $encre;
+  &:hover { color: $vermillon; }
+}
+
+.cd-field {
+  margin-bottom: 18px;
+
+  label { display: block; margin-bottom: 6px; }
+  input, textarea {
+    width: 100%;
+    background: $papier;
+    border: 1px solid $filet;
+    padding: 12px 14px;
+    font: inherit;
+    font-size: .95rem;
+    color: $encre;
+
+    &:focus { border-color: $encre; }
+  }
+}
+
+.cd-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.cd-send {
+  font-family: $font-family-monospace;
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  background: $encre;
+  color: $papier;
+  border: 1px solid $encre;
+  padding: 14px 24px;
+  cursor: pointer;
+
+  &:hover { background: transparent; color: $encre; }
+}
+.cd-alt a { color: $encre; }
+
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px; height: 1px;
+  overflow: hidden;
+}

@@ -1,0 +1,46 @@
+<%# Bouton « Contact → » + popup formulaire (messages enregistrés en base). %>
+<div data-controller="modal">
+  <button type="button" class="contact-cta" data-action="modal#open">
+    Contact <span class="arr" aria-hidden="true">→</span>
+  </button>
+
+  <dialog class="contact-dialog" data-modal-target="dialog"
+          data-action="click->modal#backdropClose">
+    <div class="cd-inner">
+      <div class="cd-head">
+        <span class="mono">Contact</span>
+        <button type="button" class="cd-close mono" data-action="modal#close"
+                aria-label="Fermer le formulaire">✕</button>
+      </div>
+
+      <%= form_with model: ContactMessage.new, url: contact_messages_path do |f| %>
+        <%# Honeypot : invisible pour les humains, aimant à robots. %>
+        <div class="hp" aria-hidden="true">
+          <label>Votre site web
+            <input type="text" name="website" tabindex="-1" autocomplete="off">
+          </label>
+        </div>
+
+        <div class="cd-field">
+          <%= f.label :name, "Nom", class: "mono" %>
+          <%= f.text_field :name, required: true, maxlength: 120, autocomplete: "name" %>
+        </div>
+
+        <div class="cd-field">
+          <%= f.label :email, "Email", class: "mono" %>
+          <%= f.email_field :email, required: true, maxlength: 200, autocomplete: "email" %>
+        </div>
+
+        <div class="cd-field">
+          <%= f.label :body, "Message", class: "mono" %>
+          <%= f.text_area :body, required: true, maxlength: 5000, rows: 5 %>
+        </div>
+
+        <div class="cd-actions">
+          <%= f.submit "Envoyer", class: "cd-send" %>
+          <p class="cd-alt mono">Ou par email : <%= mail_to profile[:email] %></p>
+        </div>
+      <% end %>
+    </div>
+  </dialog>
+</div>

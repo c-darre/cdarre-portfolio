@@ -1,0 +1,27 @@
+<% content_for :title, "Messages · Admin" %>
+
+<h1 class="h3 mb-4">Messages reçus <span class="text-body-secondary">(<%= @messages.size %>)</span></h1>
+
+<% if @messages.any? %>
+  <div class="list-group">
+    <% @messages.each do |message| %>
+      <div class="list-group-item py-3">
+        <div class="d-flex justify-content-between align-items-baseline flex-wrap gap-2 mb-2">
+          <div>
+            <strong><%= message.name %></strong>
+            · <%= mail_to message.email, message.email %>
+          </div>
+          <div class="d-flex align-items-baseline gap-3">
+            <span class="small text-body-secondary"><%= l message.created_at, format: :short %></span>
+            <%= button_to "Suppr.", admin_contact_message_path(message), method: :delete,
+                  class: "btn btn-sm btn-outline-danger",
+                  form: { data: { turbo_confirm: "Supprimer ce message ?" } } %>
+          </div>
+        </div>
+        <%= simple_format message.body, class: "mb-0" %>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="text-body-secondary">Aucun message pour l'instant.</p>
+<% end %>
