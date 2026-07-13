@@ -1,0 +1,20 @@
+<% content_for :title, "Travaux" %>
+<% content_for :meta_description,
+   "Les travaux de Cyprien Darré : study cases produit (UX/UI, design system, code) " \
+   "et galerie de créations visuelles (identités, concepts, motion)." %>
+
+<%# Écran de choix : deux bandes pleine largeur, choc typographique.
+    Un titre = une ligne = toute la largeur du cadre. %>
+<section class="screen works-choice" aria-label="Choisir un univers de travaux">
+  <%= link_to case_studies_path, class: "wc-band wc-dark" do %>
+    <span class="wc-meta mono"><span class="wc-num">(A)</span> Produit · UX/UI · Design system · Code</span>
+    <span class="wc-title">Study <em>cases</em></span>
+    <span class="wc-arrow" aria-hidden="true">↗</span>
+  <% end %>
+
+  <%= link_to visual_works_path, class: "wc-band wc-light" do %>
+    <span class="wc-meta mono"><span class="wc-num">(B)</span> Identités · Concepts · Motion</span>
+    <span class="wc-title">Galerie <em>visuelle</em></span>
+    <span class="wc-arrow" aria-hidden="true">↗</span>
+  <% end %>
+</section>

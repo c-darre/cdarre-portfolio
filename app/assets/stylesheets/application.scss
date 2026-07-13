@@ -1,10 +1,11 @@
 @import "fonts";      // @font-face auto-hébergées (doit précéder tout usage)
 @import "tokens";     // palette DA + interdits appliqués à Bootstrap
 @import "bootstrap";  // sources SCSS de la gem (via --load-path)
-@import "shell";      // la feuille, les 3 voix, header/footer, sections écran
+@import "shell";      // la feuille, les 3 voix, header/footer, scroll
 @import "home";       // hero, profil, index, contact
 @import "cases";      // pages d'études de cas
 @import "gallery";    // galerie + lightbox
 @import "about";      // page à propos
+@import "contact";    // bouton contact + popup formulaire
 @import "base";       // fondations transverses minimales
 @import "components"; // point d'extension (vide)

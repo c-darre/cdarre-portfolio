@@ -18,6 +18,11 @@
   </div>
 
   <div class="mb-3">
+    <%= form.label :tools, "Outils / compétences (max 4, séparés par des virgules)", class: "form-label" %>
+    <%= form.text_field :tools, class: "form-control", placeholder: "Figma, Illustrator, After Effects" %>
+  </div>
+
+  <div class="mb-3">
     <%= form.label :description, "Description courte", class: "form-label" %>
     <%= form.text_area :description, class: "form-control", rows: 3 %>
   </div>

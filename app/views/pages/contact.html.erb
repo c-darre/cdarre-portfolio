@@ -6,9 +6,9 @@
 <section class="screen contact" aria-label="Contact">
   <span class="corner corner-tl mono">Contact</span>
 
-  <h2>Discutons-<em>en</em>.</h2>
+  <h2 lang="en">Let's <em>connect</em>.</h2>
 
-  <%= mail_to profile[:email], profile[:email], class: "email" %>
+  <%= render "shared/contact_cta" %>
 
   <div class="links mono">
     <%= link_to "LinkedIn ↗", profile[:linkedin], target: "_blank", rel: "noopener" %>

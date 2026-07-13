@@ -1,12 +1,10 @@
 <%# ================= (00) WORDING ================= %>
 <section class="screen hero" aria-label="Introduction">
-  <span class="corner corner-tl mono">Bordeaux → Paris · France</span>
-
   <p class="kicker mono">Communication · Design · Code</p>
   <h1>Des idées au <em>produit</em> : concevoir, écrire, coder.</h1>
 
   <span class="vertical mono" aria-hidden="true"><%= profile[:tagline] %></span>
-  <a class="scroll-cue mono" href="#profil" aria-label="Défiler vers la section suivante">↓</a>
+  <a class="scroll-cue mono" href="#profil" aria-label="Défiler vers le profil">↓</a>
 </section>
 
 <%# ================= (01) PROFIL ================= %>
@@ -22,9 +20,9 @@
     </figure>
 
     <div class="profil-text">
-      <p class="lead">Transformer des <span class="mark">idées</span> en
-        <span class="mark">messages clairs</span>, <span class="mark">engageants</span>
-        et porteurs de <span class="mark">sens</span>.</p>
+      <p class="lead">Transformer des <span class="inflexion nue">idées</span> en
+        <span class="inflexion nue">messages clairs</span>, <span class="inflexion">engageants</span>
+        et porteurs de <span class="inflexion">sens</span>.</p>
 
       <p>Une expertise <em>hybride</em>, de la stratégie à la production.
         Dix ans à concevoir des dispositifs de communication et des interfaces
@@ -49,11 +47,13 @@
       </div>
     </div>
   </div>
+
+  <a class="scroll-cue mono" href="#travaux" aria-label="Défiler vers les travaux">↓</a>
 </section>
 
 <%# ================= (02) TRAVAUX ================= %>
-<section id="travaux" class="screen" aria-label="Travaux">
-  <span class="corner corner-tl mono">(02) · Travaux</span>
+<section id="travaux" class="screen screen-negatif" aria-label="Travaux">
+  <span class="corner corner-tl mono">(02) · Study cases</span>
   <span class="corner corner-tr mono">Études de cas</span>
 
   <p class="index-intro">Questionner, construire, mesurer.
@@ -68,15 +68,54 @@
   <% else %>
     <p>Les études de cas arrivent : rédaction en cours.</p>
   <% end %>
+
+  <a class="scroll-cue mono" href="#galerie" aria-label="Défiler vers la galerie">↓</a>
 </section>
 
-<%# ================= (03) CONTACT ================= %>
-<section id="contact" class="screen contact" aria-label="Contact">
-  <span class="corner corner-tl mono">(03) · Contact</span>
+<%# ================= (03) GALERIE ================= %>
+<section id="galerie" class="screen screen-galerie" aria-label="Galerie visuelle"
+         data-controller="hscroll">
+  <span class="corner corner-tl mono">(03) · Galerie</span>
+  <span class="corner corner-tr mono">Identités · Concepts · Motion</span>
 
-  <h2>Discutons-<em>en</em>.</h2>
+  <div class="g-track" data-hscroll-target="track" data-action="wheel->hscroll#wheel" tabindex="0"
+       role="region" aria-label="Créations visuelles, défilement horizontal">
 
-  <%= mail_to profile[:email], profile[:email], class: "email" %>
+    <div class="g-col g-catch">
+      <p class="g-catchline">De la <span class="inflexion">surface</span> au
+        <span class="inflexion">fond</span>, en passant par la
+        <span class="inflexion">forme</span>.</p>
+      <div class="g-nav">
+        <button type="button" class="g-btn mono" data-action="hscroll#prev" aria-label="Créations précédentes">←</button>
+        <button type="button" class="g-btn mono" data-action="hscroll#next" aria-label="Créations suivantes">→</button>
+      </div>
+    </div>
+
+    <% @visual_works.each do |work| %>
+      <%= link_to visual_work_path(work), class: "g-col g-card", data: { hscroll_card: true } do %>
+        <% if work.images.attached? %>
+          <%= image_tag work.images.first, class: "g-bg", loading: "lazy",
+                alt: attachment_alt(work.images.first, fallback: work.title) %>
+        <% end %>
+        <div class="g-veil" aria-hidden="true"></div>
+        <div class="g-info">
+          <span class="g-title"><%= work.title %></span>
+          <% if work.tools_list.any? %>
+            <span class="g-tools mono"><%= work.tools_list.join(" · ") %></span>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</section>
+
+<%# ================= (04) CONTACT ================= %>
+<section id="contact" class="screen contact screen-negatif" aria-label="Contact">
+  <span class="corner corner-tl mono">(04) · Contact</span>
+
+  <h2 lang="en">Let's <em>connect</em>.</h2>
+
+  <%= render "shared/contact_cta" %>
 
   <div class="links mono">
     <%= link_to "LinkedIn ↗", profile[:linkedin], target: "_blank", rel: "noopener" %>

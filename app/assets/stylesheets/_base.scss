@@ -1,8 +1,8 @@
-// Fondations transverses (au-delà de la coquille _shell).
-// L'essentiel de la DA vit dans _shell/_tokens ; ce fichier reste minimal.
+// Fondations transverses minimales.
 
 .letter-spaced { letter-spacing: .08em; }
 
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+// Défilement doux pour les ancres (flèches de section, double lecture).
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
 }

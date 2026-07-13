@@ -1,0 +1,10 @@
+<%# Rangée d'index pour une pièce de galerie (même dispositif que les études).
+    Attend `work` et `row_number` (la numérotation continue celle des études). %>
+<%= link_to visual_work_path(work), class: "index-row" do %>
+  <span class="row-num mono">(<%= format("%03d", row_number) %>)</span>
+  <span class="row-title"><%= work.title %></span>
+  <% if work.category.present? %>
+    <span class="row-sub mono"><%= category_label(work.category) %></span>
+  <% end %>
+  <span class="row-arrow" aria-hidden="true">↗</span>
+<% end %>

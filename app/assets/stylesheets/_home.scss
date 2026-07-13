@@ -57,7 +57,7 @@
     color: $median;                      // grand corps : AA large respecté
     margin-bottom: 28px;
 
-    .mark { color: $encre; }             // les mots balisés remontent en encre
+    .inflexion { color: $encre; }             // les mots balisés remontent en encre
   }
   p + p { margin-top: 18px; }
 }
@@ -166,4 +166,122 @@
   .links { display: flex; gap: 28px; margin-top: 40px; }
   .links a { text-decoration: none; }
   .links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+}
+
+// ===================== INDEX EN NÉGATIF =====================
+// Sur encre, les rôles tonals s'inversent : le voile (7,1:1) devient le
+// ton secondaire lisible, le médian (3,9:1) est relégué aux états
+// transitoires de survol.
+.screen-negatif {
+  .index { border-bottom-color: $filet-nuit; }
+
+  .index-row {
+    border-top-color: $filet-nuit;
+    color: $papier;
+
+    .row-num { color: $voile; }
+  }
+
+  // Hiérarchie par le ton, en miroir : la liste s'enfonce dans l'encre,
+  // la ligne visée remonte en papier. (Vermillon de la flèche : inchangé.)
+  .index:hover .index-row { color: $median; }
+  .index:hover .index-row .row-num { color: $median; }
+  .index:hover .index-row:hover { color: $papier; }
+  .index:hover .index-row:hover .row-num { color: $voile; }
+}
+
+// ===================== (03) GALERIE HORIZONTALE =====================
+.screen-galerie {
+  // La piste doit pouvoir déborder à droite : on neutralise le padding droit.
+  padding-right: 0;
+  overflow: hidden;
+}
+
+.g-track {
+  display: grid;
+  grid-auto-flow: column;
+  // 4 colonnes visibles, la 4e coupée par le bord (indice de scroll).
+  grid-auto-columns: clamp(240px, 27vw, 420px);
+  gap: 24px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;    // pas de "back" navigateur en butée
+  scrollbar-width: none;             // filets et débord suffisent comme repères
+  &::-webkit-scrollbar { display: none; }
+
+  // La dernière card peut sortir entièrement du cadre : marge fantôme.
+  &::after { content: ""; width: clamp(20px, 3vw, 40px); }
+}
+
+.g-col { min-height: min(62vh, 560px); }
+
+.g-catch {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-right: 8px;
+
+  .g-catchline {
+    font-weight: 300;
+    font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+    line-height: 1.3;
+    max-width: 16ch;
+  }
+}
+
+.g-nav { display: flex; gap: 12px; }
+.g-btn {
+  background: transparent;
+  color: $encre;
+  border: 1px solid $encre;
+  padding: 10px 16px;
+  cursor: pointer;
+
+  &:hover { background: $encre; color: $papier; }
+}
+
+.g-card {
+  position: relative;
+  display: block;
+  border: 1px solid $filet;
+  overflow: hidden;
+  text-decoration: none;
+  color: $papier;
+  background: $grege;
+
+  .g-bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform .35s ease;
+  }
+
+  // Voile tonal : lisibilité du titre sur toute image (encre translucide).
+  .g-veil {
+    position: absolute; inset: 0;
+    background: rgba(27, 25, 23, .28);
+    transition: background .35s ease;
+  }
+
+  .g-info {
+    position: absolute;
+    left: 16px; right: 16px; bottom: 16px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .g-title { font-weight: 400; font-size: 1.15rem; line-height: 1.2; }
+  .g-tools { color: rgba(241, 237, 228, .8); }
+
+  &:hover {
+    .g-bg   { transform: scale(1.03); }
+    .g-veil { background: rgba(27, 25, 23, .42); }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .g-card .g-bg, .g-card .g-veil { transition: none; }
+  .g-card:hover .g-bg { transform: none; }
+}
+
+@media (max-width: 720px) {
+  .g-track { grid-auto-columns: 78vw; }
+  .g-col   { min-height: 58vh; }
 }

@@ -66,7 +66,7 @@ module Admin
     end
 
     def visual_work_params
-      params.require(:visual_work).permit(:title, :category, :description, :published)
+      params.require(:visual_work).permit(:title, :category, :description, :tools, :published)
     end
   end
 end
