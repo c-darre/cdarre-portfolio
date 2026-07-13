@@ -31,6 +31,12 @@ module ApplicationHelper
     "/cv-cyprien-darre.pdf" if File.exist?(Rails.root.join("public/cv-cyprien-darre.pdf"))
   end
 
+  # Portrait de la page À propos : dépose la photo sous
+  # app/assets/images/portrait-about.jpg et elle apparaît (sinon placeholder).
+  def about_portrait_path
+    "portrait-about.jpg" if Rails.root.join("app/assets/images/portrait-about.jpg").exist?
+  end
+
   def nav_link(label, path)
     active = current_page?(path)
     link_to label, path,
