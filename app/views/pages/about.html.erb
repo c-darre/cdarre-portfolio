@@ -4,24 +4,57 @@
    "(Renault Group), puis une reconversion en développement web (Le Wagon, RNCP niveau 6). " \
    "Profil hybride design × code." %>
 
-<section class="screen" aria-label="À propos">
-  <span class="corner corner-tl mono">(01) · À propos</span>
-  <span class="corner corner-tr mono">2008 → 2026</span>
+<%# ============ HERO : portrait premier tiers, titre par-dessus ============ %>
+<section class="screen about-hero" aria-label="À propos">
+  <span class="corner corner-tl mono">À propos</span>
+  <span class="corner corner-tr mono">10+ ans · Design × Code</span>
 
+  <figure class="ah-figure">
+    <% if (portrait = about_portrait_path) %>
+      <%= image_tag portrait, alt: "Portrait de Cyprien Darré" %>
+      <span class="ah-veil" aria-hidden="true"></span>
+    <% else %>
+      <span class="ph mono">Portrait · à venir</span>
+      <span class="fig-tl mono" aria-hidden="true">Fig. 01</span>
+      <span class="fig-br mono" aria-hidden="true">3:4</span>
+    <% end %>
+  </figure>
+
+  <h1 class="ah-title">Profil <em>hybride</em> entre design, métier et
+    ingénierie&nbsp;: concevoir les parcours, rédiger l'UX,
+    <em>coder</em> le produit.</h1>
+
+  <a class="scroll-cue mono" href="#parcours" aria-label="Défiler vers le parcours">↓</a>
+</section>
+
+<%# ============ CONTENU : section fluide (glisse par-dessus le hero) ============ %>
+<section id="parcours" class="about-content" aria-label="Parcours">
   <div class="about-body">
-    <p class="about-lead">Profil hybride entre design, métier et ingénierie&nbsp;:
-      concevoir les parcours, rédiger l'UX, <em>coder</em> le produit.</p>
+
+    <div class="about-block">
+      <p class="ab-label mono">Aujourd'hui</p>
+      <p>Cap sur les produits à systèmes : design systems, parcours
+        transactionnels, outils métier, dans des environnements structurés, là
+        où le double bagage design × code apporte le plus. Basé à Bordeaux,
+        mobilité France, Paris en priorité.</p>
+    </div>
 
     <div class="about-block">
       <p class="ab-label mono">Dix ans côté design</p>
-      <p>Formé aux Beaux-Arts puis en design graphique, j'ai travaillé en
-        agence, en collectivité, puis six ans dans l'écosystème Renault Group
-        (Alliance IT Services / DSI), en mission de conseil. J'y ai conçu le
-        portail interne AITS (<em>1er prix</em> du meilleur site SharePoint du
-        Groupe en 2021) et piloté la refonte UX/UI et l'UX Writing bilingue
-        (FR/EN) du User Selfcare Portal, catalogue de services IT utilisé par
-        plus de 100&nbsp;000&nbsp;personnes dans 35&nbsp;pays, en reportant
-        directement au VP.</p>
+      <p>Formé aux Beaux-Arts puis en design graphique, j'ai commencé en agence
+        et en collectivité. À la Mairie de La Celle-Saint-Cloud : communication
+        print et digitale, gestion du site de la ville (WordPress) en lien
+        direct avec l'agence de développement, et un livret « Urgences et
+        crises » conçu pour que des agents non formés puissent communiquer en
+        situation de crise, dans la charte de la ville. Déjà un rôle de
+        <em>traduction</em> entre l'outil technique et ses utilisateurs.</p>
+      <p>Puis six ans dans l'écosystème Renault Group (Alliance IT Services /
+        DSI), en mission de conseil : conception du portail interne AITS
+        (<em>1er prix</em> du meilleur site SharePoint du Groupe en 2021),
+        refonte UX/UI et UX Writing bilingue (FR/EN) du User Selfcare Portal,
+        catalogue de services IT utilisé par plus de
+        100&nbsp;000&nbsp;personnes dans 35&nbsp;pays, en reportant directement
+        au VP.</p>
     </div>
 
     <div class="about-block">
@@ -36,25 +69,25 @@
         déployée.</p>
     </div>
 
-    <div class="about-block">
-      <p class="ab-label mono">Aujourd'hui</p>
-      <p>Cap sur les produits à systèmes : design systems, parcours
-        transactionnels, outils métier, dans des environnements structurés, là
-        où le double bagage design × code apporte le plus. Basé à Bordeaux,
-        ouvert à Paris et Rennes.</p>
-    </div>
-
     <div class="timeline">
-      <p class="tl-head mono">Repères</p>
-      <div class="tl-row mono"><span>2020 → 2025</span><span>Renault Group · UX/UI &amp; communication (conseil)</span></div>
-      <div class="tl-row mono"><span>2021</span><span>1er prix SharePoint · Groupe Renault</span></div>
-      <div class="tl-row mono"><span>2025 → 2026</span><span>Reconversion · développement web</span></div>
-      <div class="tl-row mono"><span>2026</span><span>RNCP niveau 6 · Le Wagon · FIB__R déployé</span></div>
+      <p class="tl-head mono">Parcours</p>
+      <div class="tl-row mono"><span>2026</span><span>Concepteur Développeur d'Applications Web · RNCP niv. 6 (Le Wagon) · FIB__R, app IA déployée</span></div>
+      <div class="tl-row mono"><span>2025 → 2026</span><span>Reconversion ingénierie · Ruby on Rails · IA appliquée (LLM, RAG)</span></div>
+      <div class="tl-row mono"><span>2021</span><span>1er prix du meilleur site SharePoint public · Groupe Renault</span></div>
+      <div class="tl-row mono"><span>2020 → 2025</span><span>Renault Group (DSI) · Lead UX/UI &amp; communication · +100 000 utilisateurs · 35 pays</span></div>
+      <div class="tl-row mono"><span>2016 → 2019</span><span>Mairie de La Celle-Saint-Cloud · Communication print &amp; digitale · Site web (WordPress) · Motion urbain</span></div>
+      <div class="tl-row mono"><span>2014 → 2015</span><span>Agence Un Coin de Paradis · Identités visuelles, print &amp; web</span></div>
     </div>
 
-    <div class="about-cta">
-      <%= link_to "Voir les projets →", case_studies_path, class: "next-link" %>
-      <%= link_to "Me contacter", contact_path, class: "mono" %>
+    <div class="about-more">
+      <p class="am-head mono">En savoir plus</p>
+      <%= link_to works_path, class: "am-row" do %>
+        <span>Travaux</span><span class="am-arrow" aria-hidden="true">→</span>
+      <% end %>
+      <%= link_to contact_path, class: "am-row" do %>
+        <span>Contact</span><span class="am-arrow" aria-hidden="true">→</span>
+      <% end %>
     </div>
+
   </div>
 </section>

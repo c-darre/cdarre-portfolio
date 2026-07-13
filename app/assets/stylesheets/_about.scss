@@ -1,25 +1,90 @@
-// Page À propos — DA « Algorithme & Artisanat ».
+// Page À propos : hero portrait + contenu fluide. VERSION CANONIQUE.
+
+// ---------- Hero : image premier tiers, titre par-dessus ----------
+.about-hero {
+
+  // L'image occupe le premier tiers, bord à bord de la section.
+  .ah-figure {
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    width: 33.333%;
+    margin: 0;
+    background: $grege;
+    border-right: 1px solid $filet;   // cadré par un filet, jamais d'ombre
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    // Voile tonal papier : garantit la lisibilité du texte qui chevauche
+    // (l'ombre portée est interdite par la DA). Une valeur à ajuster
+    // quand la vraie photo sera en place.
+    .ah-veil {
+      position: absolute; inset: 0;
+      background: rgba($papier, .42);
+    }
+
+    .ph     { color: $voile; position: relative; }
+    .fig-tl { position: absolute; top: 10px; left: 12px; color: $voile; }
+    .fig-br { position: absolute; bottom: 10px; right: 12px; color: $voile; }
+  }
+
+  // Le chevauchement recherché : le titre déborde sur l'image.
+  .ah-title {
+    position: relative;
+    z-index: 1;
+    font-weight: 300;
+    font-size: clamp(2.1rem, 4.8vw, 4.4rem);
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    max-width: 22ch;
+  }
+}
+
+@media (max-width: 960px) {
+  .about-hero {
+    .ah-figure {
+      position: static;
+      width: min(260px, 70%);
+      aspect-ratio: 3 / 4;
+      border: 1px solid $filet;
+      margin-bottom: 28px;
+    }
+    .ah-title { max-width: none; }
+  }
+}
+
+// ---------- Contenu : section FLUIDE (pas .screen, pas de sticky) ----------
+// Positionnée + après le hero dans le DOM : elle glisse par-dessus (rideau)
+// et défile librement quelle que soit sa hauteur.
+.about-content {
+  position: relative;
+  background: $papier;
+  border-top: 1px solid $filet;
+  padding: clamp(64px, 10vh, 110px) clamp(20px, 3vw, 40px);
+}
 
 .about-body { max-width: 760px; }
-
-.about-lead {
-  font-weight: 300;
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
-  line-height: 1.25;
-  letter-spacing: -0.01em;
-  max-width: 24ch;
-  margin-bottom: clamp(40px, 6vh, 64px);
-}
 
 .about-block {
   padding: clamp(24px, 4vh, 36px) 0;
   border-top: 1px solid $filet;
 
+  &:first-child { border-top: 0; padding-top: 0; }
+
   .ab-label { color: $median; margin-bottom: 12px; }
   p:not(.ab-label) { max-width: 68ch; line-height: 1.7; }
+  p + p { margin-top: 16px; }
 }
 
-// Timeline : dispositif index appliqué au parcours.
+// Parcours : dispositif index appliqué à la chronologie (décroissante).
 .timeline {
   margin-top: clamp(32px, 5vh, 48px);
   border-top: 1px solid $filet;
@@ -34,16 +99,35 @@
   }
 }
 
-.about-cta {
-  display: flex; gap: 28px; align-items: baseline;
+// En savoir plus : micro-section de sortie.
+.about-more {
   margin-top: clamp(40px, 6vh, 64px);
 
-  a { text-decoration: none; }
-  a:hover { text-decoration: underline; text-underline-offset: 4px; }
-  .next-link:hover { color: $vermillon; }
+  .am-head { color: $median; padding-bottom: 8px; }
+
+  .am-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    padding: 16px 0;
+    border-top: 1px solid $filet;
+    text-decoration: none;
+    color: $encre;
+    font-size: 1.15rem;
+
+    &:last-child { border-bottom: 1px solid $filet; }
+
+    .am-arrow { transition: transform .18s ease, color .18s ease; }
+
+    &:hover span:first-child { text-decoration: underline; text-underline-offset: 4px; }
+    &:hover .am-arrow { color: $vermillon; transform: translateX(3px); }
+  }
 }
 
 @media (max-width: 720px) {
   .timeline .tl-row { grid-template-columns: 1fr; gap: 2px; }
-  .about-cta { flex-direction: column; gap: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-more .am-row .am-arrow { transition: none; }
 }
