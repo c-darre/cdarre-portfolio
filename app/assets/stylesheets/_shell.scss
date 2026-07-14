@@ -237,3 +237,10 @@ em {
   .works-choice { padding: 0; }
   .works-choice .wc-band { min-height: 38vh; }
 }
+
+// Footer en négatif sur toutes les pages (permutation papier/encre).
+.site-footer {
+  background: $encre;
+  color: $papier;
+  border-top-color: $filet-nuit;
+}

@@ -1,77 +1,67 @@
-// Page À propos : hero portrait + contenu fluide. VERSION CANONIQUE.
+// Page À propos : intro (titre + image épinglée + bio 1/3-2/3),
+// Parcours pleine largeur (non épinglé), sortie sombre. VERSION CANONIQUE.
 
-// ---------- Hero : image premier tiers, titre par-dessus ----------
-.about-hero {
-
-  // L'image occupe le premier tiers, bord à bord de la section.
-  .ah-figure {
-    position: absolute;
-    top: 0; bottom: 0; left: 0;
-    width: 33.333%;
-    margin: 0;
-    background: $grege;
-    border-right: 1px solid $filet;   // cadré par un filet, jamais d'ombre
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    img {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    // Voile tonal papier : garantit la lisibilité du texte qui chevauche
-    // (l'ombre portée est interdite par la DA). Une valeur à ajuster
-    // quand la vraie photo sera en place.
-    .ah-veil {
-      position: absolute; inset: 0;
-      background: rgba($papier, .42);
-    }
-
-    .ph     { color: $voile; position: relative; }
-    .fig-tl { position: absolute; top: 10px; left: 12px; color: $voile; }
-    .fig-br { position: absolute; bottom: 10px; right: 12px; color: $voile; }
-  }
-
-  // Le chevauchement recherché : le titre déborde sur l'image.
-  .ah-title {
-    position: relative;
-    z-index: 1;
-    font-weight: 300;
-    font-size: clamp(2.1rem, 4.8vw, 4.4rem);
-    line-height: 1.12;
-    letter-spacing: -0.015em;
-    max-width: 22ch;
-  }
-}
-
-@media (max-width: 960px) {
-  .about-hero {
-    .ah-figure {
-      position: static;
-      width: min(260px, 70%);
-      aspect-ratio: 3 / 4;
-      border: 1px solid $filet;
-      margin-bottom: 28px;
-    }
-    .ah-title { max-width: none; }
-  }
-}
-
-// ---------- Contenu : section FLUIDE (pas .screen, pas de sticky) ----------
-// Positionnée + après le hero dans le DOM : elle glisse par-dessus (rideau)
-// et défile librement quelle que soit sa hauteur.
-.about-content {
+// ---------- Intro (rideau piloté par le contrôleur Stimulus "curtain") ----------
+.about-intro {
   position: relative;
-  background: $papier;
-  border-top: 1px solid $filet;
-  padding: clamp(64px, 10vh, 110px) clamp(20px, 3vw, 40px);
+  background: $papier;   // opaque : indispensable quand la section s'épingle
+  padding: 0 clamp(20px, 3vw, 40px) clamp(64px, 10vh, 110px);
 }
 
-.about-body { max-width: 760px; }
+.ai-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;              // 1/3 image · 2/3 texte
+  column-gap: clamp(32px, 5vw, 80px);
+}
+
+.ai-media { grid-column: 1; grid-row: 1 / span 2; }
+
+// L'image : marges demandées (~120px gauche, 70px haut), et le BAS touche
+// le bas de la feuille : hauteur = viewport − navbar − 70px − 2 liserés.
+// Largeur bornée par la colonne 1/3 → bande éditoriale haute, recadrage cover.
+// Décalage sticky = position initiale → elle ne bouge jamais à l'écran.
+.ai-figure {
+  position: sticky;
+  top: calc(#{$page-pad} + #{$nav-h} + 70px);
+  margin: 70px 0 0 clamp(24px, 9vw, 120px);
+  height: calc(100svh - #{$nav-h} - 70px - 2 * #{$page-pad});
+  border: 1px solid $filet;
+  background: $grege;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+  // Voile tonal papier : lisibilité du titre qui chevauche (l'ombre est interdite).
+  .ah-veil { position: absolute; inset: 0; background: rgba($papier, .42); }
+
+  .ph     { color: $voile; position: relative; }
+  .fig-tl { position: absolute; top: 10px; left: 12px; color: $voile; }
+}
+
+// Le titre chevauche l'image : même cellule de grille, plan au-dessus.
+// align-content (et PAS display:flex : flex fragmente le contenu inline —
+// chaque <em> et chaque segment de texte devenait un item séparé).
+.ai-title {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  z-index: 1;
+  min-height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
+  align-content: center;
+  padding: 40px 0;
+  font-weight: 300;
+  font-size: clamp(2.1rem, 4.6vw, 4.4rem);
+  line-height: 1.14;
+  letter-spacing: -0.015em;
+}
+
+.ai-text {
+  grid-column: 2;
+  grid-row: 2;
+  max-width: 62ch;
+}
 
 .about-block {
   padding: clamp(24px, 4vh, 36px) 0;
@@ -84,38 +74,54 @@
   p + p { margin-top: 16px; }
 }
 
-// Parcours : dispositif index appliqué à la chronologie (décroissante).
-.timeline {
-  margin-top: clamp(32px, 5vh, 48px);
-  border-top: 1px solid $filet;
+// ---------- Parcours : pleine largeur, NON épinglé ----------
+// (L'outro ne le recouvre plus : s'il restait sticky, l'outro passerait
+// dessous et disparaîtrait — un élément positionné se peint au-dessus.)
+.parcours {
+  .timeline { width: 100%; }
 
-  .tl-head { color: $median; padding: 16px 0 8px; }
   .tl-row {
     display: grid;
-    grid-template-columns: minmax(110px, 160px) 1fr;
+    grid-template-columns: minmax(120px, 200px) 1fr;
     gap: 16px;
-    padding: 13px 0;
+    padding: 17px 0;
     border-top: 1px solid $filet;
+
+    &:last-child { border-bottom: 1px solid $filet; }
   }
 }
 
-// En savoir plus : micro-section de sortie.
-.about-more {
-  margin-top: clamp(40px, 6vh, 64px);
+@media (min-width: 961px) and (prefers-reduced-motion: no-preference) {
+  .screen.parcours { position: relative; top: auto; }
+}
 
-  .am-head { color: $median; padding-bottom: 8px; }
+// ---------- Sortie : bande sombre (comme le footer), sans superposition ----------
+.about-outro {
+  position: relative;
+  background: $encre;
+  color: $papier;
+  border-top: 1px solid $filet-nuit;
+  padding: clamp(64px, 10vh, 110px) clamp(20px, 3vw, 40px);
+
+  :focus-visible { outline-color: $papier; }
+}
+
+.about-body { max-width: 760px; }
+
+.about-more {
+  .am-head { color: $voile; padding-bottom: 8px; }   // sur encre, le voile est lisible
 
   .am-row {
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: baseline;
     padding: 16px 0;
-    border-top: 1px solid $filet;
+    border-top: 1px solid $filet-nuit;
     text-decoration: none;
-    color: $encre;
+    color: $papier;
     font-size: 1.15rem;
 
-    &:last-child { border-bottom: 1px solid $filet; }
+    &:last-child { border-bottom: 1px solid $filet-nuit; }
 
     .am-arrow { transition: transform .18s ease, color .18s ease; }
 
@@ -124,8 +130,24 @@
   }
 }
 
+// ---------- Responsive ----------
+@media (max-width: 960px) {
+  .ai-grid  { grid-template-columns: 1fr; }
+  .ai-title { grid-column: 1; grid-row: 1; min-height: auto; padding: 48px 0 8px; }
+  .ai-media { grid-column: 1; grid-row: 2; }
+  .ai-text  { grid-column: 1; grid-row: 3; }
+
+  .ai-figure {
+    position: static;
+    margin: 12px 0 16px;
+    width: min(260px, 70%);
+    height: auto;
+    aspect-ratio: 3 / 4;
+  }
+}
+
 @media (max-width: 720px) {
-  .timeline .tl-row { grid-template-columns: 1fr; gap: 2px; }
+  .parcours .tl-row { grid-template-columns: 1fr; gap: 2px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
