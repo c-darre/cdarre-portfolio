@@ -1,25 +1,29 @@
-// Page À propos : intro (titre + image épinglée + bio 1/3-2/3),
-// Parcours pleine largeur (non épinglé), sortie sombre. VERSION CANONIQUE.
+// Page À propos. VERSION CANONIQUE.
 
-// ---------- Intro (rideau piloté par le contrôleur Stimulus "curtain") ----------
+// ---------- Intro (rideau piloté par le contrôleur "curtain") ----------
 .about-intro {
   position: relative;
-  background: $papier;   // opaque : indispensable quand la section s'épingle
-  padding: 0 clamp(20px, 3vw, 40px) clamp(64px, 10vh, 110px);
+  background: $papier;
+  // Pas de padding bas : c'est lui qui délogeait l'image en fin de section
+  // (le conteneur sticky s'arrêtait au-dessus du bas, l'image était repoussée).
+  // La respiration migre sur la colonne texte (.ai-text).
+  padding: 0 clamp(20px, 3vw, 40px);
 }
 
 .ai-grid {
   display: grid;
-  grid-template-columns: 1fr 2fr;              // 1/3 image · 2/3 texte
+  // Largeur de la colonne image — LE réglage du dispositif, à l'œil :
+  // 33% = étroit · 42% = actuel · 50% = moitié de page.
+  // (Si tu avais ajusté ce chiffre à la main, remets ta valeur ici.)
+  grid-template-columns: 42% 1fr;
   column-gap: clamp(32px, 5vw, 80px);
 }
 
 .ai-media { grid-column: 1; grid-row: 1 / span 2; }
 
-// L'image : marges demandées (~120px gauche, 70px haut), et le BAS touche
-// le bas de la feuille : hauteur = viewport − navbar − 70px − 2 liserés.
-// Largeur bornée par la colonne 1/3 → bande éditoriale haute, recadrage cover.
-// Décalage sticky = position initiale → elle ne bouge jamais à l'écran.
+// L'image : ~120px de marge gauche, 70px sous la navbar, bas collé au bas
+// de la feuille. Décalage sticky = position initiale → zéro mouvement,
+// jusqu'au recouvrement par Parcours.
 .ai-figure {
   position: sticky;
   top: calc(#{$page-pad} + #{$nav-h} + 70px);
@@ -34,33 +38,38 @@
 
   img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
-  // Voile tonal papier : lisibilité du titre qui chevauche (l'ombre est interdite).
   .ah-veil { position: absolute; inset: 0; background: rgba($papier, .42); }
 
   .ph     { color: $voile; position: relative; }
   .fig-tl { position: absolute; top: 10px; left: 12px; color: $voile; }
 }
 
-// Le titre chevauche l'image : même cellule de grille, plan au-dessus.
-// align-content (et PAS display:flex : flex fragmente le contenu inline —
-// chaque <em> et chaque segment de texte devenait un item séparé).
+// Le titre : DEUX lignes exactement, chacune insécable ; corps asservi à la
+// largeur pour que la plus longue ligne tienne toujours. align-content (pas
+// display:flex, qui fragmenterait le contenu inline en items).
 .ai-title {
   grid-column: 1 / -1;
   grid-row: 1;
   z-index: 1;
+  width: 90%;   // le titre occupe 90% de la largeur de l'écran
   min-height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
   align-content: center;
   padding: 40px 0;
   font-weight: 300;
-  font-size: clamp(2.1rem, 4.6vw, 4.4rem);
-  line-height: 1.14;
-  letter-spacing: -0.015em;
+  // Corps asservi à la largeur : calibré pour que la ligne la plus longue
+  // (54 caractères) remplisse ~90% de l'écran, en deux lignes insécables.
+  font-size: clamp(1.6rem, 3.9vw, 4.1rem);
+  line-height: 1.22;
+  letter-spacing: -0.012em;
+
+  .ai-line { display: block; white-space: nowrap; }
 }
 
 .ai-text {
   grid-column: 2;
   grid-row: 2;
   max-width: 62ch;
+  padding-bottom: clamp(64px, 10vh, 110px);   // la respiration de fin de section
 }
 
 .about-block {
@@ -74,10 +83,10 @@
   p + p { margin-top: 16px; }
 }
 
-// ---------- Parcours : pleine largeur, NON épinglé ----------
-// (L'outro ne le recouvre plus : s'il restait sticky, l'outro passerait
-// dessous et disparaîtrait — un élément positionné se peint au-dessus.)
+// ---------- Parcours : pleine largeur, non épinglé, fond craie ----------
 .parcours {
+  background: $craie;
+
   .timeline { width: 100%; }
 
   .tl-row {
@@ -86,16 +95,67 @@
     gap: 16px;
     padding: 17px 0;
     border-top: 1px solid $filet;
+    transition: color .18s ease;
 
     &:last-child { border-bottom: 1px solid $filet; }
+  }
+
+  // Hiérarchie par le ton, comme l'index de la home : au survol de la LISTE,
+  // tout s'efface en voile ; la ligne visée reste en encre. Sur elle :
+  //  · l'année claque en Inter Black 900 droit ;
+  //  · le descriptif s'incline en italique médium (500).
+  // Hauteur STRICTEMENT stable : corps et interligne inchangés.
+  .timeline:hover .tl-row { color: $voile; }
+  .timeline:hover .tl-row:hover { color: $encre; }
+
+  .tl-row:hover span:first-child {
+    font-family: $font-family-sans-serif;
+    font-weight: 900;
+  }
+  .tl-row:hover span:last-child {
+    font-style: italic;
+    font-weight: 500;
   }
 }
 
 @media (min-width: 961px) and (prefers-reduced-motion: no-preference) {
-  .screen.parcours { position: relative; top: auto; }
+  .screen.parcours { position: relative; top: auto; background: $craie; }
 }
 
-// ---------- Sortie : bande sombre (comme le footer), sans superposition ----------
+// Téléchargement du CV : bouton-bloc (vocabulaire du CTA Contact),
+// volontairement distinct du système de rangées de la chronologie.
+.cv-block {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  margin-top: clamp(32px, 5vh, 48px);
+}
+
+.cv-btn {
+  font-family: $font-family-monospace;
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  background: transparent;
+  color: $encre;
+  border: 1px solid $encre;
+  padding: 16px 28px;
+  text-decoration: none;
+  transition: background .18s ease, color .18s ease;
+
+  .cv-arrow { display: inline-block; margin-left: 8px; transition: transform .18s ease; }
+
+  &:hover {
+    background: $encre;
+    color: $craie;
+
+    .cv-arrow { transform: translateY(2px); }
+  }
+}
+
+.cv-meta { color: $median; }
+
+// ---------- Sortie : bande sombre, sans superposition ----------
 .about-outro {
   position: relative;
   background: $encre;
@@ -109,7 +169,7 @@
 .about-body { max-width: 760px; }
 
 .about-more {
-  .am-head { color: $voile; padding-bottom: 8px; }   // sur encre, le voile est lisible
+  .am-head { color: $voile; padding-bottom: 8px; }
 
   .am-row {
     display: grid;
@@ -133,9 +193,10 @@
 // ---------- Responsive ----------
 @media (max-width: 960px) {
   .ai-grid  { grid-template-columns: 1fr; }
-  .ai-title { grid-column: 1; grid-row: 1; min-height: auto; padding: 48px 0 8px; }
+  .ai-title { grid-column: 1; grid-row: 1; min-height: auto; padding: 48px 0 8px;
+              .ai-line { white-space: normal; } }
   .ai-media { grid-column: 1; grid-row: 2; }
-  .ai-text  { grid-column: 1; grid-row: 3; }
+  .ai-text  { grid-column: 1; grid-row: 3; padding-bottom: 48px; }
 
   .ai-figure {
     position: static;
@@ -151,5 +212,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .about-more .am-row .am-arrow { transition: none; }
+  .about-more .am-row .am-arrow,
+  .cv-row .cv-arrow { transition: none; }
 }
