@@ -4,81 +4,96 @@
    "(Renault Group), puis une reconversion en développement web (Le Wagon, RNCP niveau 6). " \
    "Profil hybride design × code." %>
 
-<%# ============ HERO : portrait premier tiers, titre par-dessus ============ %>
-<section class="screen about-hero" aria-label="À propos">
+<%# ===== INTRO : titre (serif sur les verbes) + image épinglée 1/3 + bio 2/3.
+    Rideau JS (curtain) : s'épingle quand son bas atteint le bas du viewport,
+    puis Parcours glisse par-dessus. ===== %>
+<section class="about-intro" aria-label="À propos" data-controller="curtain">
   <span class="corner corner-tl mono">À propos</span>
   <span class="corner corner-tr mono">10+ ans · Design × Code</span>
 
-  <figure class="ah-figure">
-    <% if (portrait = about_portrait_path) %>
-      <%= image_tag portrait, alt: "Portrait de Cyprien Darré" %>
-      <span class="ah-veil" aria-hidden="true"></span>
-    <% else %>
-      <span class="ph mono">Portrait · à venir</span>
-      <span class="fig-tl mono" aria-hidden="true">Fig. 01</span>
-      <span class="fig-br mono" aria-hidden="true">3:4</span>
-    <% end %>
-  </figure>
+  <div class="ai-grid">
+    <div class="ai-media">
+      <figure class="ai-figure">
+        <% if (portrait = about_portrait_path) %>
+          <%= image_tag portrait, alt: "Portrait de Cyprien Darré" %>
+          <span class="ah-veil" aria-hidden="true"></span>
+        <% else %>
+          <span class="ph mono">Portrait · à venir</span>
+          <span class="fig-tl mono" aria-hidden="true">Fig. 01</span>
+        <% end %>
+      </figure>
+    </div>
 
-  <h1 class="ah-title">Profil <em>hybride</em> entre design, métier et
-    ingénierie&nbsp;: concevoir les parcours, rédiger l'UX,
-    <em>coder</em> le produit.</h1>
+    <h1 class="ai-title">Profil hybride entre design, métier et
+      ingénierie&nbsp;: <em>concevoir</em> les parcours, <em>rédiger</em> l'UX,
+      <em>coder</em> le produit.</h1>
 
-  <a class="scroll-cue mono" href="#parcours" aria-label="Défiler vers le parcours">↓</a>
+    <div class="ai-text">
+      <div class="about-block">
+        <p class="ab-label mono">Aujourd'hui</p>
+        <p>Cap sur le design de produits à systèmes : design systems, parcours
+          transactionnels, outils métier — jusqu'au sweet spot
+          <em>Design Engineer</em>, où concevoir et coder ne font qu'un.
+          De préférence dans des environnements structurés : agences et
+          cabinets de transformation, éditeurs SaaS, grands groupes à
+          organisation produit mature. Basé à Bordeaux, ouvert à une mobilité
+          Paris ou Rennes.</p>
+      </div>
+
+      <div class="about-block">
+        <p class="ab-label mono">Dix ans côté design</p>
+        <p>Formé aux Beaux-Arts puis en design graphique : l'agence d'abord
+          (identités visuelles, print, web), la collectivité ensuite. À la
+          Mairie de La Celle-Saint-Cloud : communication print et digitale,
+          gestion du site de la ville (WordPress) en lien avec l'agence de
+          développement, motion design pour l'affichage urbain (réseau
+          JCDecaux), et un livret « Urgences et crises » pensé pour que des
+          agents non formés puissent communiquer en situation de crise — déjà
+          un rôle de <em>traduction</em> entre l'outil technique et ses
+          utilisateurs.</p>
+        <p>Puis six ans dans l'écosystème Renault Group (Alliance IT
+          Services / DSI), en mission de conseil : reprise seul d'un périmètre
+          de six postes, en rapportant directement au VP. Conception du portail
+          interne AITS, 1er prix du meilleur site SharePoint du Groupe en 2021.
+          Refonte UX/UI et UX Writing bilingue FR/EN du User Selfcare Portal,
+          catalogue des services IT de plus de 100&nbsp;000&nbsp;utilisateurs
+          dans 35&nbsp;pays : design system, restructuration des parcours,
+          jusqu'au brief des équipes de développement.</p>
+      </div>
+
+      <div class="about-block">
+        <p class="ab-label mono">Le pivot vers le code</p>
+        <p>Je butais là où le design rencontre l'ingénierie&nbsp;: je briefais
+          des développeurs, j'identifiais des manques techniques, je dessinais
+          des systèmes que je ne pouvais pas construire. Je suis allé apprendre
+          à les <em>construire</em> : d'abord en autodidacte, puis au Wagon —
+          titre RNCP niveau&nbsp;6 de Concepteur Développeur d'Applications Web
+          (2026), Ruby on Rails, SQL, et une brique d'IA appliquée (LLM, RAG,
+          agents). Idéateur et lead developer de FIB__R, application
+          d'éco-score textile déployée et pitchée en direct.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
-<%# ============ CONTENU : section fluide (glisse par-dessus le hero) ============ %>
-<section id="parcours" class="about-content" aria-label="Parcours">
+<%# ===== PARCOURS : section à part entière, pleine largeur, glisse par-dessus l'intro ===== %>
+<section id="parcours" class="screen parcours" aria-label="Parcours">
+  <span class="corner corner-tl mono">Parcours</span>
+  <span class="corner corner-tr mono">2014 → 2026</span>
+
+  <div class="timeline">
+    <div class="tl-row mono"><span>2026</span><span>Concepteur Développeur d'Applications Web · RNCP niv. 6 (Le Wagon) · FIB__R, app IA déployée</span></div>
+    <div class="tl-row mono"><span>2025 → 2026</span><span>Reconversion ingénierie · Ruby on Rails · IA appliquée (LLM, RAG)</span></div>
+    <div class="tl-row mono"><span>2021</span><span>1er prix du meilleur site SharePoint public · Groupe Renault</span></div>
+    <div class="tl-row mono"><span>2020 → 2025</span><span>Renault Group (DSI) · Lead UX/UI &amp; communication · +100 000 utilisateurs · 35 pays</span></div>
+    <div class="tl-row mono"><span>2016 → 2019</span><span>Mairie de La Celle-Saint-Cloud · Communication print &amp; digitale · Site web (WordPress) · Motion urbain</span></div>
+    <div class="tl-row mono"><span>2014 → 2015</span><span>Agence Un Coin de Paradis · Identités visuelles, print &amp; web</span></div>
+  </div>
+</section>
+
+<%# ===== SORTIE : glisse par-dessus Parcours (section fluide) ===== %>
+<section class="about-outro" aria-label="En savoir plus">
   <div class="about-body">
-
-    <div class="about-block">
-      <p class="ab-label mono">Aujourd'hui</p>
-      <p>Cap sur les produits à systèmes : design systems, parcours
-        transactionnels, outils métier, dans des environnements structurés, là
-        où le double bagage design × code apporte le plus. Basé à Bordeaux,
-        mobilité France, Paris en priorité.</p>
-    </div>
-
-    <div class="about-block">
-      <p class="ab-label mono">Dix ans côté design</p>
-      <p>Formé aux Beaux-Arts puis en design graphique, j'ai commencé en agence
-        et en collectivité. À la Mairie de La Celle-Saint-Cloud : communication
-        print et digitale, gestion du site de la ville (WordPress) en lien
-        direct avec l'agence de développement, et un livret « Urgences et
-        crises » conçu pour que des agents non formés puissent communiquer en
-        situation de crise, dans la charte de la ville. Déjà un rôle de
-        <em>traduction</em> entre l'outil technique et ses utilisateurs.</p>
-      <p>Puis six ans dans l'écosystème Renault Group (Alliance IT Services /
-        DSI), en mission de conseil : conception du portail interne AITS
-        (<em>1er prix</em> du meilleur site SharePoint du Groupe en 2021),
-        refonte UX/UI et UX Writing bilingue (FR/EN) du User Selfcare Portal,
-        catalogue de services IT utilisé par plus de
-        100&nbsp;000&nbsp;personnes dans 35&nbsp;pays, en reportant directement
-        au VP.</p>
-    </div>
-
-    <div class="about-block">
-      <p class="ab-label mono">Le pivot vers le code</p>
-      <p>Je butais là où le design rencontre l'ingénierie&nbsp;: briefer des
-        développeurs, identifier des manques techniques, dessiner des systèmes
-        sans pouvoir les construire. Je suis allé apprendre à les
-        <em>construire</em> : d'abord en autodidacte, puis au Wagon (titre RNCP
-        niveau&nbsp;6 de Concepteur Développeur d'Applications Web, 2026), avec
-        Ruby on Rails et une brique d'IA appliquée (LLM, RAG, agents). J'y ai été
-        idéateur et lead developer de FIB__R, une application d'éco-score textile
-        déployée.</p>
-    </div>
-
-    <div class="timeline">
-      <p class="tl-head mono">Parcours</p>
-      <div class="tl-row mono"><span>2026</span><span>Concepteur Développeur d'Applications Web · RNCP niv. 6 (Le Wagon) · FIB__R, app IA déployée</span></div>
-      <div class="tl-row mono"><span>2025 → 2026</span><span>Reconversion ingénierie · Ruby on Rails · IA appliquée (LLM, RAG)</span></div>
-      <div class="tl-row mono"><span>2021</span><span>1er prix du meilleur site SharePoint public · Groupe Renault</span></div>
-      <div class="tl-row mono"><span>2020 → 2025</span><span>Renault Group (DSI) · Lead UX/UI &amp; communication · +100 000 utilisateurs · 35 pays</span></div>
-      <div class="tl-row mono"><span>2016 → 2019</span><span>Mairie de La Celle-Saint-Cloud · Communication print &amp; digitale · Site web (WordPress) · Motion urbain</span></div>
-      <div class="tl-row mono"><span>2014 → 2015</span><span>Agence Un Coin de Paradis · Identités visuelles, print &amp; web</span></div>
-    </div>
-
     <div class="about-more">
       <p class="am-head mono">En savoir plus</p>
       <%= link_to works_path, class: "am-row" do %>
@@ -88,6 +103,5 @@
         <span>Contact</span><span class="am-arrow" aria-hidden="true">→</span>
       <% end %>
     </div>
-
   </div>
 </section>
