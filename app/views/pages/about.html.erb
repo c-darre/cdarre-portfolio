@@ -4,9 +4,7 @@
    "(Renault Group), puis une reconversion en développement web (Le Wagon, RNCP niveau 6). " \
    "Profil hybride design × code." %>
 
-<%# ===== INTRO : titre (serif sur les verbes) + image épinglée 1/3 + bio 2/3.
-    Rideau JS (curtain) : s'épingle quand son bas atteint le bas du viewport,
-    puis Parcours glisse par-dessus. ===== %>
+<%# ===== INTRO ===== %>
 <section class="about-intro" aria-label="À propos" data-controller="curtain">
   <span class="corner corner-tl mono">À propos</span>
   <span class="corner corner-tr mono">10+ ans · Design × Code</span>
@@ -24,9 +22,10 @@
       </figure>
     </div>
 
-    <h1 class="ai-title">Profil hybride entre design, métier et
-      ingénierie&nbsp;: <em>concevoir</em> les parcours, <em>rédiger</em> l'UX,
-      <em>coder</em> le produit.</h1>
+    <h1 class="ai-title">
+      <span class="ai-line">Profil hybride entre design, métier et ingénierie&nbsp;:</span>
+      <span class="ai-line"><em>concevoir</em> les parcours, <em>rédiger</em> l'UX, <em>coder</em> le produit.</span>
+    </h1>
 
     <div class="ai-text">
       <div class="about-block">
@@ -76,7 +75,7 @@
   </div>
 </section>
 
-<%# ===== PARCOURS : section à part entière, pleine largeur, glisse par-dessus l'intro ===== %>
+<%# ===== PARCOURS ===== %>
 <section id="parcours" class="screen parcours" aria-label="Parcours">
   <span class="corner corner-tl mono">Parcours</span>
   <span class="corner corner-tr mono">2014 → 2026</span>
@@ -89,9 +88,18 @@
     <div class="tl-row mono"><span>2016 → 2019</span><span>Mairie de La Celle-Saint-Cloud · Communication print &amp; digitale · Site web (WordPress) · Motion urbain</span></div>
     <div class="tl-row mono"><span>2014 → 2015</span><span>Agence Un Coin de Paradis · Identités visuelles, print &amp; web</span></div>
   </div>
+
+  <% if (cv = cv_path_if_available) %>
+    <div class="cv-block">
+      <%= link_to cv, class: "cv-btn", download: "CV-Cyprien-Darre.pdf" do %>
+        Télécharger le CV <span class="cv-arrow" aria-hidden="true">↓</span>
+      <% end %>
+      <span class="cv-meta mono">PDF · <%= number_to_human_size(File.size(Rails.root.join("public#{cv}"))) %></span>
+    </div>
+  <% end %>
 </section>
 
-<%# ===== SORTIE : glisse par-dessus Parcours (section fluide) ===== %>
+<%# ===== SORTIE ===== %>
 <section class="about-outro" aria-label="En savoir plus">
   <div class="about-body">
     <div class="about-more">
