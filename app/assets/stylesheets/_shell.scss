@@ -164,69 +164,160 @@ em {
   background: $papier;
 }
 
+
+
 // =====================================================================
-// Écran de choix « Travaux » : deux bandes pleine largeur,
-// choc typographique. Un titre = une ligne = ~toute la largeur.
+// Écran de choix « Travaux » : page SANS scroll (navbar → footer),
+// deux lignes uniques (flèche · titre · méta), image centrée chevauchée.
 // =====================================================================
 .works-choice {
-  padding: 0;
+  position: relative;
+  background: $papier;
+  // Hauteur VERROUILLÉE : l'espace exact entre navbar et footer.
+  // (~61px de footer : padding 2×20px + ligne de texte mono.)
+  height: calc(100svh - #{$nav-h} - 61px - 2 * #{$page-pad});
+  min-height: 0;
+  overflow: hidden;
+  padding: 0 clamp(20px, 3vw, 40px);
+  display: flex;
   flex-direction: column;
+  justify-content: center;
 
-  .wc-band {
+  // Image au CENTRE géométrique, chevauchée par les lignes.
+  .wk-media {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(30vw, 380px);
+    aspect-ratio: 3 / 4;
+    max-height: 72%;
+    pointer-events: none;      // décor : ne capte aucun clic
+  }
+
+  .wk-figure {
     position: relative;
-    flex: 1;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: 1px solid $filet;
+    background: $grege;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+    .ph     { color: $voile; position: relative; }
+    .fig-tl { position: absolute; top: 10px; left: 12px; color: $voile; }
+  }
+
+  .wk-list {
+    position: relative;
+    z-index: 1;                // les lignes passent sur l'image
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap: clamp(10px, 2vh, 22px);
-    padding: clamp(24px, 4vw, 64px) clamp(20px, 3vw, 40px);
-    text-decoration: none;
-    overflow: hidden;
-    transition: flex .35s ease;
+  }
 
-    // Le choc : taille asservie au viewport, une seule ligne garantie
-    // (sur petit écran le titre rétrécit d'un bloc, il ne se coupe jamais).
-    .wc-title {
-      font-weight: 300;
-      font-size: clamp(2.4rem, 10vw, 10rem);
+  // UNE seule ligne par entrée : flèche · titre · méta, alignés en ligne de base.
+  .wk-row {
+    display: grid;
+    // flèche · titre · slash · méta — le tout ferré à gauche, en une coulée.
+    grid-template-columns: auto auto auto auto;
+    justify-content: start;
+    column-gap: clamp(14px, 1.8vw, 28px);
+    align-items: baseline;
+    padding: clamp(18px, 3.5vh, 34px) 0;
+    border-top: 1px solid $filet;
+    text-decoration: none;
+    color: $encre;
+    white-space: nowrap;       // l'insécabilité porte sur la ligne entière
+    transition: color .18s ease;
+
+    &:last-child { border-bottom: 1px solid $filet; }
+
+    .wk-arrow {
+      font-size: clamp(1.4rem, 3.2vw, 3.2rem);
       line-height: 1;
+      transition: transform .18s ease, color .18s ease;
+    }
+
+    // Corps asservi à la largeur : la ligne complète (~55 car. avec la méta)
+    // rétrécit d'un bloc, ne casse jamais.
+    .wk-title {
+      font-weight: 300;
+      font-size: clamp(1.7rem, 5.2vw, 5.2rem);
+      line-height: 1.04;
       letter-spacing: -0.02em;
-      white-space: nowrap;
 
       em { font-size: 1.02em; }
     }
 
-    .wc-meta { display: flex; gap: 14px; align-items: baseline; }
-
-    .wc-arrow {
-      position: absolute;
-      top: 20px;
-      right: clamp(20px, 3vw, 40px);
-      font-size: 1.2rem;
-      transition: transform .18s ease, color .18s ease;
+    // Slash séparateur : Inter Thin 100 véritable (graisse plancher de la
+    // fonte — il n'existe rien de plus fin). Grandi à ~1,3× le titre, et
+    // recalé OPTIQUEMENT : sorti du jeu de baseline, translaté pour que son
+    // centre visuel (~36% du corps au-dessus de la baseline, diagonales
+    // plongeantes comprises) vise le centre de la hauteur d'x du titre
+    // (~26% du corps du titre). Tient à toutes les tailles du clamp.
+    .wk-sep {
+      font-weight: 100;
+      font-size: clamp(2.2rem, 6.8vw, 6.8rem);
+      line-height: 0;                 // n'impose aucune hauteur à la rangée
+      letter-spacing: 0;
+      color: $encre;
+      align-self: baseline;
+      transform: translateY(calc(.36em - .26 * clamp(1.7rem, 5.2vw, 5.2rem)));
     }
 
-    &:hover {
-      flex: 1.45;
-      .wc-arrow { color: $vermillon; transform: translate(2px, -2px); }
+    // Méta : corps réduit, encre pleine — la hiérarchie se fait par le corps.
+    .wk-meta {
+      color: $encre;
+      font-size: clamp(.75rem, 1.2vw, 1.1rem);
     }
   }
 
-  .wc-dark {
-    background: $encre;
-    color: $papier;
-    .wc-meta { color: $voile; }
+  // Survol : grammaire de la chronologie À propos, à l'échelle des géants.
+  // Effacement au survol : TOUT passe en voile (méta et slash compris,
+  // désormais en encre au repos), la ligne visée revient intégralement en encre.
+  .wk-list:hover .wk-row,
+  .wk-list:hover .wk-row .wk-meta,
+  .wk-list:hover .wk-row .wk-sep { color: $voile; }
+  .wk-list:hover .wk-row:hover,
+  .wk-list:hover .wk-row:hover .wk-meta,
+  .wk-list:hover .wk-row:hover .wk-sep { color: $encre; }
+
+  .wk-row:hover .wk-title {
+    font-style: italic;
+    font-weight: 500;
   }
-  .wc-light {
-    background: $papier;
-    color: $encre;
-    border-top: 1px solid $filet;
-    .wc-meta { color: $median; }
+  .wk-row:hover .wk-arrow {
+    color: $vermillon;
+    transform: translateX(6px);
   }
 }
 
+// Garde-fous : petits écrans et faibles hauteurs → le verrou saute,
+// le scroll redevient normal (couper du contenu est inacceptable).
+@media (max-width: 960px), (max-height: 620px) {
+  .works-choice {
+    height: auto;
+    min-height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
+    overflow: visible;
+    padding-top: 64px;
+    padding-bottom: 64px;
+  }
+  .works-choice .wk-media { display: none; }
+  .works-choice .wk-row { white-space: normal; }
+  .works-choice .wk-row { grid-template-columns: auto 1fr; }
+  .works-choice .wk-row .wk-sep { display: none; }
+  .works-choice .wk-row .wk-meta { grid-column: 2; font-size: .95rem; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .works-choice .wc-band { transition: none; &:hover { flex: 1; } }
+  .works-choice .wk-row,
+  .works-choice .wk-row .wk-arrow { transition: none; }
+  .works-choice .wk-row:hover .wk-arrow { transform: none; }
 }
 
 // --- Mobile.
