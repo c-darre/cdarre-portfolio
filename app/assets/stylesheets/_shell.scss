@@ -287,10 +287,9 @@ em {
   .wk-list:hover .wk-row:hover .wk-meta,
   .wk-list:hover .wk-row:hover .wk-sep { color: $encre; }
 
-  .wk-row:hover .wk-title {
-    font-style: italic;
-    font-weight: 500;
-  }
+  // Pas de bascule italique au survol : "Study"/"Galerie" restent droits,
+  // "cases"/"visuelle" restent en italique serif (leur état de repos).
+  // Le survol ne joue plus que sur le ton (effacement) et la flèche.
   .wk-row:hover .wk-arrow {
     color: $vermillon;
     transform: translateX(6px);
