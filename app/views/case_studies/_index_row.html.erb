@@ -1,9 +1,11 @@
-<%# Rangée d'index : (00N) + titre, sous-titre mono dessous, flèche à droite. %>
-<%= link_to case_study_path(case_study), class: "index-row" do %>
-  <span class="row-num mono">(<%= format("%03d", row_number) %>)</span>
-  <span class="row-title"><%= case_study.title %></span>
+<%# Rangée d'étude — dispositif de la page Travaux (flèche · titre · slash · sous-titre).
+    `row_number` est conservé dans la signature pour compat, mais non affiché
+    (la flèche remplace la numérotation, comme sur /travaux). %>
+<%= link_to case_study_path(case_study), class: "wk-row cs-row" do %>
+  <span class="wk-arrow" aria-hidden="true">→</span>
+  <span class="wk-title"><%= case_study.title %></span>
   <% if case_study.subtitle.present? %>
-    <span class="row-sub mono"><%= case_study.subtitle %></span>
+    <span class="wk-sep" aria-hidden="true">/</span>
+    <span class="wk-meta mono"><%= case_study.subtitle %></span>
   <% end %>
-  <span class="row-arrow" aria-hidden="true">↗</span>
 <% end %>
