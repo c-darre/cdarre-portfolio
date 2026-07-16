@@ -169,6 +169,75 @@
 }
 
 // ===================== INDEX EN NÉGATIF =====================
+// Rangées d'études : dispositif de /travaux (flèche · titre · slash · sous-titre),
+// transposé en NÉGATIF (permutation papier/encre) et à corps réduit —
+// trois entrées doivent tenir dans un écran figé.
+.screen-negatif .index { border-bottom: 1px solid $filet-nuit; }
+
+.screen-negatif .cs-row {
+  display: grid;
+  grid-template-columns: auto auto auto 1fr;
+  justify-content: start;
+  column-gap: clamp(14px, 1.8vw, 28px);
+  align-items: baseline;
+  padding: clamp(14px, 2.6vh, 26px) 0;
+  border-top: 1px solid $filet-nuit;
+  text-decoration: none;
+  color: $papier;                 // repos : papier (miroir de /travaux)
+  white-space: nowrap;
+  transition: color .18s ease;
+
+  &:last-child { border-bottom: 1px solid $filet-nuit; }
+
+  .wk-arrow {
+    font-size: clamp(1.2rem, 2.4vw, 2.4rem);
+    line-height: 1;
+    transition: transform .18s ease, color .18s ease;
+  }
+
+  // Titre plus petit que sur /travaux (~4vw vs 5.2) : 3 entrées + intro dans un écran.
+  .wk-title {
+    font-weight: 300;
+    font-size: clamp(1.4rem, 4vw, 4rem);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+
+    em { font-size: 1.02em; }
+  }
+
+  .wk-sep {
+    font-weight: 100;             // Inter Thin 100 véritable — un fil
+    font-size: clamp(1.6rem, 5vw, 5rem);
+    line-height: 1;
+    color: $papier;
+    transform: translateY(.1em);  // même recalage optique que /travaux
+  }
+
+  .wk-meta {
+    color: $papier;
+    font-size: clamp(.75rem, 1.2vw, 1.1rem);
+    white-space: normal;          // le sous-titre peut être long : autorisé à passer
+  }
+}
+
+// Survol en négatif : la liste s'enfonce en médian (lisible sur encre),
+// la ligne visée remonte intégralement en papier ; flèche vermillon.
+.screen-negatif .index:hover .cs-row,
+.screen-negatif .index:hover .cs-row .wk-sep,
+.screen-negatif .index:hover .cs-row .wk-meta { color: $median; }
+.screen-negatif .index:hover .cs-row:hover,
+.screen-negatif .index:hover .cs-row:hover .wk-sep,
+.screen-negatif .index:hover .cs-row:hover .wk-meta { color: $papier; }
+.screen-negatif .cs-row:hover .wk-arrow {
+  color: $vermillon;
+  transform: translateX(6px);
+}
+
+@media (max-width: 720px) {
+  .screen-negatif .cs-row { grid-template-columns: auto 1fr; white-space: normal; }
+  .screen-negatif .cs-row .wk-sep { display: none; }
+}
+
 // Sur encre, les rôles tonals s'inversent : le voile (7,1:1) devient le
 // ton secondaire lisible, le médian (3,9:1) est relégué aux états
 // transitoires de survol.
