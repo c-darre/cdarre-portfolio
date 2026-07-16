@@ -191,10 +191,35 @@
 }
 
 // ===================== (03) GALERIE HORIZONTALE =====================
+// Le contrôleur hscroll fait de la section un COULOIR vertical
+// (hauteur = un écran + distance horizontale) ; .g-pin s'y épingle.
+// SURTOUT PAS d'overflow:hidden ici : un ancêtre à overflow non-visible
+// devient le référent du sticky interne et le neutralise.
 .screen-galerie {
-  // La piste doit pouvoir déborder à droite : on neutralise le padding droit.
-  padding-right: 0;
-  overflow: hidden;
+  position: relative;
+  background: $papier;
+  border-top: 1px solid $filet;
+}
+.screen-galerie + .screen { border-top: 1px solid $filet; }
+
+.g-pin {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
+  padding: clamp(64px, 10vh, 110px) 0 clamp(64px, 10vh, 110px) clamp(20px, 3vw, 40px);
+}
+
+@media (min-width: 961px) and (prefers-reduced-motion: no-preference) {
+  .g-pin {
+    position: sticky;
+    top: calc(#{$page-pad} + #{$nav-h});
+    min-height: 0;
+    height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
+  }
+  // Piste verrouillée au geste direct : seule la traduction verticale la pilote.
+  .screen-galerie .g-track { overflow-x: hidden; }
 }
 
 .g-track {

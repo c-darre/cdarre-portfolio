@@ -71,39 +71,41 @@
 </section>
 
 <%# ================= (03) GALERIE ================= %>
-<section id="galerie" class="screen screen-galerie" aria-label="Galerie visuelle"
+<section id="galerie" class="screen-galerie" aria-label="Galerie visuelle"
          data-controller="hscroll">
-  <span class="corner corner-tl mono">(03) · Galerie</span>
-  <span class="corner corner-tr mono">Identités · Concepts · Motion</span>
+  <div class="g-pin" data-hscroll-target="pin">
+    <span class="corner corner-tl mono">(03) · Galerie</span>
+    <span class="corner corner-tr mono">Identités · Concepts · Motion</span>
 
-  <div class="g-track" data-hscroll-target="track" data-action="wheel->hscroll#wheel" tabindex="0"
-       role="region" aria-label="Créations visuelles, défilement horizontal">
+    <div class="g-track" data-hscroll-target="track" tabindex="0"
+         role="region" aria-label="Créations visuelles, défilement horizontal">
 
-    <div class="g-col g-catch">
-      <p class="g-catchline">De la <span class="inflexion">surface</span> au
-        <span class="inflexion">fond</span>, en passant par la
-        <span class="inflexion">forme</span>.</p>
-      <div class="g-nav">
-        <button type="button" class="g-btn mono" data-action="hscroll#prev" aria-label="Créations précédentes">←</button>
-        <button type="button" class="g-btn mono" data-action="hscroll#next" aria-label="Créations suivantes">→</button>
-      </div>
-    </div>
-
-    <% @visual_works.each do |work| %>
-      <%= link_to visual_work_path(work), class: "g-col g-card", data: { hscroll_card: true } do %>
-        <% if work.images.attached? %>
-          <%= image_tag work.images.first, class: "g-bg", loading: "lazy",
-                alt: attachment_alt(work.images.first, fallback: work.title) %>
-        <% end %>
-        <div class="g-veil" aria-hidden="true"></div>
-        <div class="g-info">
-          <span class="g-title"><%= work.title %></span>
-          <% if work.tools_list.any? %>
-            <span class="g-tools mono"><%= work.tools_list.join(" · ") %></span>
-          <% end %>
+      <div class="g-col g-catch">
+        <p class="g-catchline">De la <span class="inflexion">surface</span> au
+          <span class="inflexion">fond</span>, en passant par la
+          <span class="inflexion">forme</span>.</p>
+        <div class="g-nav">
+          <button type="button" class="g-btn mono" data-action="hscroll#prev" aria-label="Créations précédentes">←</button>
+          <button type="button" class="g-btn mono" data-action="hscroll#next" aria-label="Créations suivantes">→</button>
         </div>
+      </div>
+
+      <% @visual_works.each do |work| %>
+        <%= link_to visual_work_path(work), class: "g-col g-card", data: { hscroll_card: true } do %>
+          <% if work.images.attached? %>
+            <%= image_tag work.images.first, class: "g-bg", loading: "lazy",
+                  alt: attachment_alt(work.images.first, fallback: work.title) %>
+          <% end %>
+          <div class="g-veil" aria-hidden="true"></div>
+          <div class="g-info">
+            <span class="g-title"><%= work.title %></span>
+            <% if work.tools_list.any? %>
+              <span class="g-tools mono"><%= work.tools_list.join(" · ") %></span>
+            <% end %>
+          </div>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
   </div>
 </section>
 
