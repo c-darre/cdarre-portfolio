@@ -20,6 +20,7 @@ end
 # --- 1. FIB__R ---
 fibr = CaseStudy.find_or_initialize_by(slug: "fibr")
 fibr.assign_attributes(
+  categories: "Full-stack, IA appliquée",
   title:      "FIB__R",
   subtitle:   "Éco-score textile : l'impact d'un vêtement à partir d'une photo",
   role:       "Idéateur & Lead Developer",
@@ -43,6 +44,7 @@ build_sections(fibr, [
 # --- 2. User Selfcare Portal ---
 usp = CaseStudy.find_or_initialize_by(slug: "user-selfcare-portal")
 usp.assign_attributes(
+  categories: "Produit, Design System",
   title:      "User Selfcare Portal",
   subtitle:   "Refonte UX/UI d'un catalogue IT mondial",
   role:       "Lead UX/UI & UX Writing",
@@ -66,6 +68,7 @@ build_sections(usp, [
 # --- 3. Clienteling (concept) ---
 cli = CaseStudy.find_or_initialize_by(slug: "clienteling-concept")
 cli.assign_attributes(
+  categories: "Produit",
   title:      "Clienteling",
   subtitle:   "Concept d'outil vendeur retail haut de gamme",
   role:       "Product Designer (exploration personnelle)",
