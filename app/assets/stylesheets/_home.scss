@@ -195,39 +195,53 @@
     transition: transform .18s ease, color .18s ease;
   }
 
-  // Titre plus petit que sur /travaux (~4vw vs 5.2) : 3 entrées + intro dans un écran.
+  // Titre à la taille de l'intro (.index-intro) : 1.3 → 1.55rem.
   .wk-title {
     font-weight: 300;
-    font-size: clamp(1.4rem, 4vw, 4rem);
-    line-height: 1.04;
-    letter-spacing: -0.02em;
+    font-size: clamp(1.3rem, 2vw, 1.55rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
 
-    em { font-size: 1.02em; }
+    em { font-size: 1.05em; }
   }
 
+  // Slash : proportionné au titre réduit, Thin 100, recalé sur la hauteur d'x.
+  // CURSEUR à l'œil : translateY entre .04em et .16em.
   .wk-sep {
-    font-weight: 100;             // Inter Thin 100 véritable — un fil
-    font-size: clamp(1.6rem, 5vw, 5rem);
+    font-weight: 100;
+    font-size: clamp(1.5rem, 2.4vw, 1.9rem);
     line-height: 1;
     color: $papier;
-    transform: translateY(.1em);  // même recalage optique que /travaux
+    transform: translateY(.09em);
   }
 
+  // Méta : nettement plus petite (effet de bord voulu), recalée pour que sa
+  // hauteur d'x tombe sur celle du titre. CURSEUR : translateY entre -.02 et .08em.
   .wk-meta {
     color: $papier;
-    font-size: clamp(.75rem, 1.2vw, 1.1rem);
-    white-space: normal;          // le sous-titre peut être long : autorisé à passer
+    font-size: clamp(.68rem, .95vw, .82rem);
+    white-space: normal;
+    transform: translateY(.02em);
   }
 }
 
-// Survol en négatif : la liste s'enfonce en médian (lisible sur encre),
-// la ligne visée remonte intégralement en papier ; flèche vermillon.
+// Survol en négatif : les lignes non visées s'enfoncent en médian ET
+// s'amincissent (Inter 100 sur méta/flèche ; le titre serif n'a pas de
+// graisse variable → seule sa couleur change). La ligne visée revient
+// intégralement — papier plein, graisses nominales ; flèche vermillon.
 .screen-negatif .index:hover .cs-row,
 .screen-negatif .index:hover .cs-row .wk-sep,
 .screen-negatif .index:hover .cs-row .wk-meta { color: $median; }
+.screen-negatif .index:hover .cs-row .wk-meta,
+.screen-negatif .index:hover .cs-row .wk-arrow { font-weight: 100; }
+
 .screen-negatif .index:hover .cs-row:hover,
 .screen-negatif .index:hover .cs-row:hover .wk-sep,
 .screen-negatif .index:hover .cs-row:hover .wk-meta { color: $papier; }
+.screen-negatif .index:hover .cs-row:hover .wk-meta { font-weight: 400; }
+.screen-negatif .index:hover .cs-row:hover .wk-arrow { font-weight: 400; }
+
+.screen-negatif .cs-row .wk-arrow { transition: transform .18s ease, color .18s ease, font-weight .18s ease; }
 .screen-negatif .cs-row:hover .wk-arrow {
   color: $vermillon;
   transform: translateX(6px);
