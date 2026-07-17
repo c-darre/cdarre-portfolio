@@ -2,23 +2,27 @@
 <% content_for :meta_description,
    "Galerie de créations visuelles de Cyprien Darré : identités, concepts, motion design." %>
 
-<section class="screen" aria-label="Galerie visuelle">
+<%# ---------- LANDING : la phrase seule, plein écran ---------- %>
+<section class="gl-landing" aria-label="Galerie visuelle">
   <span class="corner corner-tl mono">Galerie</span>
   <span class="corner corner-tr mono"><%= @visual_works.size %> pièce(s)</span>
 
-  <div class="gallery-head">
-    <p class="intro">De la <span class="inflexion">surface</span> au
-      <span class="inflexion">fond</span>, en passant par la
-      <span class="inflexion">forme</span>.</p>
-  </div>
+  <p class="gl-catchline">De la <span class="inflexion">surface</span> au
+    <span class="inflexion">fond</span>, en passant par la
+    <span class="inflexion">forme</span>.</p>
 
+  <a class="scroll-cue mono" href="#creations" aria-label="Voir les créations">↓</a>
+</section>
+
+<%# ---------- GRILLE : se révèle au scroll ---------- %>
+<section id="creations" class="gl-grid-section" aria-label="Créations">
   <% if @categories.many? %>
     <nav class="gallery-filters mono" aria-label="Filtrer par catégorie">
-      <%= link_to "Toutes", visual_works_path,
+      <%= link_to "Toutes", visual_works_path(anchor: "creations"),
             class: class_names("gallery-filter", "is-active": @current_category.nil?),
             aria: { current: (@current_category.nil? ? "page" : nil) } %>
       <% @categories.each do |cat| %>
-        <%= link_to category_label(cat), visual_works_path(categorie: cat),
+        <%= link_to category_label(cat), visual_works_path(categorie: cat, anchor: "creations"),
               class: class_names("gallery-filter", "is-active": @current_category == cat),
               aria: { current: (@current_category == cat ? "page" : nil) } %>
       <% end %>
@@ -28,7 +32,7 @@
   <% if @visual_works.any? %>
     <div class="gallery-grid">
       <% @visual_works.each do |work| %>
-        <%= link_to visual_work_path(work), class: "gallery-item" do %>
+        <%= link_to visual_work_path(work), class: "gallery-item gl-reveal" do %>
           <div class="thumb">
             <% if work.images.attached? %>
               <%= image_tag work.images.first, loading: "lazy",
@@ -49,8 +53,9 @@
   <% else %>
     <p>Rien dans cette catégorie pour l'instant.</p>
   <% end %>
+
   <%= link_to case_studies_path, class: "cross-row" do %>
-    <span class="mono">(←) Études de cas · travaux produit</span>
+    <span class="mono">(←) Study cases · travaux produit</span>
     <span class="x-arrow" aria-hidden="true">↗</span>
   <% end %>
 </section>
