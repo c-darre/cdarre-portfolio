@@ -113,12 +113,6 @@
 <section id="contact" class="screen contact screen-negatif" aria-label="Contact">
   <span class="corner corner-tl mono">(04) · Contact</span>
 
-  <h2 lang="en">Let's <em>connect</em>.</h2>
 
-  <%= render "shared/contact_cta" %>
-
-  <div class="links mono">
-    <%= link_to "LinkedIn ↗", profile[:linkedin], target: "_blank", rel: "noopener" %>
-    <%= link_to "GitHub ↗", profile[:github], target: "_blank", rel: "noopener" %>
-  </div>
+  <%= render "shared/contact_body" %>
 </section>
