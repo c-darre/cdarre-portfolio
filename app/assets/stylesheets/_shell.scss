@@ -334,3 +334,25 @@ em {
   color: $papier;
   border-top-color: $filet-nuit;
 }
+
+// Travaux : calques d'image superposés, révélés au survol des lignes.
+.works-choice .wk-figure { position: relative; }
+.works-choice .wk-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .3s ease;
+
+  &.is-shown { opacity: 1; }
+
+  .wk-shot { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  // Placeholders : trois nuances distinctes pour voir la bascule fonctionner.
+  .wk-grey { display: block; width: 100%; height: 100%; }
+  .wk-grey-base    { background: $grege; }
+  .wk-grey-cases   { background: #C9C3B8; }
+  .wk-grey-gallery { background: #9A948A; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .works-choice .wk-layer { transition: none; }
+}

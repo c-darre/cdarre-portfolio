@@ -5,25 +5,27 @@
 
 <%# Écran de choix : deux lignes uniques (flèche · titre · méta),
     image centrée chevauchée, page SANS scroll (navbar → footer). %>
-<section class="works-choice" aria-label="Choisir un univers de travaux">
+<section class="works-choice" aria-label="Choisir un univers de travaux" data-controller="works">
   <span class="corner corner-tl mono">Travaux</span>
 
   <div class="wk-media" aria-hidden="true">
     <figure class="wk-figure">
-      <span class="ph mono">Visuel · à venir</span>
+      <span class="wk-layer wk-layer-base"  data-works-layer="base"><%= works_image("base")    ? image_tag(works_image("base"),    class: "wk-shot") : content_tag(:span, "", class: "wk-grey wk-grey-base") %></span>
+      <span class="wk-layer wk-layer-cases" data-works-layer="cases"><%= works_image("cases")  ? image_tag(works_image("cases"),  class: "wk-shot") : content_tag(:span, "", class: "wk-grey wk-grey-cases") %></span>
+      <span class="wk-layer wk-layer-gallery" data-works-layer="gallery"><%= works_image("gallery") ? image_tag(works_image("gallery"), class: "wk-shot") : content_tag(:span, "", class: "wk-grey wk-grey-gallery") %></span>
       <span class="fig-tl mono">Fig. 01</span>
     </figure>
   </div>
 
   <nav class="wk-list" aria-label="Univers de travaux">
-    <%= link_to case_studies_path, class: "wk-row" do %>
+    <%= link_to case_studies_path, class: "wk-row", data: { works_hover: "cases", action: "mouseenter->works#hover mouseleave->works#reset" } do %>
       <span class="wk-arrow" aria-hidden="true">→</span>
       <span class="wk-title">Study <em>cases</em></span>
       <span class="wk-sep" aria-hidden="true">/</span>
       <span class="wk-meta mono">Produit · UX/UI · Design system · Code</span>
     <% end %>
 
-    <%= link_to visual_works_path, class: "wk-row" do %>
+    <%= link_to visual_works_path, class: "wk-row", data: { works_hover: "gallery", action: "mouseenter->works#hover mouseleave->works#reset" } do %>
       <span class="wk-arrow" aria-hidden="true">→</span>
       <span class="wk-title">Galerie <em>visuelle</em></span>
       <span class="wk-sep" aria-hidden="true">/</span>
