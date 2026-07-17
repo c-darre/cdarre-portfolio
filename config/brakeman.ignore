@@ -1,0 +1,29 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "6281e1ee2944418c38e8f826eb45e0c428308e93d905f0a08c68b41d4d3242cf",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/admin/case_studies_controller.rb",
+      "line": 65,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:case_study).permit(:title, :subtitle, :role, :context, :key_metric, :slug, :categories, :published, :hero_image)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Admin::CaseStudiesController",
+        "method": "case_study_params"
+      },
+      "user_input": ":role",
+      "confidence": "Medium",
+      "cwe_id": [
+        915
+      ],
+      "note": "Slug volontairement editable dans le formulaire admin. Routes protegees par authenticate_admin_user!."
+    }
+  ],
+  "updated": "2026-07-18 00:55:45 +0200",
+  "brakeman_version": "8.0.5"
+}
