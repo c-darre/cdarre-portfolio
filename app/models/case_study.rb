@@ -1,6 +1,6 @@
 class CaseStudy < ApplicationRecord
   # Catégories canoniques — source unique (helper + pages y puisent).
-  CATEGORIES = ["Produit", "Design System", "Full-stack", "IA appliquée"].freeze
+  CATEGORIES = [ "Produit", "Design System", "Full-stack", "IA appliquée" ].freeze
 
   has_one_attached :hero_image
   has_many :case_study_sections, -> { order(:position) },
