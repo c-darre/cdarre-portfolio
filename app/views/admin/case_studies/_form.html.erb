@@ -35,6 +35,13 @@
   </div>
 
   <div class="mb-3">
+    <%= form.label :categories, "Catégories (séparées par des virgules)", class: "form-label" %>
+    <%= form.text_field :categories, class: "form-control",
+          placeholder: "Produit, Design System, Full-stack, IA appliquée" %>
+    <div class="form-text">Valeurs autorisées : <%= CaseStudy::CATEGORIES.join(", ") %>.</div>
+  </div>
+
+  <div class="mb-3">
     <%= form.label :slug, "Slug (URL)", class: "form-label" %>
     <%= form.text_field :slug, class: "form-control", placeholder: "auto-généré depuis le titre si vide" %>
     <div class="form-text">Laisse vide pour auto-générer. Une fois l'étude publiée et indexée, évite de le changer.</div>
