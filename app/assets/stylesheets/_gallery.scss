@@ -1,11 +1,45 @@
 // Galerie — DA « Algorithme & Artisanat ».
 // Grille de vignettes filetées + lightbox <dialog> natif.
 
-.gallery-head { margin-bottom: 44px; max-width: 52ch; }
-.gallery-head .intro {
-  font-size: clamp(1.3rem, 2vw, 1.55rem);
-  line-height: 1.45;
-  color: $median;
+// Landing : la phrase seule, plein écran.
+.gl-landing {
+  position: relative;
+  min-height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(80px, 12vh, 130px) clamp(20px, 3vw, 40px);
+}
+
+.gl-catchline {
+  font-weight: 300;
+  font-size: clamp(2rem, 6vw, 6rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  max-width: 18ch;
+}
+
+// Section grille (sous la landing).
+.gl-grid-section {
+  padding: clamp(48px, 8vh, 96px) clamp(20px, 3vw, 40px) clamp(48px, 7vh, 88px);
+  border-top: 1px solid $filet;
+}
+
+// Révélation au scroll : les cartes montent en fondu à l'entrée dans le viewport.
+// animation-timeline: view() est natif (navigateurs récents) ; ailleurs, les
+// cartes s'affichent simplement sans l'entrée animée (dégradation gracieuse).
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .gl-reveal {
+      animation: gl-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+    @keyframes gl-rise {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  }
 }
 
 // Filtres : monospace, séparés par des filets, l'actif en encre.
