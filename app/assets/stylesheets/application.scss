@@ -3,7 +3,8 @@
 @import "bootstrap";  // sources SCSS de la gem (via --load-path)
 @import "shell";      // la feuille, les 3 voix, header/footer, scroll
 @import "home";       // hero, profil, index, contact
-@import "cases";      // pages d'études de cas
+@import "cases";
+@import "cs_index";      // pages d'études de cas
 @import "gallery";    // galerie + lightbox
 @import "about";      // page à propos
 @import "contact";    // bouton contact + popup formulaire

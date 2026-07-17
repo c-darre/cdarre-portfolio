@@ -3,17 +3,54 @@
    "Études de cas produit de Cyprien Darré : refonte UX/UI, design system, " \
    "développement Ruby on Rails et IA appliquée." %>
 
-<section class="screen" aria-label="Études de cas">
+<section class="cs-index" data-controller="filter" aria-label="Études de cas">
   <span class="corner corner-tl mono">Study cases</span>
-  <span class="corner corner-tr mono"><%= @case_studies.size %> étude(s)</span>
+  <span class="corner corner-tr mono"><%= @case_studies.size %> projet(s)</span>
 
-  <p class="index-intro">Questionner, construire, mesurer.
-    Puis <em>recommencer</em>.</p>
+  <%# ---- Landing : titre + filtres ---- %>
+  <div class="csi-head">
+    <h1 class="csi-lead">Questionner, construire, mesurer.
+      Puis <em>recommencer</em>.</h1>
 
+    <nav class="csi-filters mono" aria-label="Filtrer par catégorie">
+      <button type="button" class="csi-chip is-active"
+              data-filter-target="chip" data-filter-cat=""
+              data-action="filter#filter">Toutes</button>
+      <% CaseStudy::CATEGORIES.each do |cat| %>
+        <button type="button" class="csi-chip"
+                data-filter-target="chip" data-filter-cat="<%= cat %>"
+                data-action="filter#filter"><%= cat %></button>
+      <% end %>
+    </nav>
+  </div>
+
+  <%# ---- Rangées : titre géant superposé au visuel ---- %>
   <% if @case_studies.any? %>
-    <div class="index">
+    <div class="csi-list">
       <% @case_studies.each_with_index do |case_study, i| %>
-        <%= render "index_row", case_study: case_study, row_number: i + 1 %>
+        <%= link_to case_study_path(case_study), class: "csi-row",
+              data: { filter_target: "item",
+                      filter_categories: case_study.category_list.join("|") } do %>
+          <div class="csi-media">
+            <% if case_study.hero_image.attached? %>
+              <%= image_tag case_study.hero_image, class: "csi-img", loading: "lazy",
+                    alt: attachment_alt(case_study.hero_image, fallback: case_study.title) %>
+            <% end %>
+          </div>
+
+          <div class="csi-text">
+            <span class="csi-num mono">(<%= format("%02d", i + 1) %>)</span>
+            <h2 class="csi-title"><%= case_study.title %></h2>
+            <% if case_study.subtitle.present? %>
+              <p class="csi-sub"><%= case_study.subtitle %></p>
+            <% end %>
+            <% if case_study.category_list.any? %>
+              <p class="csi-cats mono"><%= case_study.category_list.join(" · ") %></p>
+            <% end %>
+          </div>
+
+          <span class="csi-arrow" aria-hidden="true">↗</span>
+        <% end %>
       <% end %>
     </div>
   <% else %>
