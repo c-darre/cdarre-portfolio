@@ -11,7 +11,6 @@ proxy:
     - cdarre.fr
     - www.cdarre.fr
   app_port: 3000
-  deploy_timeout: 120
 
 registry:
   server: ghcr.io
@@ -56,3 +55,5 @@ accessories:
       - db/production_init.sql:/docker-entrypoint-initdb.d/setup.sql
     directories:
       - data:/var/lib/postgresql/data
+
+deploy_timeout: 120
