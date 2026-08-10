@@ -6,7 +6,10 @@ servers:
     - 152.228.235.230
 
 proxy:
-  ssl: false
+  ssl: true
+  hosts:
+    - cdarre.fr
+    - www.cdarre.fr
   app_port: 3000
 
 registry:
