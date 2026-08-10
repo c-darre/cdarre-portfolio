@@ -1,0 +1,3 @@
+CREATE DATABASE cdarre_portfolio_production_cache OWNER cdarre_portfolio;
+CREATE DATABASE cdarre_portfolio_production_queue OWNER cdarre_portfolio;
+CREATE DATABASE cdarre_portfolio_production_cable OWNER cdarre_portfolio;
