@@ -11,6 +11,7 @@ proxy:
     - cdarre.fr
     - www.cdarre.fr
   app_port: 3000
+  deploy_timeout: 120
 
 registry:
   server: ghcr.io
