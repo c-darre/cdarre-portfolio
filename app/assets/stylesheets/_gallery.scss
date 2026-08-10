@@ -12,11 +12,23 @@
 }
 
 .gl-catchline {
-  font-weight: 300;
-  font-size: clamp(2rem, 6vw, 6rem);
+  // Meme traitement que l'accroche (03) de la home : meme famille, meme
+  // graisse, meme partage gris/encre. Seule l'echelle differe — ici c'est
+  // une landing plein ecran, la-bas une colonne de piste horizontale.
+  font-family: $font-family-accent;
+  font-synthesis: none;
+  font-weight: 200;
+  // ×1,066 : parite de hauteur d'oeil avec l'Inter remplacee (0,546 → 0,512).
+  font-size: clamp(2.13rem, 6.4vw, 6.4rem);
   line-height: 1.08;
   letter-spacing: -0.02em;
-  max-width: 18ch;
+  // 18ch d'Inter ≈ 17ch de Bricolage au corps compense (l'unite `ch` suit la
+  // chasse du zero) : la coupe en deux lignes est preservee.
+  max-width: 17ch;
+  color: $median;
+
+  // Seuls surface / fond / forme remontent en encre, filet conserve.
+  .inflexion { color: $encre; font-weight: inherit; font-size: 1em; }
 }
 
 // Section grille (sous la landing).

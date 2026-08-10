@@ -16,4 +16,15 @@ module MediaHelper
     end
     nil
   end
+
+  # --- /projets : format d'un bloc gris -------------------------------
+  # Le placement, lui, est calcule par le controleur Stimulus "scatter" :
+  # il exige de connaitre la largeur RENDUE des visuels, que le serveur ne
+  # peut pas deduire (elle depend de la forme de la fenetre).
+  #
+  # Format d'un bloc gris de remplacement (tant qu'aucune image n'est
+  # televersee). Volontairement varie : c'est ce qui rend l'ancrage visible.
+  def csi_placeholder_ratio
+    %w[3/4 1/1 4/3 16/10].sample
+  end
 end

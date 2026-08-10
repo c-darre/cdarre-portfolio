@@ -9,8 +9,11 @@
 
   <%# ---- Landing : titre + filtres ---- %>
   <div class="csi-head">
-    <h1 class="csi-lead">Questionner, construire, mesurer.
-      Puis <em>recommencer</em>.</h1>
+    <h1 class="csi-lead">
+      <span class="csi-line">Questionner,</span>
+      <span class="csi-line">construire,</span>
+      <span class="csi-line">mesurer.</span>
+    </h1>
 
     <nav class="csi-filters mono" aria-label="Filtrer par catégorie">
       <button type="button" class="csi-chip is-active"
@@ -24,32 +27,59 @@
     </nav>
   </div>
 
-  <%# ---- Rangées : titre géant superposé au visuel ---- %>
+  <%# ---- Rangées : mise en forme /travaux (titre · slash · méta),
+       visuels d'arrière-plan tirés au sort à chaque rendu ---- %>
   <% if @case_studies.any? %>
-    <div class="csi-list">
+    <div class="csi-list" data-controller="scatter">
       <% @case_studies.each_with_index do |case_study, i| %>
         <%= link_to case_study_path(case_study), class: "csi-row",
               data: { filter_target: "item",
                       filter_categories: case_study.category_list.join("|") } do %>
-          <div class="csi-media">
-            <% if case_study.hero_image.attached? %>
-              <%= image_tag case_study.hero_image, class: "csi-img", loading: "lazy",
-                    alt: attachment_alt(case_study.hero_image, fallback: case_study.title) %>
-            <% end %>
-          </div>
 
-          <div class="csi-text">
+          <%# Décor : les deux visuels partagent le MÊME axe, donc la bascule
+              ne saute pas même si les formats diffèrent. Position posée ici en
+              simple alternance (repli si JavaScript est absent) ; le contrôleur
+              "scatter" la recalcule en mesurant les largeurs réelles. %>
+          <span class="csi-media csi-anchor-<%= i.even? ? "left" : "right" %>"
+                style="--x: 2%;"
+                data-scatter-target="media"
+                aria-hidden="true">
+            <span class="csi-layer csi-layer-base">
+              <% if case_study.hero_image.attached? %>
+                <%= image_tag case_study.hero_image, class: "csi-shot", loading: "lazy", alt: "" %>
+              <% else %>
+                <span class="csi-grey csi-grey-base"
+                      style="aspect-ratio: <%= csi_placeholder_ratio %>;"></span>
+              <% end %>
+            </span>
+            <span class="csi-layer csi-layer-hover">
+              <% if case_study.hover_image.attached? %>
+                <%= image_tag case_study.hover_image, class: "csi-shot", loading: "lazy", alt: "" %>
+              <% else %>
+                <span class="csi-grey csi-grey-hover"
+                      style="aspect-ratio: <%= csi_placeholder_ratio %>;"></span>
+              <% end %>
+            </span>
+          </span>
+
+          <%# Trois lignes, mais l'œil lit une seule coulée :
+              (01) / Titre · slash · sous-titre / catégories. %>
+          <span class="csi-text">
+            <span class="csi-arrow" aria-hidden="true">→</span>
             <span class="csi-num mono">(<%= format("%02d", i + 1) %>)</span>
-            <h2 class="csi-title"><%= case_study.title %></h2>
-            <% if case_study.subtitle.present? %>
-              <p class="csi-sub"><%= case_study.subtitle %></p>
-            <% end %>
-            <% if case_study.category_list.any? %>
-              <p class="csi-cats mono"><%= case_study.category_list.join(" · ") %></p>
-            <% end %>
-          </div>
 
-          <span class="csi-arrow" aria-hidden="true">↗</span>
+            <span class="csi-main">
+              <span class="csi-title"><%= case_study.title %></span>
+              <% if case_study.subtitle.present? %>
+                <span class="csi-sep" aria-hidden="true">/</span>
+                <span class="csi-sub mono"><%= case_study.subtitle %></span>
+              <% end %>
+            </span>
+
+            <% if case_study.category_list.any? %>
+              <span class="csi-cats mono"><%= case_study.category_list.join(" · ") %></span>
+            <% end %>
+          </span>
         <% end %>
       <% end %>
     </div>

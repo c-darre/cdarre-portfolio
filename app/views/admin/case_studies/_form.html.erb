@@ -47,15 +47,37 @@
     <div class="form-text">Laisse vide pour auto-générer. Une fois l'étude publiée et indexée, évite de le changer.</div>
   </div>
 
-  <div class="mb-3">
-    <%= form.label :hero_image, "Image d'en-tête", class: "form-label" %>
-    <% if case_study.hero_image.attached? %>
-      <div class="mb-2">
-        <%= image_tag case_study.hero_image, style: "max-height: 160px; width: auto;", class: "img-thumbnail" %>
+  <%# Les DEUX visuels sont obligatoires : repos + survol sur /projets. %>
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <%= form.label :hero_image, "Visuel 1 — au repos", class: "form-label" %>
+      <% if case_study.hero_image.attached? %>
+        <div class="mb-2">
+          <%= image_tag case_study.hero_image, style: "max-height: 160px; width: auto;", class: "img-thumbnail" %>
+        </div>
+      <% end %>
+      <%= form.file_field :hero_image, class: "form-control", accept: "image/*",
+            required: !case_study.hero_image.attached? %>
+      <div class="form-text">
+        Obligatoire. Sert aussi d'image d'en-tête de l'étude.
+        Le format d'origine est conservé (portrait ou paysage).
       </div>
-    <% end %>
-    <%= form.file_field :hero_image, class: "form-control", accept: "image/*" %>
-    <div class="form-text">Remplace l'image actuelle si tu en choisis une nouvelle.</div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <%= form.label :hover_image, "Visuel 2 — au survol", class: "form-label" %>
+      <% if case_study.hover_image.attached? %>
+        <div class="mb-2">
+          <%= image_tag case_study.hover_image, style: "max-height: 160px; width: auto;", class: "img-thumbnail" %>
+        </div>
+      <% end %>
+      <%= form.file_field :hover_image, class: "form-control", accept: "image/*",
+            required: !case_study.hover_image.attached? %>
+      <div class="form-text">
+        Obligatoire. Remplace le visuel 1 au survol de la rangée sur /projets.
+        Peut avoir un format différent : la bascule reste calée sur le même axe.
+      </div>
+    </div>
   </div>
 
   <div class="form-check mb-4">

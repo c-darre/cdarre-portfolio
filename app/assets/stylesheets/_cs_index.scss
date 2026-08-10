@@ -2,20 +2,44 @@
 
 .cs-index {
   position: relative;
-  padding: clamp(80px, 12vh, 130px) clamp(20px, 3vw, 40px) clamp(48px, 7vh, 88px);
+  padding: 0 clamp(20px, 3vw, 40px) clamp(48px, 7vh, 88px);
 }
 
-// ---- Landing ----
-.csi-head { margin-bottom: clamp(48px, 8vh, 96px); }
+// ---- Landing : composition VERROUILLÉE, identique à toute taille d'écran ----
+// Hauteur figée sur l'espace exact navbar → bas de fenêtre. L'accroche est
+// centrée sur l'axe horizontal, les catégories sont plaquées en bas.
+.csi-head {
+  height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
+  min-height: 0;
+  display: grid;
+  grid-template-rows: 1fr auto;      // 1 = l'accroche centrée · 2 = les filtres
+  margin-bottom: clamp(48px, 8vh, 96px);
+}
 
 .csi-lead {
-  font-weight: 300;
-  font-size: clamp(1.8rem, 4.4vw, 4rem);
+  align-self: center;
+  // Bloc CENTRÉ dans la page, texte ferré à GAUCHE : `justify-self` réduit
+  // l'élément à son contenu et le centre ; `text-align` gouverne l'intérieur.
+  // Les deux ne sont pas contradictoires.
+  justify-self: center;
+  text-align: left;
+  max-width: 100%;
+
+  font-family: $font-family-accent;
+  font-synthesis: none;
+  font-weight: 200;
+  // UN mot par ligne : le corps peut monter bien plus haut qu'avec la phrase
+  // entière. Vérifié de 390 à 2560 px — « Questionner, » ne déborde jamais,
+  // et les trois lignes tiennent dans la hauteur verrouillée de la landing.
+  font-size: clamp(1.6rem, 10vw, 9rem);
   line-height: 1.1;
   letter-spacing: -0.015em;
-  max-width: 20ch;
-  margin-bottom: clamp(28px, 4vh, 44px);
+  margin: 0;
+
+  .csi-line { display: block; white-space: nowrap; }
 }
+
+.csi-filters { align-self: end; }
 
 .csi-filters {
   display: flex;
@@ -43,86 +67,222 @@
   }
 }
 
-// ---- Rangées superposées ----
+// ---- Rangées : la grammaire de /travaux, sur trois lignes ----
+// L'œil doit lire UNE coulée : (01) · Titre / sous-titre · catégories.
 .csi-list { display: flex; flex-direction: column; }
 
 .csi-row {
   position: relative;
-  display: block;
-  padding: clamp(40px, 7vh, 88px) 0;
-  border-top: 1px solid $filet;
+  // Le visuel est plus HAUT que la rangée : il déborde au-dessus et en
+  // dessous, et les filets le traversent. C'est ce débordement qui donne la
+  // profondeur — la rangée, elle, se règle sur son texte.
+  --csi-media-h: clamp(120px, 24vh, 280px);
+  // Retrait du texte : le décor respire à gauche, la coulée démarre au fer.
+  --csi-indent: 190px;
+  // Écart entre la pointe de la flèche et le début du texte.
+  --csi-arrow-gap: clamp(12px, 1.4vw, 22px);
+
+  // Hauteur pilotée par le texte : les filets viennent au plus près de lui.
+  padding: clamp(20px, 3.4vh, 40px) 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   text-decoration: none;
   color: $encre;
+  transition: color .18s ease;
 
   &[hidden] { display: none; }
-  &:last-of-type { border-bottom: 1px solid $filet; }
 
-  // Le visuel : décalé à droite, en retrait ; le titre le chevauche.
-  .csi-media {
+  // Les filets. `border-top` se peindrait SOUS les visuels (couche des
+  // bordures, sous tout enfant positionné) : d'où ces pseudo-éléments, posés
+  // en z-index 2, au-dessus du décor comme du texte.
+  &::before {
+    content: "";
     position: absolute;
-    top: 50%;
-    right: 4%;
-    transform: translateY(-50%);
-    width: min(38%, 460px);
-    aspect-ratio: 16 / 10;
-    border: 1px solid $filet;
-    background: $grege;                 // bloc gris tant que pas d'image
-    overflow: hidden;
-    opacity: .78;
-    transition: opacity .3s ease, transform .3s ease;
-
-    .csi-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: $filet;
+    z-index: 2;
+    pointer-events: none;
   }
 
-  .csi-text { position: relative; z-index: 1; }   // passe sur le visuel
-
-  .csi-num { color: $median; display: block; margin-bottom: 10px; }
-
-  .csi-title {
-    font-weight: 300;
-    font-size: clamp(2.4rem, 9vw, 9rem);
-    line-height: .98;
-    letter-spacing: -0.03em;
-    margin-bottom: 14px;
+  &:last-of-type::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: $filet;
+    z-index: 2;
+    pointer-events: none;
   }
 
-  .csi-sub {
-    font-size: clamp(1.1rem, 1.7vw, 1.4rem);
-    color: $median;
-    max-width: 34ch;
-    margin-bottom: 10px;
+  // passe sur le visuel, et démarre après le retrait
+  .csi-text {
+    position: relative;
+    z-index: 1;
+    display: block;
+    padding-left: var(--csi-indent);
   }
-  .csi-cats { color: $encre; }
 
+  // Flèche collée au texte : son bord DROIT se pose à --csi-arrow-gap du
+  // début de la coulée, quelle que soit la largeur du retrait. Même
+  // grammaire que /travaux : vermillon et glissement au survol.
   .csi-arrow {
     position: absolute;
-    top: clamp(40px, 7vh, 88px);
-    right: 0;
-    font-size: 1.4rem;
+    left: calc(var(--csi-indent) - var(--csi-arrow-gap));
+    top: 50%;
+    transform: translate(-100%, -50%);
+    font-size: clamp(1.1rem, 2vw, 2rem);
+    line-height: 1;
     transition: transform .18s ease, color .18s ease;
   }
 
-  // Survol : le visuel se révèle et s'agrandit, la flèche rougit,
-  // le titre bascule en italique serif.
-  &:hover {
-    .csi-media { opacity: 1; transform: translateY(-50%) scale(1.02); }
-    .csi-arrow { color: $vermillon; transform: translate(3px, -3px); }
-    .csi-title { font-style: italic; }
+  // Le numéro suit la couleur de SA rangée (héritée), au lieu d'un gris fixe
+  // qui restait en place pendant que le reste s'effaçait ou revenait en encre.
+  .csi-num  {
+    color: inherit;
+    display: block;
+    margin-bottom: 4px;
+    font-size: clamp(.62rem, .8vw, .78rem);
   }
+
+  // Catégories : voix machine, nettement en dessous du descriptif.
+  .csi-cats {
+    display: block;
+    margin-top: 6px;
+    font-size: clamp(.6rem, .78vw, .74rem);
+  }
+
+  // La ligne centrale : titre · slash · sous-titre, ferrés à gauche et
+  // alignés sur l'axe horizontal du bloc — le sous-titre peut occuper
+  // plusieurs lignes sans décrocher le titre.
+  .csi-main {
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr);
+    justify-content: start;
+    column-gap: clamp(12px, 1.6vw, 26px);
+    align-items: center;
+  }
+
+  // Nom de projet en Bricolage Grotesque. Le décalage optique est recalculé
+  // pour cette fonte : ascendante 0,930 · descendante 0,270 · hauteur d'œil
+  // 0,515 à la graisse 300, donc ligne de base à 0,850 em du haut, centre de
+  // boîte à 0,520 em, centre d'œil à 0,593 em → le titre remonte de 0,072 em
+  // (contre 0,091 em pour l'Inter d'avant). Après ce décalage, le centre de
+  // la rangée EST le milieu de l'œil du titre : descriptif et slash, centrés
+  // par la grille, s'y alignent d'eux-mêmes.
+  .csi-title {
+    font-family: $font-family-accent;
+    font-synthesis: none;
+    font-weight: 300;
+    font-size: clamp(1.5rem, 3.6vw, 3.6rem);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    transform: translateY(-0.072em);
+    // Bricolage est VARIABLE en graisse : la bascule du survol s'interpole
+    // vraiment, là où l'Inter statique sautait d'une face à l'autre.
+    transition: font-weight .18s ease;
+  }
+
+  // Slash : Inter Thin 100. Boîte de hauteur nulle, donc centrée sur l'axe ;
+  // le glyphe, lui, tombe 0,038 em plus bas (ligne de base à +0,364 em,
+  // centre optique du signe à 0,326 em au-dessus d'elle). D'où ce correctif.
+  .csi-sep {
+    font-weight: 100;
+    font-size: clamp(2rem, 4.7vw, 4.7rem);
+    line-height: 0;
+    color: inherit;
+    transform: translateY(-0.038em);
+  }
+
+  // Descriptif : quantité variable, donc plusieurs lignes possibles, ferré à
+  // gauche et centré par la grille sur l'œil du titre.
+  .csi-sub {
+    font-size: clamp(.68rem, .92vw, .86rem);
+    line-height: 1.5;
+    color: inherit;
+    text-align: left;
+  }
+
+  // ---- Décor : deux calques ANCRÉS sur le même axe ----
+  // Le conteneur couvre la rangée ; ce sont les calques qui se positionnent.
+  // Hauteur commune, largeur libre : chaque visuel garde son format d'origine.
+  .csi-media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    // Débordement VOULU : le visuel dépasse la rangée en haut et en bas, et
+    // les filets le traversent. Rien ne sort latéralement — « scatter » place
+    // les intervalles à l'intérieur de la largeur de rangée.
+    overflow: visible;
+  }
+
+  .csi-layer {
+    position: absolute;
+    top: 50%;
+    height: var(--csi-media-h);         // indépendante de la hauteur de rangée
+    width: auto;
+    opacity: 0;
+    transition: opacity .3s ease;
+
+    .csi-shot { height: 100%; width: auto; display: block; }
+    .csi-grey { display: block; height: 100%; width: auto; }
+    .csi-grey-base  { background: $grege; }
+    .csi-grey-hover { background: #C9C3B8; }
+  }
+
+  // Au repos le visuel 1 ; au survol le visuel 2. Aucun zoom : seule
+  // l'image change.
+  .csi-layer-base  { opacity: .72; }
+  &:hover .csi-layer-base  { opacity: 0; }
+  &:hover .csi-layer-hover { opacity: .72; }
+}
+
+// Les trois ancrages. Les DEUX calques d'une rangée partagent la même règle,
+// donc le même bord (ou le même axe) : la bascule ne saute jamais, même
+// entre un portrait et un paysage.
+.csi-anchor-left  .csi-layer { left:  var(--x); transform: translateY(-50%); }
+.csi-anchor-right .csi-layer { right: var(--x); transform: translateY(-50%); }
+.csi-anchor-center .csi-layer {
+  left: var(--x);
+  transform: translate(-50%, -50%);
+}
+
+// Effacement au survol : la liste passe en voile, la rangée visée revient
+// en encre — grammaire de /travaux.
+.csi-list:hover .csi-row { color: $voile; }
+.csi-list:hover .csi-row:hover { color: $encre; }
+
+// Survol : le nom du projet prend du gras (Bricolage 300 → 500, interpolé).
+.csi-row:hover .csi-title { font-weight: 500; }
+.csi-row:hover .csi-arrow {
+  color: $vermillon;
+  transform: translate(-100%, -50%) translateX(6px);
 }
 
 @media (max-width: 820px) {
   .csi-row {
-    .csi-media {
-      position: relative; top: auto; right: auto; transform: none;
-      width: 100%; margin-top: 20px; opacity: 1;
-    }
-    .csi-title { font-size: clamp(2.2rem, 13vw, 4rem); }
-    &:hover .csi-media { transform: none; }
+    // Le sous-titre passe SOUS le titre : la coulée d'une seule ligne n'a
+    // plus de sens sur une colonne étroite.
+    --csi-indent: 0px;
+    --csi-media-h: clamp(90px, 16vh, 170px);
+    padding: clamp(20px, 3vh, 32px) 0;
+    min-height: 0;
+
+    .csi-main  { grid-template-columns: 1fr; row-gap: 4px; }
+    .csi-sep   { display: none; }
+    .csi-arrow { display: none; }   // plus de retrait pour la loger
+    .csi-title { white-space: normal; transform: none; }
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .csi-row .csi-media, .csi-row .csi-arrow { transition: none; }
-  .csi-row:hover .csi-media { transform: translateY(-50%); }
+  .csi-row, .csi-layer { transition: none; }
 }

@@ -29,7 +29,10 @@
   .eyebrow { margin-bottom: 16px; }
 
   .csl-title {
-    font-weight: 300;
+    font-family: $font-family-accent;
+    font-synthesis: none;
+    font-weight: 200;
+    // Corps volontairement INCHANGE (demande explicite).
     font-size: clamp(2.4rem, 6vw, 5.4rem);
     line-height: 1.02;
     letter-spacing: -0.02em;
@@ -76,14 +79,20 @@
     padding: 8px 0 8px 16px;
     border-left: 1px solid $filet;
     text-decoration: none;
-    color: $voile;                   // sections non courantes : estompées
-    font-size: .95rem;
-    transition: color .18s ease, border-color .18s ease;
+    font-family: $font-family-accent;
+    font-synthesis: none;
+    font-weight: 200;
+    color: $median;                  // sections non courantes : gris
+    font-size: 1rem;
+    transition: color .18s ease, border-color .18s ease, font-weight .18s ease;
 
     &:hover { color: $encre; }
 
-    // Section courante : encre pleine + filet vermillon (piloté par toc_controller).
+    // Section courante : Bricolage 400 + encre pleine + filet vermillon
+    // (piloté par toc_controller). La graisse s'interpole — Bricolage est
+    // variable — donc la bascule est douce, pas un saut de face.
     &.is-active {
+      font-weight: 400;
       color: $encre;
       border-left-color: $vermillon;
     }
@@ -100,8 +109,14 @@
   &:first-child { border-top: 0; padding-top: 0; }
 
   .sec-label { margin-bottom: 8px; color: $median; }
-  h2 { font-weight: 400; font-size: clamp(1.4rem, 2.6vw, 1.9rem);
-       line-height: 1.15; margin-bottom: 20px; }
+  h2 {
+    font-family: $font-family-accent;
+    font-synthesis: none;
+    font-weight: 400;
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
 }
 
 // Prose (contenu Trix), habillée DA.
@@ -115,10 +130,21 @@
     p { margin-bottom: 1rem; }
     ul, ol { margin-bottom: 1rem; padding-left: 1.25rem; }
     li { margin-bottom: .3rem; }
-    strong { font-weight: 500; }
+    strong {
+      font-family: $font-family-accent;
+      font-synthesis: none;
+      font-weight: 400;
+      font-size: 1.055em;             // parité de hauteur d'œil avec l'Inter
+    }
     blockquote {
       border-left: 2px solid $vermillon;
-      padding-left: 1rem; margin: 1.4rem 0; color: $median;
+      padding-left: 1.2rem; margin: 1.8rem 0; color: $median;
+      font-family: $font-family-accent;
+      font-synthesis: none;
+      font-weight: 200;
+      font-size: 1.45em;              // 1,0625rem → 1,54rem
+      line-height: 1.35;
+      letter-spacing: -0.01em;
     }
     pre {
       background: $grege; border: 1px solid $filet;

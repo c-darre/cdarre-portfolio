@@ -1,7 +1,9 @@
 class CaseStudiesController < ApplicationController
   def index
-    # with_attached_hero_image : précharge attachments + blobs (évite le N+1).
-    @case_studies = CaseStudy.published.ordered.with_attached_hero_image
+    # with_attached_* : précharge attachments + blobs des DEUX visuels (N+1).
+    @case_studies = CaseStudy.published.ordered
+                             .with_attached_hero_image
+                             .with_attached_hover_image
   end
 
   def show

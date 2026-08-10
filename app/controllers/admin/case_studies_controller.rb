@@ -12,7 +12,8 @@ module Admin
 
     def create
       @case_study = CaseStudy.new(case_study_params)
-      if @case_study.save
+      # context: :admin -> exige les DEUX visuels (validation du modele).
+      if @case_study.save(context: :admin)
         # Après création, on va vers l'édition : c'est là qu'on ajoute les sections.
         redirect_to edit_admin_case_study_path(@case_study),
                     notice: "Étude de cas créée. Ajoute maintenant ses sections."
@@ -24,7 +25,8 @@ module Admin
     def edit; end
 
     def update
-      if @case_study.update(case_study_params)
+      @case_study.assign_attributes(case_study_params)
+      if @case_study.save(context: :admin)
         redirect_to edit_admin_case_study_path(@case_study), notice: "Étude de cas mise à jour."
       else
         render :edit, status: :unprocessable_entity
@@ -62,7 +64,8 @@ module Admin
 
     def case_study_params
       params.require(:case_study).permit(
-        :title, :subtitle, :role, :context, :key_metric, :slug, :categories, :published, :hero_image
+        :title, :subtitle, :role, :context, :key_metric, :slug, :categories, :published,
+        :hero_image, :hover_image
       )
     end
   end

@@ -55,20 +55,37 @@
   min-height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
   align-content: center;
   padding: 40px 0;
-  font-weight: 300;
+  font-family: $font-family-accent;
+  font-synthesis: none;
+  font-weight: 200;
   // Corps asservi à la largeur : calibré pour que la ligne la plus longue
-  // (54 caractères) remplisse ~90% de l'écran, en deux lignes insécables.
-  font-size: clamp(1.6rem, 3.9vw, 4.1rem);
+  // reste insécable et remplisse ~90% de l'écran. Recalibré pour Bricolage
+  // 200 sur la ligne ENTIÈRE : mesuré à 99 % de la bande à 2560 px, sans
+  // débordement de 1024 à 2560 px.
+  font-size: clamp(1.45rem, 3.55vw, 3.73rem);
   line-height: 1.22;
   letter-spacing: -0.012em;
 
   .ai-line { display: block; white-space: nowrap; }
+
+  // concevoir / rédiger / coder : même voix que le reste, distingués par le
+  // seul filet — 1 px décollé du texte, comme l'accroche de la home.
+  em {
+    font-weight: inherit;
+    font-size: 1em;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.14em;
+  }
 }
 
 .ai-text {
   grid-column: 2;
   grid-row: 2;
   max-width: 62ch;
+
+  // Design Engineer · traduction · construire — graisse MIN + corps agrandi.
+  em { font-weight: 200; font-size: 1.14em; }
   padding-bottom: clamp(64px, 10vh, 110px);   // la respiration de fin de section
 }
 
