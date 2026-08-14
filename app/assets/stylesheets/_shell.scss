@@ -200,9 +200,9 @@ em {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: min(30vw, 380px);
-    aspect-ratio: 3 / 4;
-    max-height: 72%;
+    width: min(60vw, 660px);   // nettement agrandi
+    aspect-ratio: 1 / 1;       // images carrees (1658x1648)
+    max-height: 84%;
     pointer-events: none;      // décor : ne capte aucun clic
   }
 
@@ -211,17 +211,15 @@ em {
     width: 100%;
     height: 100%;
     margin: 0;
-    border: 1px solid $filet;
-    background: $grege;
+    background: transparent;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
 
-    img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 
     .ph     { color: $voile; position: relative; }
-    .fig-tl { position: absolute; top: 10px; left: 12px; color: $voile; }
   }
 
   .wk-list {
@@ -360,7 +358,7 @@ em {
 
   &.is-shown { opacity: 1; }
 
-  .wk-shot { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .wk-shot { width: 100%; height: 100%; object-fit: contain; display: block; }
 
   // Placeholders : trois nuances distinctes pour voir la bascule fonctionner.
   .wk-grey { display: block; width: 100%; height: 100%; }
