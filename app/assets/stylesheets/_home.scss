@@ -3,9 +3,14 @@
 
 // ===================== (00) WORDING =====================
 .hero {
-  .kicker { margin-bottom: 28px; }
+  // Le bloc est CENTRE dans la page (`align-items`), le texte reste ferre a
+  // GAUCHE : les deux ne se contredisent pas — l'un place la boite, l'autre
+  // gouverne son contenu.
+  align-items: center;
 
   h1 {
+    text-align: left;
+    margin: 0;
     font-family: $font-family-accent;
     font-synthesis: none;
     font-weight: 200;
@@ -43,15 +48,29 @@
 }
 
 .frame {
+  @include derive;
   position: relative;
   aspect-ratio: 3 / 4;
   border: 1px solid $filet;
   background: $grege;
+  overflow: hidden;
   display: flex; align-items: center; justify-content: center;
+}
 
-  .ph { color: $voile; text-align: center; }
-  .fig-tl { position: absolute; top: 10px; left: 12px; color: $voile; }
-  .fig-br { position: absolute; bottom: 10px; right: 12px; color: $voile; }
+// Photo + lien forment UN bloc de colonne. Le placement par `grid-row: 2`
+// ne pouvait pas marcher : la rangee 1 de la grille prend la hauteur du
+// TEXTE, bien plus haut que la photo — le lien atterrissait tout en bas.
+.profil-media { min-width: 0; }
+
+.profil-lien {
+  margin: 18px 0 0;
+
+  .lien-fleche {
+    display: inline-block;
+    transition: transform .18s ease;
+  }
+
+  a:hover .lien-fleche { transform: translateX(5px); }
 }
 
 .profil-text {
@@ -95,6 +114,80 @@
 @media (max-width: 960px) {
   .profil-grid { grid-template-columns: 1fr; }
   .frame { max-width: 320px; }
+}
+
+// ===================== LANDING VIDEO =====================
+// La video est EPINGLEE le temps que la pile defile : le bloc (00), opaque,
+// glisse par-dessus elle. Le collage s'arrete a la fin de `.landing-stack`,
+// donc la video ne suit pas le reste de la page.
+.landing-stack { position: relative; }
+
+.video-landing {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  height: 100svh;
+  // Marge negative : la video occupe l'ecran ENTIER, liseré et navbar compris.
+  margin: calc(-1 * (#{$nav-h} + #{$page-pad})) calc(-1 * #{$page-pad}) 0;
+  overflow: hidden;
+  background: $encre;      // le temps que la premiere image arrive
+}
+
+.video-landing-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  // Aucune prise : ni clic, ni menu contextuel, ni selection.
+  pointer-events: none;
+  user-select: none;
+}
+
+// Pose sur la ligne des DEUX TIERS : `top: 66.667%` place cette ligne, et
+// `translateY(-50%)` centre le texte dessus (la ligne passe au milieu des
+// lettres, pas sous elles).
+.video-kicker {
+  position: absolute;
+  // Ligne des deux tiers, puis 75 px plus bas. Le decalage est inclus dans le
+  // `translate` : un `margin-top` deplacerait aussi le point d'ancrage du
+  // centrage, et le texte ne serait plus centre sur sa propre hauteur.
+  top: 66.667%;
+  left: 50%;
+  transform: translate(-50%, calc(-50% + 75px));
+  margin: 0;
+  font-size: 13px;          // 11px de base -> un cran au-dessus
+  color: #FFFFFF;          // blanc franc : la seule exception, sur la video
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+  // Ombre portee INTERDITE par la DA sur les surfaces ; ici il ne s'agit pas
+  // d'un effet de profondeur mais de lisibilite sur une image en mouvement.
+  text-shadow: 0 1px 12px rgba(0, 0, 0, .45);
+}
+
+.video-cue {
+  position: absolute;
+  bottom: clamp(56px, 8vh, 104px);   // remontee
+  left: 50%;
+  transform: translateX(-50%);
+  color: #FFFFFF;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .video-cue { animation: cue-pulse 2.4s ease-in-out infinite; }
+}
+
+@keyframes cue-pulse {
+  0%, 100% { transform: translateX(-50%) translateY(0);   opacity: .85; }
+  50%      { transform: translateX(-50%) translateY(6px); opacity: 1; }
+}
+
+// Le bloc (00) doit etre OPAQUE et au-dessus, sinon la video transparait.
+.hero {
+  position: relative;
+  z-index: 1;
+  background: $papier;
 }
 
 // ===================== (02) INDEX TRAVAUX =====================
@@ -354,7 +447,6 @@
   color: $encre;
   border: 1px solid $encre;
   padding: 10px 16px;
-  cursor: pointer;
 
   &:hover { background: $encre; color: $papier; }
 }

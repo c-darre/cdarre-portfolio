@@ -1,5 +1,42 @@
 // Fondations transverses minimales.
 
+// ---- Curseur vermillon --------------------------------------------------
+// Curseurs SVG en data-URI : aucun fichier a servir, aucune latence (le
+// navigateur les dessine nativement, contrairement a un point suiveur en JS
+// qui traine derriere la souris). Le `#` de la couleur est encode %23, sinon
+// il serait lu comme un fragment d'URL et le SVG casserait.
+// La valeur apres la virgule est le repli si le SVG n'est pas honore.
+// Portee : cette feuille n'est chargee que par le layout public — le
+// back-office (admin.scss) garde ses curseurs systeme.
+
+$curseur-point: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScyNCcgaGVpZ2h0PScyNCc+PGNpcmNsZSBjeD0nMTInIGN5PScxMicgcj0nNScgZmlsbD0nI0U4NDgxRCcvPjwvc3ZnPg==") 12 12;
+$curseur-anneau: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScyOCcgaGVpZ2h0PScyOCc+PGNpcmNsZSBjeD0nMTQnIGN5PScxNCcgcj0nNScgZmlsbD0nI0U4NDgxRCcvPjxjaXJjbGUgY3g9JzE0JyBjeT0nMTQnIHI9JzEwJyBmaWxsPSdub25lJyBzdHJva2U9JyNFODQ4MUQnIHN0cm9rZS13aWR0aD0nMS41Jy8+PC9zdmc+") 14 14;
+
+// Le pointeur ne s'applique qu'aux dispositifs qui en ont vraiment un :
+// `any-pointer: fine` exclut le tactile pur, ou `cursor` n'a aucun sens.
+@media (any-pointer: fine) {
+  html, body { cursor: $curseur-point, auto; }
+
+  // Cliquables : le point s'entoure d'un anneau. Sans cela on perdrait
+  // l'affordance que donnait le `pointer` systeme.
+  a, button, summary, label, [role="button"], .btn,
+  input[type="submit"], input[type="button"], input[type="checkbox"],
+  input[type="radio"], select {
+    cursor: $curseur-anneau, pointer;
+  }
+
+  // Saisie : on rend la main au curseur systeme. Un point vermillon sur un
+  // champ empecherait de viser entre deux lettres.
+  input[type="text"], input[type="email"], input[type="tel"],
+  input[type="search"], input[type="url"], input[type="password"],
+  input[type="number"], textarea {
+    cursor: text;
+  }
+
+  // Etats desactives : le curseur doit continuer a les signaler.
+  [disabled], [aria-disabled="true"] { cursor: not-allowed; }
+}
+
 .letter-spaced { letter-spacing: .08em; }
 
 // Défilement doux pour les ancres (flèches de section, double lecture).

@@ -37,6 +37,16 @@ module ApplicationHelper
     "portrait-about.jpg" if Rails.root.join("app/assets/images/portrait-about.jpg").exist?
   end
 
+
+  # Video de landing : servie depuis public/ (pas d'empreinte, pas de passage
+  # par le pipeline — inutile pour un media qui ne change jamais, et evite de
+  # faire grossir le build). Le nom de fichier n'est ecrit qu'ICI.
+  INTRO_VIDEO = "cyprien-darre-logo-loop.mp4".freeze
+
+  def intro_video_path
+    "/media/#{INTRO_VIDEO}" if Rails.public_path.join("media", INTRO_VIDEO).exist?
+  end
+
   def nav_link(label, path)
     active = current_page?(path)
     link_to label, path,

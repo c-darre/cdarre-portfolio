@@ -130,6 +130,110 @@ em {
   :focus-visible { outline-color: $papier; }
 }
 
+// ---- Surlignement vermillon au survol -----------------------------------
+// Le fond n'apparait qu'au survol du BLOC (`.surligne-hote`), jamais mot par
+// mot : la phrase reagit d'un seul tenant.
+.surligne {
+  border-radius: 0;                       // interdit : pas de coin arrondi
+  // Le fond deborde legerement pour respirer autour des lettres, sans
+  // decaler le texte (box-decoration-clone garde le rendu propre en cas de
+  // retour a la ligne).
+  padding: 0 .06em;
+  margin: 0 -.06em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+
+  // Le balayage. `background-color` n'est pas animable de gauche a droite :
+  // on peint donc un aplat en IMAGE de fond et on anime sa LARGEUR, ancree
+  // a gauche. C'est ce qui donne le remplissage directionnel.
+  background-image: linear-gradient($vermillon, $vermillon);
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 0% 100%;
+  transition: background-size .28s cubic-bezier(.22, .61, .36, 1),
+              text-decoration-color .18s ease;
+}
+
+@media (any-pointer: fine) {
+  // Chaque mot repond pour lui-meme : le survol porte sur `.surligne`, plus
+  // sur le bloc entier.
+  .surligne:hover {
+    background-size: 100% 100%;
+    // Le filet de `.inflexion` disparait : le fond joue deja ce role.
+    text-decoration-color: transparent;
+  }
+}
+
+// Le texte reste en ENCRE sur le vermillon (4,49:1 — AA grand texte, et
+// meilleur que le papier a 3,34:1). Le garder fixe evite aussi que la
+// couleur bascule avant que le balayage ait atteint la fin du mot.
+
+@media (prefers-reduced-motion: reduce) {
+  .surligne { transition-duration: .01ms; }
+}
+
+// ---- Portrait floute a revelation locale --------------------------------
+.reveal {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+
+  img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  // Une seule image. Seul le FLOU la concerne : la derive, elle, porte sur
+  // le cadre (voir `.derive` plus bas). L'agrandissement compense les bords
+  // transparents que le flou cree en peripherie.
+  .reveal-img {
+    filter: blur(var(--flou, 18px));
+    transform: scale(1.06);
+    will-change: filter;
+  }
+}
+
+// Le CADRE derive, l'image ne bouge pas a l'interieur : c'est le bloc entier
+// qui repond au curseur. Les variables sont posees ici par le controleur et
+// descendent jusqu'a l'image (les custom properties sont heritees).
+//
+// MIXIN et non `@extend` : `@extend` ne traverse PAS les media queries, donc
+// les neutralisations ci-dessous n'auraient jamais atteint .frame ni
+// .ai-figure — la derive serait restee active en tactile.
+@mixin derive {
+  transform: translate3d(var(--dx, 0), var(--dy, 0), 0);
+  will-change: transform;
+
+  // Sans pointeur fin (tactile), ou en mouvement reduit : bloc immobile.
+  @media (any-pointer: coarse)              { transform: none; }
+  @media (prefers-reduced-motion: reduce)   { transform: none; }
+}
+
+// Sans pointeur fin, la photo reste nette.
+@media (any-pointer: coarse) {
+  .reveal .reveal-img { filter: none; transform: scale(1.02); }
+}
+
+// Sans pointeur fin (tactile), le portrait reste floute : pas de survol.
+@media (any-pointer: coarse) {
+  .reveal .reveal-net { display: none; }
+}
+
+// ---- Lien discret --------------------------------------------------------
+.lien-discret {
+  color: $median;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .32em;
+  text-decoration-color: $filet;
+  transition: color .18s ease, text-decoration-color .18s ease;
+
+  &:hover { color: $encre; text-decoration-color: $vermillon; }
+}
+
 // Ancres : atterrir sous liseré + navbar.
 [id] { scroll-margin-top: calc(#{$page-pad} + #{$nav-h} + 8px); }
 
@@ -141,6 +245,13 @@ em {
 .corner-br { bottom: 20px; right: clamp(20px, 3vw, 40px); text-align: right; }
 
 // --- Flèche de section.
+// Fleche agrandie (bloc 00) : meme gabarit que celle de la video, en encre.
+.scroll-cue-grand {
+  color: $encre;
+  font-size: 0;              // le SVG remplace le caractere
+  &:hover { color: $vermillon; }
+}
+
 .scroll-cue {
   position: absolute;
   bottom: 24px;
@@ -199,7 +310,14 @@ em {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    // Centrage PUIS derive : l'ordre compte, et les deux doivent tenir dans
+    // la meme declaration (un second `transform` remplacerait le premier).
+    transform: translate(-50%, -50%) translate3d(var(--dx, 0), var(--dy, 0), 0);
+    will-change: transform;
+
+    // Tactile ou mouvement reduit : centrage seul, bloc immobile.
+    @media (any-pointer: coarse)            { transform: translate(-50%, -50%); }
+    @media (prefers-reduced-motion: reduce) { transform: translate(-50%, -50%); }
     width: min(60vw, 660px);   // nettement agrandi
     aspect-ratio: 1 / 1;       // images carrees (1658x1648)
     max-height: 84%;

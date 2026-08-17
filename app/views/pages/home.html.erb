@@ -1,11 +1,37 @@
-<%# ================= (00) WORDING ================= %>
-<section class="screen hero" aria-label="Introduction">
-  <p class="kicker mono">Communication · Design · Code</p>
-  <h1>Des idées au <em>produit</em> : concevoir, écrire, coder.</h1>
+<%# ================= LANDING VIDEO ================= %>
+<%# La pile rend le collage possible : la video reste epinglee tant que la
+    pile defile, et le bloc (00) monte PAR-DESSUS elle. %>
+<div class="landing-stack">
+  <% if (video = intro_video_path) %>
+    <section class="video-landing" aria-label="Introduction animée">
+      <%# Zero interaction : ni controles, ni menu contextuel, ni image dans
+          l'image, ni capture du pointeur. La video est purement decorative. %>
+      <video class="video-landing-media" autoplay muted loop playsinline
+             disablepictureinpicture disableremoteplayback preload="auto"
+             tabindex="-1" aria-hidden="true"
+             oncontextmenu="return false">
+        <source src="<%= video %>" type="video/mp4">
+      </video>
+      <p class="video-kicker mono">Communication · Design · Code</p>
 
-  <span class="vertical mono" aria-hidden="true"><%= profile[:tagline] %></span>
-  <a class="scroll-cue mono" href="#profil" aria-label="Défiler vers le profil">↓</a>
-</section>
+      <span class="video-cue" aria-hidden="true">
+        <svg viewBox="0 0 24 40" width="27" height="45" fill="none"
+             stroke="currentColor" stroke-width="1.5">
+          <path d="M12 2 V36 M4 28 l8 8 8-8"/>
+        </svg>
+      </span>
+    </section>
+  <% end %>
+
+  <%# ================= (00) WORDING ================= %>
+  <section class="screen hero" aria-label="Introduction">
+    <h1>Des <span class="surligne">idées</span> au
+      <em class="surligne">produit</em> :
+      <span class="surligne">concevoir,</span>
+      <span class="surligne">écrire,</span>
+      <span class="surligne">coder.</span></h1>
+  </section>
+</div>
 
 <%# ================= (01) PROFIL ================= %>
 <section id="profil" class="screen" aria-label="Profil">
@@ -13,16 +39,26 @@
   <span class="corner corner-tr mono">2014 → 2026</span>
 
   <div class="profil-grid">
-    <figure class="frame">
-      <span class="fig-tl mono" aria-hidden="true">Fig. 01</span>
-      <span class="ph mono">Portrait · à venir</span>
-      <span class="fig-br mono" aria-hidden="true">3:4</span>
+    <div class="profil-media">
+    <figure class="frame" data-controller="reveal" data-flou="46">
+      <% if (portrait = about_portrait_path) %>
+        <div class="reveal">
+          <%= image_tag portrait, class: "reveal-img", alt: "Portrait de Cyprien Darré" %>
+        </div>
+      <% end %>
     </figure>
 
+      <p class="profil-lien">
+        <%= link_to about_path, class: "lien-discret mono" do %>
+          En savoir plus <span class="lien-fleche" aria-hidden="true">→</span>
+        <% end %>
+      </p>
+    </div>
+
     <div class="profil-text">
-      <p class="lead">Transformer des <span class="inflexion nue">idées</span> en
-        <span class="inflexion nue">messages</span> <span class="inflexion">clairs</span>, <span class="inflexion">engageants</span>
-        et porteurs de <span class="inflexion">sens</span>.</p>
+      <p class="lead">Transformer des <span class="inflexion nue surligne">idées</span> en
+        <span class="inflexion nue surligne">messages clairs,</span> <span class="inflexion surligne">engageants</span>
+        et porteurs de <span class="inflexion surligne">sens.</span></p>
 
       <p>Une expertise <em>hybride</em>, de la stratégie à la production.
         Dix ans à concevoir des dispositifs de communication et des interfaces

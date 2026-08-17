@@ -8,7 +8,7 @@
 <section class="works-choice" aria-label="Choisir un univers de travaux" data-controller="works">
   <span class="corner corner-tl mono">Travaux</span>
 
-  <div class="wk-media" aria-hidden="true">
+  <div class="wk-media" aria-hidden="true" data-controller="reveal">
     <figure class="wk-figure">
       <span class="wk-layer wk-layer-base"  data-works-layer="base"><%= works_image("base")    ? image_tag(works_image("base"),    class: "wk-shot") : content_tag(:span, "", class: "wk-grey wk-grey-base") %></span>
       <span class="wk-layer wk-layer-cases" data-works-layer="cases"><%= works_image("cases")  ? image_tag(works_image("cases"),  class: "wk-shot") : content_tag(:span, "", class: "wk-grey wk-grey-cases") %></span>

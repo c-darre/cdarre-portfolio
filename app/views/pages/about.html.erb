@@ -10,20 +10,18 @@
 
   <div class="ai-grid">
     <div class="ai-media">
-      <figure class="ai-figure">
+      <figure class="ai-figure" data-controller="reveal">
         <% if (portrait = about_portrait_path) %>
-          <%= image_tag portrait, alt: "Portrait de Cyprien Darré" %>
-          <span class="ah-veil" aria-hidden="true"></span>
-        <% else %>
-          <span class="ph mono">Portrait · à venir</span>
-          <span class="fig-tl mono" aria-hidden="true">Fig. 01</span>
+          <div class="reveal">
+            <%= image_tag portrait, class: "reveal-img", alt: "Portrait de Cyprien Darré" %>
+          </div>
         <% end %>
       </figure>
     </div>
 
     <h1 class="ai-title">
-      <span class="ai-line">Profil hybride entre design, métier et ingénierie&nbsp;:</span>
-      <span class="ai-line"><em>concevoir</em> les parcours, <em>rédiger</em> l'UX, <em>coder</em> le produit.</span>
+      <span class="ai-line"><span class="surligne">Profil hybride</span> entre design, métier et ingénierie&nbsp;:</span>
+      <span class="ai-line"><em class="surligne">concevoir</em> les parcours, <em class="surligne">rédiger</em> l'UX, <em class="surligne">coder</em> le produit.</span>
     </h1>
 
     <div class="ai-text">

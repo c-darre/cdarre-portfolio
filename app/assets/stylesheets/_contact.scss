@@ -10,7 +10,6 @@
   color: $encre;
   border: 1px solid $encre;
   padding: 16px 28px;
-  cursor: pointer;
   transition: background .18s ease, color .18s ease;
 
   .arr { display: inline-block; margin-left: 8px; transition: transform .18s ease; }
@@ -48,7 +47,7 @@
   margin-bottom: 24px;
 }
 .cd-close {
-  background: none; border: 0; cursor: pointer;
+  background: none; border: 0;
   color: $encre;
   &:hover { color: $vermillon; }
 }
@@ -87,7 +86,6 @@
   color: $papier;
   border: 1px solid $encre;
   padding: 14px 24px;
-  cursor: pointer;
 
   &:hover { background: transparent; color: $encre; }
 }
