@@ -8,6 +8,61 @@
   // gouverne son contenu.
   align-items: center;
 
+  // Le titre doit passer AU-DESSUS du decor : sans contexte d'empilement
+  // explicite, un enfant en position absolue recouvrirait le texte.
+  h1 {
+    position: relative;
+    z-index: 1;
+  }
+
+  // Decor : centre sur les DEUX axes de la section, comme le texte — il passe
+  // donc derriere lui. Sa hauteur reste un tiers de la section ; `width: auto`
+  // laisse l'image garder son format (elle est carree) au lieu d'etre etiree.
+  .hero-deco {
+    position: absolute;
+    top: 50%;
+    // 16.667% = le MILIEU du premier tiers (0 → 33.333%). Combine au
+    // `translateX(-50%)`, le visuel se centre dans cette colonne.
+    left: 16.667%;
+    width: 33.333%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    // Garde-fou : sur une fenetre etroite et haute, un carre large d'un tiers
+    // pourrait depasser la section. On borne la hauteur, la largeur suit.
+    max-height: 62%;
+    // Centrage PUIS derive, dans une seule declaration : un second
+    // `transform` remplacerait le premier.
+    transform: translate(calc(-50% + 220px), -50%)
+               translate3d(var(--dx, 0), var(--dy, 0), 0);
+    will-change: transform;
+    pointer-events: none;      // decor : ne capte aucun clic
+    z-index: 0;
+
+    @media (any-pointer: coarse)            { transform: translate(calc(-50% + 220px), -50%); }
+    @media (prefers-reduced-motion: reduce) { transform: translate(calc(-50% + 220px), -50%); }
+  }
+
+  // Les deux calques se superposent exactement : seule l'opacite les separe.
+  .hero-deco-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    transition: opacity .28s ease;
+  }
+
+  .hero-deco-alt { opacity: 0; }
+
+  // `:has()` remonte du mot survole jusqu'au decor — impossible autrement en
+  // CSS, et inutile de sortir le JavaScript pour ca. Sur un navigateur qui ne
+  // le connait pas, la regle est ignoree : le decor reste simplement fixe.
+  &:has(h1 .surligne:hover) {
+    .hero-deco-base { opacity: 0; }
+    .hero-deco-alt  { opacity: 1; }
+  }
+
   h1 {
     text-align: left;
     margin: 0;
@@ -21,6 +76,9 @@
     // 24ch d'Inter ≈ 21ch de Bricolage au corps compensé : l'unité `ch` suit
     // la chasse du zéro, qui change avec la fonte. La coupe est préservée.
     max-width: 21ch;
+    // La boite colle au texte REEL : sans cela elle ferait toujours 21ch,
+    // et c'est cette boite — non le bloc visible — qui serait centree.
+    width: fit-content;
 
     // Toute la ligne est dans la même voix : plus de contraste local.
     em { font-weight: inherit; font-size: 1em; }
@@ -389,6 +447,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 28px;
   min-height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
   padding: clamp(64px, 10vh, 110px) 0 clamp(64px, 10vh, 110px) clamp(20px, 3vw, 40px);
 }
@@ -399,7 +458,21 @@
     top: calc(#{$page-pad} + #{$nav-h});
     min-height: 0;
     height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
+    // Deux zones cote a cote : l'accroche fixe, puis la piste qui defile.
+    flex-direction: row;
+    align-items: stretch;
+    gap: clamp(24px, 3vw, 48px);
   }
+
+  .g-catch {
+    flex: 0 0 clamp(240px, 24vw, 380px);
+    justify-content: space-between;
+    padding: clamp(20px, 4vh, 48px) 0;
+  }
+
+  // La piste occupe le reste et ne mesure QUE cette largeur : la distance
+  // horizontale calculee par `hscroll` reste donc juste.
+  .screen-galerie .g-track { flex: 1 1 auto; min-width: 0; }
   // Piste verrouillée au geste direct : seule la traduction verticale la pilote.
   .screen-galerie .g-track { overflow-x: hidden; }
 }
@@ -415,12 +488,41 @@
   scrollbar-width: none;             // filets et débord suffisent comme repères
   &::-webkit-scrollbar { display: none; }
 
-  // La dernière card peut sortir entièrement du cadre : marge fantôme.
-  &::after { content: ""; width: clamp(20px, 3vw, 40px); }
+  // Pas de pseudo-element de marge ici : dans une grille en colonnes il
+  // deviendrait une COLONNE a part entiere, dimensionnee par
+  // `grid-auto-columns` — soit un vide large comme une carte. Le respir de
+  // fin de piste passe donc par le padding, qui compte bien dans la largeur
+  // defilable sans creer de piste supplementaire.
+  padding-right: clamp(20px, 3vw, 40px);
 }
 
 .g-col { min-height: min(62vh, 560px); }
 
+// Carte finale : pas une image, une invitation. Meme gabarit que les autres
+// pour ne pas rompre la grille de la piste.
+.g-more {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 24px 0;
+  text-decoration: none;
+  color: $encre;
+
+  // La fleche suit le corps du texte : `em` et non `rem`, sinon elle ne
+  // grandirait pas avec lui. `inline-block` est requis pour la translater
+  // (une boite en ligne ignore `transform`).
+  .g-more-fleche {
+    display: inline-block;
+    font-size: 1em;
+    transition: transform .18s ease, color .18s ease;
+  }
+
+  &:hover .g-more-fleche { color: $vermillon; transform: translateX(6px); }
+}
+
+// Hors de la piste : en colonne a gauche sur grand ecran, empilee au-dessus
+// sur petit. `flex: 0 0 auto` fige sa largeur — sans quoi elle se comprimerait
+// a mesure que la piste demande de la place.
 .g-catch {
   display: flex;
   flex-direction: column;

@@ -25,6 +25,19 @@
 
   <%# ================= (00) WORDING ================= %>
   <section class="screen hero" aria-label="Introduction">
+    <%# Decor : le meme visuel que le survol « Study cases » de /travaux.
+        `data-controller="reveal"` lui donne la derive au curseur ; aucune
+        regle ne lisant `--flou` ici, il reste net. %>
+    <% if (deco = works_image("cases")) %>
+      <div class="hero-deco" aria-hidden="true" data-controller="reveal">
+        <%= image_tag deco, class: "hero-deco-img hero-deco-base", alt: "" %>
+        <%# Second calque : apparait au survol d'un mot surligne. %>
+        <% if (deco_alt = works_image("gallery")) %>
+          <%= image_tag deco_alt, class: "hero-deco-img hero-deco-alt", alt: "" %>
+        <% end %>
+      </div>
+    <% end %>
+
     <h1>Des <span class="surligne">idées</span> au
       <em class="surligne">produit</em> :
       <span class="surligne">concevoir,</span>
@@ -40,7 +53,7 @@
 
   <div class="profil-grid">
     <div class="profil-media">
-    <figure class="frame" data-controller="reveal" data-flou="46">
+    <figure class="frame" data-controller="reveal" data-flou="46" data-derive="9">
       <% if (portrait = about_portrait_path) %>
         <div class="reveal">
           <%= image_tag portrait, class: "reveal-img", alt: "Portrait de Cyprien Darré" %>
@@ -112,21 +125,23 @@
     <span class="corner corner-tl mono">(03) · Galerie</span>
     <span class="corner corner-tr mono">Identités · Concepts · Motion</span>
 
+    <%# L'accroche est SORTIE de la piste : elle ne defile plus avec elle. %>
+    <div class="g-catch">
+      <p class="g-catchline">De la <span class="inflexion">surface</span> au
+        <span class="inflexion">fond</span>, en passant par la
+        <span class="inflexion">forme</span>.</p>
+      <div class="g-nav">
+        <button type="button" class="g-btn mono" data-action="hscroll#prev" aria-label="Créations précédentes">←</button>
+        <button type="button" class="g-btn mono" data-action="hscroll#next" aria-label="Créations suivantes">→</button>
+      </div>
+    </div>
+
     <div class="g-track" data-hscroll-target="track" tabindex="0"
          role="region" aria-label="Créations visuelles, défilement horizontal">
 
-      <div class="g-col g-catch">
-        <p class="g-catchline">De la <span class="inflexion">surface</span> au
-          <span class="inflexion">fond</span>, en passant par la
-          <span class="inflexion">forme</span>.</p>
-        <div class="g-nav">
-          <button type="button" class="g-btn mono" data-action="hscroll#prev" aria-label="Créations précédentes">←</button>
-          <button type="button" class="g-btn mono" data-action="hscroll#next" aria-label="Créations suivantes">→</button>
-        </div>
-      </div>
-
       <% @visual_works.each do |work| %>
-        <%= link_to visual_work_path(work), class: "g-col g-card", data: { hscroll_card: true } do %>
+        <%# Toutes les cartes menent a la galerie complete, pas au detail. %>
+        <%= link_to visual_works_path, class: "g-col g-card", data: { hscroll_card: true } do %>
           <% if work.images.attached? %>
             <%= image_tag work.images.first, class: "g-bg", loading: "lazy",
                   alt: attachment_alt(work.images.first, fallback: work.title) %>
@@ -139,6 +154,12 @@
             <% end %>
           </div>
         <% end %>
+      <% end %>
+
+      <%# Carte finale : l'invitation a voir toute la galerie. %>
+      <%= link_to visual_works_path, class: "g-col g-more lien-discret mono",
+            data: { hscroll_card: true } do %>
+        Voir plus <span class="g-more-fleche" aria-hidden="true">→</span>
       <% end %>
     </div>
   </div>

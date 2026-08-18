@@ -10,13 +10,17 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static FLOU_MAX = 18      // px, quand le curseur est au loin
   static PORTEE = 0.62      // fraction de la diagonale ou le flou sature
-  static DERIVE = 7         // px, amplitude de la parallaxe inverse
+  static DERIVE = 26        // px, amplitude de la parallaxe inverse
   static SUIVI = 0.09       // inertie : plus bas = plus de traine
 
   connect() {
-    // `data-flou` surcharge FLOU_MAX pour cet element seulement.
-    const surcharge = parseFloat(this.element.dataset.flou)
-    this.flouMax = Number.isFinite(surcharge) ? surcharge : this.constructor.FLOU_MAX
+    // `data-flou` et `data-derive` surchargent les valeurs par defaut pour
+    // cet element seulement — chaque image peut avoir son propre reglage.
+    const flou = parseFloat(this.element.dataset.flou)
+    this.flouMax = Number.isFinite(flou) ? flou : this.constructor.FLOU_MAX
+
+    const derive = parseFloat(this.element.dataset.derive)
+    this.derive = Number.isFinite(derive) ? derive : this.constructor.DERIVE
 
     this.cible = { flou: 1, dx: 0, dy: 0 }
     this.actuel = { flou: 1, dx: 0, dy: 0 }
@@ -77,8 +81,8 @@ export default class extends Controller {
     const C = this.constructor
     const { flou, dx, dy } = this.actuel
     this.element.style.setProperty("--flou", `${(flou * this.flouMax).toFixed(2)}px`)
-    this.element.style.setProperty("--dx", `${(dx * C.DERIVE).toFixed(2)}px`)
-    this.element.style.setProperty("--dy", `${(dy * C.DERIVE).toFixed(2)}px`)
+    this.element.style.setProperty("--dx", `${(dx * this.derive).toFixed(2)}px`)
+    this.element.style.setProperty("--dy", `${(dy * this.derive).toFixed(2)}px`)
   }
 }
 

@@ -41,6 +41,9 @@
 
 .csi-filters { align-self: end; }
 
+// Le lien vers la galerie respire : il collait au dernier filet de la liste.
+.csi-cross { margin-top: clamp(56px, 9vh, 120px); }
+
 .csi-filters {
   display: flex;
   flex-wrap: wrap;
@@ -212,48 +215,13 @@
   // ---- Décor : deux calques ANCRÉS sur le même axe ----
   // Le conteneur couvre la rangée ; ce sont les calques qui se positionnent.
   // Hauteur commune, largeur libre : chaque visuel garde son format d'origine.
-  .csi-media {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    // Débordement VOULU : le visuel dépasse la rangée en haut et en bas, et
-    // les filets le traversent. Rien ne sort latéralement — « scatter » place
-    // les intervalles à l'intérieur de la largeur de rangée.
-    overflow: visible;
-  }
-
-  .csi-layer {
-    position: absolute;
-    top: 50%;
-    height: var(--csi-media-h);         // indépendante de la hauteur de rangée
-    width: auto;
-    opacity: 0;
-    transition: opacity .3s ease;
-
-    .csi-shot { height: 100%; width: auto; display: block; }
-    .csi-grey { display: block; height: 100%; width: auto; }
-    .csi-grey-base  { background: $grege; }
-    .csi-grey-hover { background: #C9C3B8; }
-  }
-
   // Au repos le visuel 1 ; au survol le visuel 2. Aucun zoom : seule
   // l'image change.
-  .csi-layer-base  { opacity: .72; }
-  &:hover .csi-layer-base  { opacity: 0; }
-  &:hover .csi-layer-hover { opacity: .72; }
 }
 
 // Les trois ancrages. Les DEUX calques d'une rangée partagent la même règle,
 // donc le même bord (ou le même axe) : la bascule ne saute jamais, même
 // entre un portrait et un paysage.
-.csi-anchor-left  .csi-layer { left:  var(--x); transform: translateY(-50%); }
-.csi-anchor-right .csi-layer { right: var(--x); transform: translateY(-50%); }
-.csi-anchor-center .csi-layer {
-  left: var(--x);
-  transform: translate(-50%, -50%);
-}
-
 // Effacement au survol : la liste passe en voile, la rangée visée revient
 // en encre — grammaire de /travaux.
 .csi-list:hover .csi-row { color: $voile; }
@@ -283,5 +251,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .csi-row, .csi-layer { transition: none; }
+  .csi-row { transition: none; }
 }

@@ -27,40 +27,14 @@
     </nav>
   </div>
 
-  <%# ---- Rangées : mise en forme /travaux (titre · slash · méta),
-       visuels d'arrière-plan tirés au sort à chaque rendu ---- %>
+  <%# ---- Rangées : mise en forme /travaux (titre · slash · méta) ---- %>
   <% if @case_studies.any? %>
-    <div class="csi-list" data-controller="scatter">
+    <div class="csi-list">
       <% @case_studies.each_with_index do |case_study, i| %>
         <%= link_to case_study_path(case_study), class: "csi-row",
               data: { filter_target: "item",
                       filter_categories: case_study.category_list.join("|") } do %>
 
-          <%# Décor : les deux visuels partagent le MÊME axe, donc la bascule
-              ne saute pas même si les formats diffèrent. Position posée ici en
-              simple alternance (repli si JavaScript est absent) ; le contrôleur
-              "scatter" la recalcule en mesurant les largeurs réelles. %>
-          <span class="csi-media csi-anchor-<%= i.even? ? "left" : "right" %>"
-                style="--x: 2%;"
-                data-scatter-target="media"
-                aria-hidden="true">
-            <span class="csi-layer csi-layer-base">
-              <% if case_study.hero_image.attached? %>
-                <%= image_tag case_study.hero_image, class: "csi-shot", loading: "lazy", alt: "" %>
-              <% else %>
-                <span class="csi-grey csi-grey-base"
-                      style="aspect-ratio: <%= csi_placeholder_ratio %>;"></span>
-              <% end %>
-            </span>
-            <span class="csi-layer csi-layer-hover">
-              <% if case_study.hover_image.attached? %>
-                <%= image_tag case_study.hover_image, class: "csi-shot", loading: "lazy", alt: "" %>
-              <% else %>
-                <span class="csi-grey csi-grey-hover"
-                      style="aspect-ratio: <%= csi_placeholder_ratio %>;"></span>
-              <% end %>
-            </span>
-          </span>
 
           <%# Trois lignes, mais l'œil lit une seule coulée :
               (01) / Titre · slash · sous-titre / catégories. %>
@@ -87,7 +61,7 @@
     <p>Les études arrivent : rédaction en cours.</p>
   <% end %>
 
-  <%= link_to visual_works_path, class: "cross-row" do %>
+  <%= link_to visual_works_path, class: "cross-row csi-cross" do %>
     <span class="mono">(+) Galerie visuelle · identités · concepts · motion</span>
     <span class="x-arrow" aria-hidden="true">↗</span>
   <% end %>

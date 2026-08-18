@@ -123,6 +123,15 @@
   .timeline:hover .tl-row { color: $voile; }
   .timeline:hover .tl-row:hover { color: $encre; }
 
+  // Ligne secondaire. Pas de couleur propre : elle heriterait mal de la
+  // mecanique d'effacement de la liste (voile / encre). L'opacite, elle,
+  // se compose avec la couleur du parent quelle qu'elle soit.
+  .tl-sub {
+    display: block;
+    margin-top: 5px;
+    opacity: .62;
+  }
+
   .tl-row:hover span:first-child {
     font-family: $font-family-sans-serif;
     font-weight: 900;
