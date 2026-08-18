@@ -151,15 +151,87 @@
       padding: 1rem; font-size: .9rem; overflow-x: auto;
       font-family: $font-family-monospace;
     }
-    img { max-width: 100%; height: auto; border: 1px solid $filet; margin: 1.2rem 0; }
+    // Image collee DANS l'editeur : bornee en hauteur, sinon une capture de
+    // telephone occupe tout l'ecran. Pour des captures, prefere le champ
+    // « Images de la section » : il offre la grille et l'agrandissement.
+    img {
+      max-width: 100%;
+      max-height: clamp(240px, 40vh, 440px);
+      width: auto;
+      height: auto;
+      border: 1px solid $filet;
+      margin: 1.2rem auto;
+      display: block;
+    }
   }
 }
 
 .cs-section figure { margin: clamp(20px, 3vw, 32px) 0 0; }
+// ---- Visuels de section : grille -------------------------------------
+// `auto-fit` + `minmax` : deux ou trois captures verticales par rangee sur
+// grand ecran, une seule sur mobile — sans media query.
+.cs-shots {
+  display: grid;
+  // Colonnes calees sur la largeur qu'occupe une capture verticale a la
+  // hauteur de reference — deux ou trois par rangee, une seule sur mobile.
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), max-content));
+  justify-content: start;
+  gap: clamp(14px, 2vw, 24px);
+  align-items: start;
+  margin: clamp(24px, 4vh, 40px) 0;
+}
+
+.cs-shot {
+  margin: 0;
+  // Hauteur de reference des captures. Un seul reglage a changer si elles
+  // paraissent trop grandes ou trop petites.
+  --shot-h: clamp(240px, 40vh, 440px);
+
+  // Une capture large (ecran d'ordinateur) prend la rangee entiere : la
+  // comprimer dans une colonne etroite la rendrait illisible.
+  &.is-paysage { grid-column: 1 / -1; }
+
+  // `fit-content` : le cadre epouse l'image au lieu de s'etirer sur la
+  // colonne — sinon le filet encadrerait du vide de part et d'autre.
+  .lightbox-trigger {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    background: none;
+    border: 1px solid $filet;
+    cursor: zoom-in;
+  }
+
+  // Bornage par la HAUTEUR, quel que soit le format et meme si les
+  // metadonnees d'Active Storage ne sont pas encore analysees. La largeur
+  // suit le ratio : aucune capture n'est jamais etiree.
+  img {
+    display: block;
+    height: auto;
+    width: auto;
+    max-width: 100%;
+    max-height: var(--shot-h);
+  }
+}
+
+// Le cadre epouse l'image (`fit-content`) au lieu de s'etirer : sinon le
+// filet encadre du vide, et l'image est tiree sur toute la largeur.
 .cs-section .shot {
-  width: 100%; display: block; padding: 0; background: none;
+  display: block; padding: 0; background: none;
+  width: fit-content; max-width: 100%; margin: 0 auto;
   border: 1px solid $filet; cursor: zoom-in;
-  img { width: 100%; display: block; }
+
+  // Bornage par la HAUTEUR : vrai quel que soit le format, et meme si les
+  // metadonnees d'Active Storage ne sont pas encore analysees. La largeur
+  // suit le ratio, donc aucune capture n'est deformee.
+  img {
+    display: block;
+    width: auto; height: auto;
+    max-width: 100%;
+    max-height: var(--shot-h, clamp(240px, 40vh, 440px));
+  }
 }
 
 // ---------- Bas de page ----------
