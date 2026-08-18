@@ -216,6 +216,21 @@
   }
 }
 
+// Deux crans au-dessus de la taille normale. Il suffit d'augmenter la
+// hauteur de reference : les colonnes de la grille sont en `max-content`,
+// donc elles s'elargissent d'elles-memes pour accueillir l'image.
+.cs-shot.is-grand { --shot-h: clamp(360px, 62vh, 700px); }
+
+// Pleine largeur de la colonne de texte : la capture prend la rangee entiere
+// et n'est plus bornee que par cette largeur.
+.cs-shot.is-plein {
+  grid-column: 1 / -1;
+  --shot-h: none;
+
+  .shot { width: 100%; }
+  .shot img { width: 100%; max-height: none; }
+}
+
 // Le cadre epouse l'image (`fit-content`) au lieu de s'etirer : sinon le
 // filet encadre du vide, et l'image est tiree sur toute la largeur.
 .cs-section .shot {

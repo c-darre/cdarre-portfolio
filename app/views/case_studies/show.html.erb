@@ -75,7 +75,14 @@
                   <% l = image.metadata["width"].to_i %>
                   <% h = image.metadata["height"].to_i %>
                   <% large = l.positive? && h.positive? && l > h %>
-                  <figure class="cs-shot <%= "is-paysage" if large %>">
+                  <%# TAILLE : suffixe du nom de fichier. « -grand » agrandit,
+                      « -plein » occupe toute la largeur du texte. Le suffixe
+                      etant en FIN de nom, il ne perturbe pas le tri (01-, 02-). %>
+                  <% nom = image.filename.to_s.downcase %>
+                  <% taille = if nom.include?("-plein") then "is-plein"
+                              elsif nom.include?("-grand") then "is-grand"
+                              end %>
+                  <figure class="cs-shot <%= "is-paysage" if large %> <%= taille %>">
                     <button type="button" class="shot"
                             data-action="lightbox#open"
                             data-src="<%= url_for(image) %>"
