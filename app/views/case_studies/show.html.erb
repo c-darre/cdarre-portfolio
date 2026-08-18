@@ -66,14 +66,66 @@
 
             <div class="case-prose"><%= section.body %></div>
 
-            <% if section.images.attached? %>
+            <%# Les pages de document (« -doc » dans le nom) sont mises de cote :
+                elles vont dans la visionneuse, pas dans la grille. %>
+            <% pages, visuels = section.images
+                                       .sort_by { |i| i.filename.to_s.downcase }
+                                       .partition { |i| i.filename.to_s.downcase.include?("-doc") } %>
+
+            <% if pages.any? %>
+              <div class="cs-doc" data-controller="docviewer" tabindex="0"
+                   aria-roledescription="document paginé">
+                <div class="cs-doc-scene">
+                  <% pages.each_with_index do |page, i| %>
+                    <%= image_tag page, class: "cs-doc-page", alt: "Page #{i + 1}",
+                          loading: i.zero? ? "eager" : "lazy", hidden: !i.zero?,
+                          data: { docviewer_target: "page" } %>
+                  <% end %>
+                </div>
+
+                <div class="cs-doc-barre">
+                  <button type="button" class="cs-doc-btn mono"
+                          data-action="docviewer#prev"
+                          data-docviewer-target="prev"
+                          aria-label="Page précédente">←</button>
+                  <span class="cs-doc-compteur mono"
+                        data-docviewer-target="compteur" aria-live="polite"></span>
+                  <button type="button" class="cs-doc-btn mono"
+                          data-action="docviewer#next"
+                          data-docviewer-target="next"
+                          aria-label="Page suivante">→</button>
+                </div>
+              </div>
+            <% end %>
+
+            <%# Les PDF sont sortis de la grille : ils prennent toute la
+                largeur de la colonne de texte. %>
+            <% pdfs, visuels = visuels.partition { |i| i.content_type.to_s == "application/pdf" } %>
+
+            <% pdfs.each do |pdf| %>
+              <figure class="cs-pdf">
+                <%# `disposition: :inline` : le PDF s'affiche dans la page au
+                    lieu de declencher un telechargement. %>
+                <iframe src="<%= rails_blob_path(pdf, disposition: :inline) %>#toolbar=0&navpanes=0&scrollbar=0&view=FitH"
+                        title="<%= pdf.filename.to_s %>" loading="lazy"></iframe>
+                <figcaption class="cs-pdf-pied mono">
+                  <%= link_to "Ouvrir en plein écran ↗",
+                        rails_blob_path(pdf, disposition: :inline),
+                        target: "_blank", rel: "noopener", class: "lien-discret" %>
+                </figcaption>
+              </figure>
+            <% end %>
+
+            <% if visuels.any? %>
               <%# ORDRE : par nom de fichier. Active Storage n'a pas de champ de
                   position ; nommer les captures « 01-… », « 02-… » suffit donc
                   a les ranger. %>
               <div class="cs-shots">
-                <% section.images.sort_by { |img| img.filename.to_s.downcase }.each do |image| %>
+                <% visuels.each do |image| %>
                   <% l = image.metadata["width"].to_i %>
                   <% h = image.metadata["height"].to_i %>
+                  <%# Une video n'expose pas ces metadonnees : on la laisse en
+                      colonne normale plutot que de la forcer en pleine largeur. %>
                   <% large = l.positive? && h.positive? && l > h %>
                   <%# TAILLE : suffixe du nom de fichier. « -grand » agrandit,
                       « -plein » occupe toute la largeur du texte. Le suffixe
@@ -83,13 +135,26 @@
                               elsif nom.include?("-grand") then "is-grand"
                               end %>
                   <figure class="cs-shot <%= "is-paysage" if large %> <%= taille %>">
-                    <button type="button" class="shot"
-                            data-action="lightbox#open"
-                            data-src="<%= url_for(image) %>"
-                            data-alt="<%= attachment_alt(image) %>"
-                            aria-label="Agrandir : <%= attachment_alt(image) %>">
-                      <%= image_tag image, loading: "lazy", alt: attachment_alt(image) %>
-                    </button>
+                    <% if image.content_type.to_s.start_with?("video/") %>
+                      <%# Video : meme grammaire que la landing — aucune prise,
+                          aucun controle, boucle infinie. Elle remplace un GIF
+                          pour un poids sans commune mesure. %>
+                      <video class="cs-shot-video" autoplay muted loop playsinline
+                             disablepictureinpicture preload="metadata"
+                             tabindex="-1" aria-hidden="true"
+                             oncontextmenu="return false">
+                        <source src="<%= url_for(image) %>"
+                                type="<%= image.content_type %>">
+                      </video>
+                    <% else %>
+                      <button type="button" class="shot"
+                              data-action="lightbox#open"
+                              data-src="<%= url_for(image) %>"
+                              data-alt="<%= attachment_alt(image) %>"
+                              aria-label="Agrandir : <%= attachment_alt(image) %>">
+                        <%= image_tag image, loading: "lazy", alt: attachment_alt(image) %>
+                      </button>
+                    <% end %>
                   </figure>
                 <% end %>
               </div>

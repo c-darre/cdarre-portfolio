@@ -216,9 +216,141 @@
   }
 }
 
+// ---- Visionneuse de document ----------------------------------------
+// Le PDF n'est jamais servi : seules ses pages, en images, le sont. On ne
+// peut pas empecher un visiteur d'enregistrer une image affichee — mais le
+// document lui-meme, son texte et sa mise en page vectorielle, ne quittent
+// pas le serveur.
+.cs-doc {
+  margin: clamp(24px, 4vh, 40px) 0;
+  border: 1px solid $filet;
+  outline-offset: 3px;
+}
+
+.cs-doc-scene {
+  position: relative;
+  background: $grege;
+
+  // Retire les gestes d'enregistrement les plus directs (clic droit, glisser).
+  // Ce n'est pas une protection : c'est un garde-fou d'usage.
+  img {
+    display: block;
+    width: 100%;        // largeur de la colonne de texte
+    height: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+  }
+}
+
+.cs-doc-barre {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 12px;
+  border-top: 1px solid $filet;
+}
+
+.cs-doc-btn {
+  background: none;
+  border: 1px solid $filet;
+  padding: 6px 14px;
+  color: $encre;
+  transition: border-color .18s ease, color .18s ease;
+
+  &:hover:not(:disabled) { border-color: $vermillon; color: $vermillon; }
+  &:disabled { color: $voile; border-color: $voile; cursor: default; }
+}
+
+.cs-doc-compteur { color: $median; min-width: 5ch; text-align: center; }
+
+// ---- Visionneuse de document ----------------------------------------
+// Le PDF n'est jamais servi : seules ses pages, en images, le sont. On ne
+// peut pas empecher un visiteur d'enregistrer une image affichee — mais le
+// document lui-meme, son texte et sa mise en page vectorielle, ne quittent
+// pas le serveur.
+.cs-doc {
+  margin: clamp(24px, 4vh, 40px) 0;
+  border: 1px solid $filet;
+  outline-offset: 3px;
+}
+
+.cs-doc-scene {
+  position: relative;
+  background: $grege;
+
+  // Retire les gestes d'enregistrement les plus directs (clic droit, glisser).
+  // Ce n'est pas une protection : c'est un garde-fou d'usage.
+  img {
+    display: block;
+    width: 100%;        // largeur de la colonne de texte
+    height: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+  }
+}
+
+.cs-doc-barre {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 12px;
+  border-top: 1px solid $filet;
+}
+
+.cs-doc-btn {
+  background: none;
+  border: 1px solid $filet;
+  padding: 6px 14px;
+  color: $encre;
+  transition: border-color .18s ease, color .18s ease;
+
+  &:hover:not(:disabled) { border-color: $vermillon; color: $vermillon; }
+  &:disabled { color: $voile; border-color: $voile; cursor: default; }
+}
+
+.cs-doc-compteur { color: $median; min-width: 5ch; text-align: center; }
+
 // Deux crans au-dessus de la taille normale. Il suffit d'augmenter la
 // hauteur de reference : les colonnes de la grille sont en `max-content`,
 // donc elles s'elargissent d'elles-memes pour accueillir l'image.
+// Video de section : meme bornage que les images, aucune prise possible.
+.cs-shot-video {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: var(--shot-h, clamp(240px, 40vh, 440px));
+  border: 1px solid $filet;
+  pointer-events: none;
+  user-select: none;
+}
+
+// Document PDF : pleine largeur de la colonne de texte, hauteur bornee a
+// l'ecran. La visionneuse est celle du navigateur — donc hors charte, mais
+// c'est le prix de la lecture native (recherche, zoom, impression).
+.cs-pdf {
+  margin: clamp(24px, 4vh, 40px) 0;
+
+  iframe {
+    display: block;
+    width: 100%;
+    height: min(82vh, 1000px);
+    border: 1px solid $filet;
+    background: $grege;
+  }
+}
+
+.cs-pdf-pied {
+  margin-top: 10px;
+  text-align: right;
+}
+
+.cs-shot.is-plein .cs-shot-video { width: 100%; max-height: none; }
+
 .cs-shot.is-grand { --shot-h: clamp(360px, 62vh, 700px); }
 
 // Pleine largeur de la colonne de texte : la capture prend la rangee entiere
