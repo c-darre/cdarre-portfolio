@@ -24,14 +24,26 @@
         <% next unless work.images.attached? %>
         <% image = work.images.first %>
         <figure class="gl-post">
-          <button type="button" class="gl-post-media"
-                  data-action="lightbox#open"
-                  data-src="<%= url_for(image) %>"
-                  data-alt="<%= attachment_alt(image, fallback: work.display_title) %>"
-                  aria-label="Agrandir : <%= work.display_title %>">
-            <%= image_tag image, loading: "lazy",
-                  alt: attachment_alt(image, fallback: work.display_title) %>
-          </button>
+          <% if image.content_type.to_s.start_with?("video/") %>
+            <%# Video : lecture automatique, muette, en boucle. Pas de bouton
+                d'agrandissement — la visionneuse n'affiche que des images. %>
+            <div class="gl-post-media is-video">
+              <video autoplay muted loop playsinline preload="metadata"
+                     disablepictureinpicture tabindex="-1" aria-hidden="true"
+                     oncontextmenu="return false">
+                <source src="<%= url_for(image) %>" type="<%= image.content_type %>">
+              </video>
+            </div>
+          <% else %>
+            <button type="button" class="gl-post-media"
+                    data-action="lightbox#open"
+                    data-src="<%= url_for(image) %>"
+                    data-alt="<%= attachment_alt(image, fallback: work.display_title) %>"
+                    aria-label="Agrandir : <%= work.display_title %>">
+              <%= image_tag image, loading: "lazy",
+                    alt: attachment_alt(image, fallback: work.display_title) %>
+            </button>
+          <% end %>
 
           <%# Legende facultative : sans elle, le visuel vit seul. %>
           <% if work.caption.present? %>

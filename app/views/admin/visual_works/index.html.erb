@@ -15,7 +15,15 @@
         <span class="text-body-tertiary" data-reorder-handle style="cursor: grab;" aria-hidden="true">⠿</span>
 
         <% if work.images.attached? %>
-          <%= image_tag work.images.first, style: "height: 48px; width: 48px; object-fit: cover;", class: "rounded" %>
+          <% media = work.images.first %>
+          <% if media.content_type.to_s.start_with?("video/") %>
+            <%# `image_tag` sur une video produirait une balise img cassee. %>
+            <video src="<%= url_for(media) %>" muted playsinline
+                   style="height: 48px; width: 48px; object-fit: cover;"
+                   class="rounded"></video>
+          <% else %>
+            <%= image_tag media, style: "height: 48px; width: 48px; object-fit: cover;", class: "rounded" %>
+          <% end %>
         <% end %>
 
         <div class="flex-grow-1">

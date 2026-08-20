@@ -143,8 +143,16 @@
         <%# Toutes les cartes menent a la galerie complete, pas au detail. %>
         <%= link_to visual_works_path, class: "g-col g-card", data: { hscroll_card: true } do %>
           <% if work.images.attached? %>
-            <%= image_tag work.images.first, class: "g-bg", loading: "lazy",
-                  alt: attachment_alt(work.images.first, fallback: work.title) %>
+            <% media = work.images.first %>
+            <% if media.content_type.to_s.start_with?("video/") %>
+              <video class="g-bg" autoplay muted loop playsinline preload="metadata"
+                     disablepictureinpicture tabindex="-1" aria-hidden="true">
+                <source src="<%= url_for(media) %>" type="<%= media.content_type %>">
+              </video>
+            <% else %>
+              <%= image_tag media, class: "g-bg", loading: "lazy",
+                    alt: attachment_alt(media, fallback: work.title) %>
+            <% end %>
           <% end %>
           <div class="g-veil" aria-hidden="true"></div>
           <div class="g-info">

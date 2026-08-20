@@ -43,7 +43,7 @@
   border: 0;
   cursor: zoom-in;
 
-  img {
+  img, video {
     display: block;
     width: 100%;
     height: auto;
@@ -51,6 +51,13 @@
   }
 
   &:hover img { opacity: .82; }
+
+  // Une video n'est pas agrandissable : le curseur ne doit pas le laisser
+  // croire, et elle ne capte aucun clic.
+  &.is-video {
+    cursor: default;
+    video { pointer-events: none; }
+  }
 }
 
 .gl-post-legende {
