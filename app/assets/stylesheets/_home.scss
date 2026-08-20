@@ -478,10 +478,11 @@
 }
 
 .g-track {
-  display: grid;
-  grid-auto-flow: column;
-  // 4 colonnes visibles, la 4e coupée par le bord (indice de scroll).
-  grid-auto-columns: clamp(240px, 27vw, 420px);
+  // FLEX et non grid : `grid-auto-columns` imposait la meme largeur a toutes
+  // les colonnes, donc « Voir plus » occupait autant qu'une carte. En flex,
+  // chaque element porte sa propre largeur.
+  display: flex;
+  align-items: stretch;
   gap: 24px;
   overflow-x: auto;
   overscroll-behavior-x: contain;    // pas de "back" navigateur en butée
@@ -496,7 +497,16 @@
   padding-right: clamp(20px, 3vw, 40px);
 }
 
-.g-col { min-height: min(62vh, 560px); }
+// Largeur des cartes, reprise de l'ancien `grid-auto-columns` : 4 visibles,
+// la 4e coupee par le bord (indice de defilement).
+.g-col {
+  min-height: min(62vh, 560px);
+  flex: 0 0 clamp(240px, 27vw, 420px);
+}
+
+// La carte finale n'est pas une image : elle ne prend que la place de son
+// texte, au lieu d'ouvrir un vide large comme une carte.
+.g-more { flex: 0 0 auto; }
 
 // Carte finale : pas une image, une invitation. Meme gabarit que les autres
 // pour ne pas rompre la grille de la piste.
@@ -566,6 +576,9 @@
     position: absolute; inset: 0;
     width: 100%; height: 100%;
     object-fit: cover;
+    // Sans cela, `cover` rogne depuis le CENTRE : un sujet place en haut de
+    // l'image se retrouve coupe. On ancre donc le cadrage en haut.
+    object-position: top center;
     transition: transform .35s ease;
   }
 
@@ -596,6 +609,6 @@
 }
 
 @media (max-width: 720px) {
-  .g-track { grid-auto-columns: 78vw; }
+  .g-track .g-col { flex-basis: 78vw; }
   .g-col   { min-height: 58vh; }
 }

@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+# Convertit des GIF en MP4 (boucle, sans son) pour le portfolio.
+#
+#   bin/gif2mp4                     -> le dossier courant
+#   bin/gif2mp4 ~/Desktop/visuels   -> un dossier
+#   bin/gif2mp4 a.gif b.gif         -> des fichiers precis
+#
+# Les fichiers deja convertis sont ignores : la commande est rejouable.
+# Sous 1 Mo, le GIF est conserve — le gain ne vaut pas la perte de simplicite.
+set -euo pipefail
+
+SEUIL_KO=1024   # en deca, on garde le GIF
+
+if ! command -v ffmpeg >/dev/null 2>&1; then
+  echo "ffmpeg est requis :  brew install ffmpeg" >&2
+  exit 1
+fi
+
+# Constitue la liste des fichiers a traiter.
+fichiers=()
+if [ $# -eq 0 ]; then
+  while IFS= read -r -d "" f; do fichiers+=("$f"); done \
+    < <(find . -maxdepth 1 -iname "*.gif" -print0)
+else
+  for arg in "$@"; do
+    if [ -d "$arg" ]; then
+      while IFS= read -r -d "" f; do fichiers+=("$f"); done \
+        < <(find "$arg" -maxdepth 1 -iname "*.gif" -print0)
+    elif [ -f "$arg" ]; then
+      fichiers+=("$arg")
+    else
+      echo "  ⊘ introuvable : $arg" >&2
+    fi
+  done
+fi
+
+if [ ${#fichiers[@]} -eq 0 ]; then
+  echo "Aucun GIF trouve."; exit 0
+fi
+
+convertis=0
+for f in "${fichiers[@]}"; do
+  sortie="${f%.*}.mp4"
+
+  if [ -e "$sortie" ]; then
+    echo "  ⊘ $(basename "$sortie") existe deja"
+    continue
+  fi
+
+  ko=$(( $(wc -c < "$f") / 1024 ))
+  if [ "$ko" -lt "$SEUIL_KO" ]; then
+    echo "  · $(basename "$f") — ${ko} Ko, sous le seuil : conserve en GIF"
+    continue
+  fi
+
+  # scale=trunc(iw/2)*2 : H.264 exige des dimensions paires.
+  ffmpeg -loglevel error -i "$f" \
+    -an -movflags +faststart \
+    -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" \
+    -c:v libx264 -profile:v high -pix_fmt yuv420p -crf 26 -preset slow \
+    "$sortie"
+
+  apres=$(( $(wc -c < "$sortie") / 1024 ))
+  echo "  ✓ $(basename "$f")  ${ko} Ko -> ${apres} Ko  (÷$(( ko / (apres > 0 ? apres : 1) )))"
+  convertis=$(( convertis + 1 ))
+done
+
+echo
+echo "${convertis} fichier(s) converti(s)."
