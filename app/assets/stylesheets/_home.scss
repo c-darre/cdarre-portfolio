@@ -248,6 +248,50 @@
   background: $papier;
 }
 
+// ===================== (04) DECOR DU CONTACT =====================
+// Le conteneur porte le centrage et la derive au curseur ; l'image, elle,
+// tourne. Separer les deux est indispensable : une seule declaration
+// `transform` par element, la seconde ecraserait la premiere.
+.contact .ct-deco {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(52vw, 620px);
+  height: auto;
+  aspect-ratio: 1 / 1;
+  max-height: 78%;
+  transform: translate(-50%, -50%) translate3d(var(--dx, 0), var(--dy, 0), 0);
+  will-change: transform;
+  pointer-events: none;      // decor : ne capte aucun clic
+  z-index: 0;
+
+  @media (any-pointer: coarse)            { transform: translate(-50%, -50%); }
+  @media (prefers-reduced-motion: reduce) { transform: translate(-50%, -50%); }
+}
+
+.contact .ct-deco-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  // Sens horaire, un tour par minute : assez lent pour se sentir sans
+  // attirer l'oeil au detriment du texte.
+  animation: ct-rotation 60s linear infinite;
+}
+
+@keyframes ct-rotation {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact .ct-deco-img { animation: none; }
+}
+
+// Le contenu du bloc doit passer AU-DESSUS du decor.
+.contact .ct-grid,
+.contact .contact-body { position: relative; z-index: 1; }
+
 // ===================== (02) INDEX TRAVAUX =====================
 .index-intro {
   margin-bottom: 40px;

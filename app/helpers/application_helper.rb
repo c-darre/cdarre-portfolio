@@ -33,6 +33,12 @@ module ApplicationHelper
 
   # Portrait de la page À propos : dépose la photo sous
   # app/assets/images/portrait-about.jpg et elle apparaît (sinon placeholder).
+  # Cercle blanc du bloc contact : depose sous app/assets/images/.
+  def contact_deco_path
+    nom = "works-base-blanc.png"
+    nom if Rails.root.join("app/assets/images/#{nom}").exist?
+  end
+
   def about_portrait_path
     "portrait-about.jpg" if Rails.root.join("app/assets/images/portrait-about.jpg").exist?
   end

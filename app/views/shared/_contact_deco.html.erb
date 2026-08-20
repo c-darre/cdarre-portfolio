@@ -1,0 +1,8 @@
+  <%# Decor : le cercle, en blanc sur le fond encre. La ROTATION porte sur
+      l'image, la DERIVE sur son conteneur : deux transformations sur le meme
+      element se remplaceraient l'une l'autre. %>
+  <% if (deco = contact_deco_path) %>
+    <div class="ct-deco" aria-hidden="true" data-controller="reveal">
+      <%= image_tag deco, class: "ct-deco-img", alt: "" %>
+    </div>
+  <% end %>
