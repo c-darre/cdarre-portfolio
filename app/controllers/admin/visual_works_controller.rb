@@ -3,7 +3,7 @@ module Admin
     before_action :set_visual_work, only: %i[edit update destroy toggle_published]
 
     def index
-      @visual_works = VisualWork.ordered
+      @visual_works = VisualWork.order(created_at: :desc)
     end
 
     def new
@@ -66,7 +66,7 @@ module Admin
     end
 
     def visual_work_params
-      params.require(:visual_work).permit(:title, :category, :description, :tools, :published)
+      params.require(:visual_work).permit(:title, :caption, :published)
     end
   end
 end

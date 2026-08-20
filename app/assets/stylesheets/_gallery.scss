@@ -11,6 +11,55 @@
   padding: clamp(80px, 12vh, 130px) clamp(20px, 3vw, 40px);
 }
 
+// ---- FEED : trois colonnes en maconnerie -----------------------------
+// `columns` plutot qu'une grille : chaque visuel garde sa hauteur propre et
+// la colonne se remplit d'elle-meme, sans trou ni JavaScript de placement.
+.gl-feed-section {
+  padding: clamp(48px, 8vh, 110px) clamp(20px, 3vw, 40px);
+}
+
+.gl-feed {
+  columns: 3;
+  column-gap: clamp(14px, 1.6vw, 26px);
+
+  @media (max-width: 960px) { columns: 2; }
+  @media (max-width: 600px) { columns: 1; }
+}
+
+.gl-post {
+  // `break-inside` : sans lui, un visuel serait coupe en deux d'une colonne
+  // a l'autre.
+  break-inside: avoid;
+  margin: 0 0 clamp(14px, 1.6vw, 26px);
+  display: inline-block;   // requis pour que `break-inside` soit honore
+  width: 100%;
+}
+
+.gl-post-media {
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: zoom-in;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: opacity .18s ease;
+  }
+
+  &:hover img { opacity: .82; }
+}
+
+.gl-post-legende {
+  margin-top: 8px;
+  color: $median;
+  font-size: .92rem;
+  line-height: 1.45;
+}
+
 .gl-catchline {
   // Meme traitement que l'accroche (03) de la home : meme famille, meme
   // graisse, meme partage gris/encre. Seule l'echelle differe — ici c'est

@@ -32,7 +32,7 @@ Rails.application.routes.draw do
   get "contact",  to: "pages#contact", as: :contact
 
   resources :case_studies, only: %i[index show], param: :slug, path: "projets"
-  resources :visual_works, only: %i[index show],               path: "galerie"
+  resources :visual_works, only: %i[index],                    path: "galerie"
   resources :contact_messages, only: :create, path: "messages"
 
   # --- SEO / infra ---

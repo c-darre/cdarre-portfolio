@@ -20,7 +20,7 @@
 
         <div class="flex-grow-1">
           <div class="fw-semibold"><%= work.title %></div>
-          <div class="small text-body-secondary"><%= category_label(work.category) %></div>
+          <div class="small text-body-secondary"><%= truncate(work.caption.to_s, length: 60) %></div>
         </div>
 
         <% if work.published? %>

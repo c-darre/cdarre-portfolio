@@ -14,48 +14,35 @@
   <a class="scroll-cue mono" href="#creations" aria-label="Voir les créations">↓</a>
 </section>
 
-<%# ---------- GRILLE : se révèle au scroll ---------- %>
-<section id="creations" class="gl-grid-section" aria-label="Créations">
-  <% if @categories.many? %>
-    <nav class="gallery-filters mono" aria-label="Filtrer par catégorie">
-      <%= link_to "Toutes", visual_works_path(anchor: "creations"),
-            class: class_names("gallery-filter", "is-active": @current_category.nil?),
-            aria: { current: (@current_category.nil? ? "page" : nil) } %>
-      <% @categories.each do |cat| %>
-        <%= link_to category_label(cat), visual_works_path(categorie: cat, anchor: "creations"),
-              class: class_names("gallery-filter", "is-active": @current_category == cat),
-              aria: { current: (@current_category == cat ? "page" : nil) } %>
-      <% end %>
-    </nav>
-  <% end %>
-
+<%# ---------- FEED : trois colonnes en maçonnerie ---------- %>
+<section id="creations" class="gl-feed-section" aria-label="Créations">
   <% if @visual_works.any? %>
-    <div class="gallery-grid">
+    <%# `columns` en CSS plutot qu'une grille : les hauteurs sont libres et
+        les visuels s'empilent sans laisser de trous, sans JavaScript. %>
+    <div class="gl-feed" data-controller="lightbox">
       <% @visual_works.each do |work| %>
-        <%= link_to visual_work_path(work), class: "gallery-item gl-reveal" do %>
-          <div class="thumb">
-            <% if work.images.attached? %>
-              <%= image_tag work.images.first, loading: "lazy",
-                    alt: attachment_alt(work.images.first, fallback: work.title) %>
-            <% else %>
-              <span class="ph mono">Visuel</span>
-            <% end %>
-          </div>
-          <div class="cap">
-            <span class="title"><%= work.title %></span>
-            <% if work.category.present? %>
-              <span class="cat mono"><%= category_label(work.category) %></span>
-            <% end %>
-          </div>
-        <% end %>
+        <% next unless work.images.attached? %>
+        <% image = work.images.first %>
+        <figure class="gl-post">
+          <button type="button" class="gl-post-media"
+                  data-action="lightbox#open"
+                  data-src="<%= url_for(image) %>"
+                  data-alt="<%= attachment_alt(image, fallback: work.display_title) %>"
+                  aria-label="Agrandir : <%= work.display_title %>">
+            <%= image_tag image, loading: "lazy",
+                  alt: attachment_alt(image, fallback: work.display_title) %>
+          </button>
+
+          <%# Legende facultative : sans elle, le visuel vit seul. %>
+          <% if work.caption.present? %>
+            <figcaption class="gl-post-legende"><%= work.caption %></figcaption>
+          <% end %>
+        </figure>
       <% end %>
     </div>
   <% else %>
-    <p>Rien dans cette catégorie pour l'instant.</p>
-  <% end %>
-
-  <%= link_to case_studies_path, class: "cross-row" do %>
-    <span class="mono">(←) Study cases · travaux produit</span>
-    <span class="x-arrow" aria-hidden="true">↗</span>
+    <p class="ph mono">Créations à venir.</p>
   <% end %>
 </section>
+
+<%= render "shared/lightbox" %>

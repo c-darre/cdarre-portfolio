@@ -1,30 +1,17 @@
 class VisualWork < ApplicationRecord
   has_many_attached :images
 
-  enum :category, {
-    identite: "identite",
-    concept:  "concept",
-    motion:   "motion",
-    autre:    "autre"
-  }, prefix: true
-
-  validates :title, presence: true
-  validate  :tools_count_within_limit
-
   scope :published, -> { where(published: true) }
-  scope :ordered,   -> { order(:position) }
 
-  # "Figma, Illustrator, After Effects" -> ["Figma", "Illustrator", "After Effects"]
-  def tools_list
-    tools.to_s.split(",").map(&:strip).reject(&:blank?).first(4)
+  # FEED : ordre tire au sort a CHAQUE affichage, pour donner l'illusion d'un
+  # fil vivant. Le tirage est demande a la base (ORDER BY RANDOM()) plutot que
+  # de tout charger pour melanger ensuite.
+  scope :feed, -> { order(Arel.sql("RANDOM()")) }
+
+  # Le titre reste utile au back-office et a l'attribut alt, mais il n'est
+  # plus obligatoire : un visuel peut vivre sans rien.
+  def display_title
+    title.presence || "Création visuelle"
   end
 
-  private
-
-  # Contrainte d'espace des cards (directive : 4 maximum).
-  def tools_count_within_limit
-    return if tools.to_s.split(",").map(&:strip).reject(&:blank?).size <= 4
-
-    errors.add(:tools, "4 outils maximum (séparés par des virgules)")
-  end
 end

@@ -11,10 +11,4 @@
     <lastmod><%= case_study.updated_at.iso8601 %></lastmod>
   </url>
 <% end %>
-<% @visual_works.each do |work| %>
-  <url>
-    <loc><%= visual_work_url(work) %></loc>
-    <lastmod><%= work.updated_at.iso8601 %></lastmod>
-  </url>
-<% end %>
 </urlset>

@@ -8,23 +8,18 @@
   <% end %>
 
   <div class="mb-3">
-    <%= form.label :title, "Titre", class: "form-label" %>
-    <%= form.text_field :title, class: "form-control", required: true %>
+    <%= form.label :title, "Titre (facultatif)", class: "form-label" %>
+    <%= form.text_field :title, class: "form-control" %>
+    <div class="form-text">
+      N'apparaît pas dans le feed : sert à retrouver la pièce ici, et de texte
+      alternatif pour les lecteurs d'écran.
+    </div>
   </div>
 
   <div class="mb-3">
-    <%= form.label :category, "Catégorie", class: "form-label" %>
-    <%= form.select :category, category_options, { include_blank: "—" }, class: "form-select" %>
-  </div>
-
-  <div class="mb-3">
-    <%= form.label :tools, "Outils / compétences (max 4, séparés par des virgules)", class: "form-label" %>
-    <%= form.text_field :tools, class: "form-control", placeholder: "Figma, Illustrator, After Effects" %>
-  </div>
-
-  <div class="mb-3">
-    <%= form.label :description, "Description courte", class: "form-label" %>
-    <%= form.text_area :description, class: "form-control", rows: 3 %>
+    <%= form.label :caption, "Commentaire (facultatif)", class: "form-label" %>
+    <%= form.text_area :caption, class: "form-control", rows: 2 %>
+    <div class="form-text">Court texte affiché sous le visuel. Laisser vide pour une image seule.</div>
   </div>
 
   <div class="mb-3">
@@ -43,7 +38,7 @@
       </div>
     <% end %>
     <%= form.file_field :images, multiple: true, class: "form-control", accept: "image/*" %>
-    <div class="form-text">Les nouvelles images s'ajoutent aux existantes.</div>
+    <div class="form-text">Une pièce = un visuel. Seul le premier est affiché dans le feed.</div>
   </div>
 
   <div class="form-check mb-4">
