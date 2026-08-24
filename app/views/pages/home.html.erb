@@ -6,18 +6,22 @@
     <section class="video-landing" aria-label="Introduction animée">
       <%# Zero interaction : ni controles, ni menu contextuel, ni image dans
           l'image, ni capture du pointeur. La video est purement decorative. %>
-      <video class="video-landing-media" autoplay muted loop playsinline
-             disablepictureinpicture disableremoteplayback preload="auto"
-             tabindex="-1" aria-hidden="true"
-             oncontextmenu="return false">
-        <%# La premiere source dont le `media` correspond gagne : l'ordre
-            compte, le portrait doit venir en premier. %>
-        <% if (video_mobile = intro_video_mobile_path) %>
-          <source src="<%= video_mobile %>" type="video/mp4"
-                  media="(max-aspect-ratio: 1/1)">
-        <% end %>
+      <%# DEUX balises, une seule affichee : `media` sur <source> n'est plus
+          honore par Chrome, qui prenait la premiere source lisible — donc la
+          version portrait pour tout le monde. Le CSS, lui, est fiable. %>
+      <video class="video-landing-media est-paysage" autoplay muted loop playsinline
+             disablepictureinpicture disableremoteplayback preload="none"
+             tabindex="-1" aria-hidden="true" oncontextmenu="return false">
         <source src="<%= video %>" type="video/mp4">
       </video>
+
+      <% if (video_mobile = intro_video_mobile_path) %>
+        <video class="video-landing-media est-portrait" autoplay muted loop playsinline
+               disablepictureinpicture disableremoteplayback preload="none"
+               tabindex="-1" aria-hidden="true" oncontextmenu="return false">
+          <source src="<%= video_mobile %>" type="video/mp4">
+        </video>
+      <% end %>
       <p class="video-kicker mono">Communication · Design · Code</p>
 
       <span class="video-cue" aria-hidden="true">

@@ -223,6 +223,15 @@
   background: $encre;      // le temps que la premiere image arrive
 }
 
+// Une seule des deux balises est affichee. `display: none` + `preload="none"`
+// garantit que la version masquee n'est jamais telechargee.
+.video-landing-media.est-portrait { display: none; }
+
+@media (max-aspect-ratio: 1 / 1) {
+  .video-landing-media.est-paysage  { display: none; }
+  .video-landing-media.est-portrait { display: block; }
+}
+
 .video-landing-media {
   width: 100%;
   height: 100%;
