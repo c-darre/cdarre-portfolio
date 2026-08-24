@@ -40,6 +40,15 @@
 
     @media (any-pointer: coarse)            { transform: translate(calc(-50% + 220px), -50%); }
     @media (prefers-reduced-motion: reduce) { transform: translate(calc(-50% + 220px), -50%); }
+
+    // Mobile : plus grand et vraiment centre — le decalage de 220 px, calibre
+    // pour une composition large, n'a plus de sens sur une colonne.
+    @media (max-width: 720px) {
+      left: 50%;
+      width: min(88vw, 460px);
+      max-height: 52%;
+      transform: translate(-50%, -50%);
+    }
   }
 
   // Les deux calques se superposent exactement : seule l'opacite les separe.
@@ -174,6 +183,29 @@
   .frame { max-width: 320px; }
 }
 
+@media (max-width: 720px) {
+  // `display: contents` dissout le bloc colonne : la photo, le texte et le
+  // lien deviennent des elements de grille a part entiere, donc `order` peut
+  // renvoyer le lien APRES les textes.
+  .profil-media { display: contents; }
+  .frame        { order: 1; max-width: 170px; }
+  .profil-text  { order: 2; }
+  .profil-lien  { order: 3; margin-top: 34px; }
+
+  .profil-grid { row-gap: 26px; }
+
+  // Competences : le libelle passe AU-DESSUS de sa liste. En deux colonnes,
+  // la colonne de gauche imposait 110 px de large a un seul mot, et l'ecart
+  // devenait beant.
+  .fact {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 11px 0;
+  }
+
+  .facts { margin-top: 34px; }
+}
+
 // ===================== LANDING VIDEO =====================
 // La video est EPINGLEE le temps que la pile defile : le bloc (00), opaque,
 // glisse par-dessus elle. Le collage s'arrete a la fin de `.landing-stack`,
@@ -296,6 +328,16 @@
 .index-intro {
   margin-bottom: 40px;
   max-width: 40ch;
+
+  // Un mot par ligne. En ligne continue sur grand ecran (`inline`), empile
+  // en dessous : la meme balise sert les deux mises en page.
+  .ii-mot { display: inline; }
+
+  @media (max-width: 720px) {
+    .ii-mot { display: block; }
+    font-size: clamp(1.9rem, 9vw, 2.6rem);
+    line-height: 1.12;
+  }
   font-family: $font-family-accent;
   font-synthesis: none;
   font-weight: 200;
@@ -653,6 +695,17 @@
 }
 
 @media (max-width: 720px) {
-  .g-track .g-col { flex-basis: 78vw; }
+  .g-track .g-col { flex-basis: 62vw; min-height: min(42vh, 340px); }
+
+  // Plein ecran, comme les sections `.screen` — cette section ne portant pas
+  // cette classe, sa hauteur doit etre posee ici.
+  .screen-galerie {
+    min-height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .g-pin { min-height: 0; }
   .g-col   { min-height: 58vh; }
 }

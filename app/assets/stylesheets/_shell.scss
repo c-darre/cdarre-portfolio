@@ -8,16 +8,28 @@ $nav-h:    60px;                       // hauteur de la navbar
 
 body {
   background: $grege;
-  padding: $page-pad;
+  // Le pourtour englobe les zones sures : sur un iPhone a encoche, le
+  // contenu defilait jusque DERRIERE la barre d'etat, ou le cadre ne
+  // l'atteignait pas — d'ou l'image qui reapparaissait sur l'heure.
+  padding: calc(#{$page-pad} + env(safe-area-inset-top))
+           calc(#{$page-pad} + env(safe-area-inset-right))
+           calc(#{$page-pad} + env(safe-area-inset-bottom))
+           calc(#{$page-pad} + env(safe-area-inset-left));
   -webkit-font-smoothing: antialiased;
 }
 
 // Pourtour permanent : cadre grège fixé au viewport (passe-partout).
+// `border-width` par cote, pour epouser les zones sures.
 body::after {
   content: "";
   position: fixed;
   inset: 0;
-  border: $page-pad solid $grege;
+  border-style: solid;
+  border-color: $grege;
+  border-top-width:    calc(#{$page-pad} + env(safe-area-inset-top));
+  border-right-width:  calc(#{$page-pad} + env(safe-area-inset-right));
+  border-bottom-width: calc(#{$page-pad} + env(safe-area-inset-bottom));
+  border-left-width:   calc(#{$page-pad} + env(safe-area-inset-left));
   pointer-events: none;
   z-index: 30;
 }
@@ -452,7 +464,32 @@ em {
 
 // --- Mobile.
 @media (max-width: 720px) {
-  .screen { min-height: auto; padding: 64px 20px; }
+  // Rangees d'etudes : la grille en QUATRE colonnes avec `nowrap` ne pouvait
+  // pas casser — la ligne debordait et le titre se retrouvait pousse hors du
+  // cadre. On empile : fleche + titre, puis le sous-titre dessous.
+  .wk-row {
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+      "arrow title"
+      ".     meta";
+    row-gap: 6px;
+    align-items: center;
+    white-space: normal;
+
+    .wk-arrow { grid-area: arrow; }
+    .wk-title { grid-area: title; }
+    .wk-meta  { grid-area: meta; }
+    .wk-sep   { display: none; }   // le slash n'a plus de role en colonne
+  }
+
+  // OPTION C : chaque section occupe AU MOINS un ecran. `min-height` et non
+  // `height` : une section trop chargee (le profil) s'etend au lieu de
+  // tronquer son contenu ou de reduire son texte a l'illisible.
+  .screen {
+    min-height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
+    padding: 48px 20px;
+    justify-content: center;
+  }
   .corner-bl, .corner-br { position: static; margin-top: 40px; text-align: left; display: block; }
   .scroll-cue { position: static; transform: none; align-self: center; margin-top: 32px; }
   .works-choice { padding: 0; }

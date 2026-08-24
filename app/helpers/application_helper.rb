@@ -53,6 +53,15 @@ module ApplicationHelper
     "/media/#{INTRO_VIDEO}" if Rails.public_path.join("media", INTRO_VIDEO).exist?
   end
 
+  # Version portrait, plus legere, servie aux ecrans etroits : la version 16:9
+  # y perdrait 70 % de sa largeur au recadrage, pour un poids bien superieur.
+  INTRO_VIDEO_MOBILE = "cyprien-darre-logo-loop-mobile.mp4".freeze
+
+  def intro_video_mobile_path
+    nom = INTRO_VIDEO_MOBILE
+    "/media/#{nom}" if Rails.public_path.join("media", nom).exist?
+  end
+
   def nav_link(label, path)
     active = current_page?(path)
     link_to label, path,

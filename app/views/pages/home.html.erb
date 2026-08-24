@@ -10,6 +10,12 @@
              disablepictureinpicture disableremoteplayback preload="auto"
              tabindex="-1" aria-hidden="true"
              oncontextmenu="return false">
+        <%# La premiere source dont le `media` correspond gagne : l'ordre
+            compte, le portrait doit venir en premier. %>
+        <% if (video_mobile = intro_video_mobile_path) %>
+          <source src="<%= video_mobile %>" type="video/mp4"
+                  media="(max-aspect-ratio: 1/1)">
+        <% end %>
         <source src="<%= video %>" type="video/mp4">
       </video>
       <p class="video-kicker mono">Communication · Design · Code</p>
@@ -103,7 +109,11 @@
   <span class="corner corner-tl mono">(02) · Study cases</span>
   <span class="corner corner-tr mono">Études de cas</span>
 
-  <p class="index-intro">Questionner, construire, mesurer.</p>
+  <p class="index-intro">
+    <span class="ii-mot">Questionner,</span>
+    <span class="ii-mot">construire,</span>
+    <span class="ii-mot">mesurer.</span>
+  </p>
 
   <% if @case_studies.any? %>
     <div class="index">
