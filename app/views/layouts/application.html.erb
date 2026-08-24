@@ -2,7 +2,10 @@
 <html lang="fr">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <%# PAS de `viewport-fit=cover` : il etend le contenu sous la barre d'etat,
+        que les elements `fixed` ne peuvent pas couvrir sur iOS. La barre est
+        coloree par `theme-color` ci-dessous. %>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <%# Couleur de la barre d'etat : le CSS ne l'atteint pas. %>
     <meta name="theme-color" content="#DEDBD3">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">

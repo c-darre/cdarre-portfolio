@@ -25,7 +25,7 @@ body::after {
   position: fixed;
   inset: 0;
   border-style: solid;
-  border-color: red;   // TEST TEMPORAIRE
+  border-color: $grege;
   border-top-width:    calc(#{$page-pad} + env(safe-area-inset-top));
   border-right-width:  calc(#{$page-pad} + env(safe-area-inset-right));
   border-bottom-width: calc(#{$page-pad} + env(safe-area-inset-bottom));
