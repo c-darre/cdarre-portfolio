@@ -190,3 +190,26 @@
   .ct-grid { grid-template-columns: 1fr; }
   .ct-media { width: min(240px, 70%); aspect-ratio: 3 / 4; }
 }
+
+// ---- Bloc contact sur mobile ----------------------------------------
+@media (max-width: 720px) {
+  // Le nom de section collait au bord haut : on le descend.
+  .contact .corner-tl,
+  .contact .corner-tr { top: 42px; }
+
+  .ct-text h2 {
+    // Deux lignes : « Let's » puis « connect. »
+    .ct-l { display: block; }
+    font-size: clamp(3rem, 15vw, 4.6rem);
+    line-height: 1.02;
+    margin-bottom: 26px;      // resserre : le bouton suit de plus pres
+  }
+
+  // Bouton centre, liens dessous.
+  .ct-text  { text-align: center; }
+  .ct-links { justify-content: center; margin-top: 30px; }
+
+  // Le cercle occupe presque toute la largeur : c'est lui qui porte la
+  // section, le texte n'en couvre plus qu'une part.
+  .ct-deco { width: min(128vw, 760px); max-height: 82%; }
+}

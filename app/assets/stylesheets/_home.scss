@@ -45,9 +45,14 @@
     // pour une composition large, n'a plus de sens sur une colonne.
     @media (max-width: 720px) {
       left: 50%;
-      width: min(88vw, 460px);
-      max-height: 52%;
+      width: min(92vw, 500px);
+      max-height: 58%;
       transform: translate(-50%, -50%);
+
+      // Le visuel ORANGE devient le fond permanent : la bascule au survol
+      // n'existe pas au doigt, autant montrer d'emblee le plus vivant.
+      .hero-deco-base { opacity: 0; }
+      .hero-deco-alt  { opacity: 1; }
     }
   }
 
@@ -91,6 +96,19 @@
 
     // Toute la ligne est dans la même voix : plus de contraste local.
     em { font-weight: inherit; font-size: 1em; }
+
+    .h1-l { display: inline; }
+
+    @media (max-width: 720px) {
+      // Plus grasse et empilee : cinq lignes courtes occupent la hauteur
+      // disponible mieux qu'un pave de trois lignes longues.
+      font-weight: 400;
+      font-size: clamp(2.4rem, 11vw, 3.4rem);
+      line-height: 1.1;
+      max-width: none;
+
+      .h1-l { display: block; }
+    }
   }
 
   .vertical {
@@ -144,6 +162,7 @@
   max-width: 62ch;
 
   .lead {
+    .ld-l { display: inline; }
     font-family: $font-family-accent;
     font-synthesis: none;
     font-weight: 200;
@@ -184,26 +203,41 @@
 }
 
 @media (max-width: 720px) {
-  // `display: contents` dissout le bloc colonne : la photo, le texte et le
-  // lien deviennent des elements de grille a part entiere, donc `order` peut
-  // renvoyer le lien APRES les textes.
-  .profil-media { display: contents; }
-  .frame        { order: 1; max-width: 170px; }
-  .profil-text  { order: 2; }
-  .profil-lien  { order: 3; margin-top: 34px; }
+  // `display: contents` dissout les deux conteneurs : accroche, paragraphes,
+  // photo, competences et lien deviennent des elements de grille a part
+  // entiere — `order` peut alors les ranger librement.
+  .profil-media, .profil-text { display: contents; }
 
-  .profil-grid { row-gap: 26px; }
+  // `display: contents` fait des paragraphes des ELEMENTS DE GRILLE : c'est
+  // donc `row-gap` qui les ecarte, pas leur `margin-bottom` — lequel restait
+  // sans effet. On resserre la grille et on rend la marge aux seuls blocs qui
+  // en ont besoin.
+  .profil-grid  { row-gap: 10px; }
+  .facts        { margin-top: 26px; }
 
-  // Competences : le libelle passe AU-DESSUS de sa liste. En deux colonnes,
-  // la colonne de gauche imposait 110 px de large a un seul mot, et l'ecart
-  // devenait beant.
+  // De l'air avant l'accroche : elle collait au bord haut de la section.
+  .lead             { order: 1; margin-top: 42px; }
+  // Paragraphes resserres entre eux : ils respiraient trop pour un ecran
+  // etroit, ou chacun occupe deja plusieurs lignes.
+  .profil-text > p  { order: 2; margin-bottom: 12px; }
+  .frame            { order: 3; max-width: 190px; justify-self: start; }
+  .facts            { order: 4; margin-top: 8px; }
+  .profil-lien      { order: 5; margin-top: 6px; }
+
+  // L'accroche s'empile sur quatre lignes.
+  .lead .ld-l { display: block; }
+
+  // Competences : le libelle passe AU-DESSUS de sa liste, et la hierarchie se
+  // joue sur le CORPS — le libelle grandit, la liste se resserre.
+  // Plus d'air entre les filets et le texte : les rangees etaient serrees.
   .fact {
     grid-template-columns: 1fr;
-    gap: 4px;
-    padding: 11px 0;
-  }
+    gap: 5px;
+    padding: 22px 0;
 
-  .facts { margin-top: 34px; }
+    span:first-child { font-size: 1.15rem; letter-spacing: .04em; }
+    span:last-child  { font-size: .68rem;  line-height: 1.5; }
+  }
 }
 
 // ===================== LANDING VIDEO =====================
@@ -344,8 +378,15 @@
 
   @media (max-width: 720px) {
     .ii-mot { display: block; }
-    font-size: clamp(1.9rem, 9vw, 2.6rem);
-    line-height: 1.12;
+    font-size: clamp(3rem, 15vw, 4.4rem);
+    line-height: 1.05;
+    // Bloc centre dans la page, texte toujours ferre a gauche : `fit-content`
+    // fait epouser la boite au texte, sans quoi le centrage n'aurait pas
+    // d'effet visible.
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
   }
   font-family: $font-family-accent;
   font-synthesis: none;
@@ -706,13 +747,41 @@
 @media (max-width: 720px) {
   .g-track .g-col { flex-basis: 62vw; min-height: min(42vh, 340px); }
 
+  // C'est le CONTENEUR qui se centre (`width: fit-content` + marges auto),
+  // pas ses enfants. Ainsi le texte et les fleches restent ferres a gauche,
+  // tout en formant un bloc centre dans la page. Centrer les enfants
+  // (`align-items: center`) aurait centre les fleches aussi.
+  .g-catch {
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
+    align-items: flex-start;
+    gap: 30px;
+    padding-right: 0;
+  }
+
+  // Deux classes : sans quoi `.g-catch .g-catchline` — plus specifique —
+  // l'emporterait et garderait son `max-width: 13ch`.
+  .g-catch .g-catchline {
+    text-align: left;
+    max-width: 15ch;
+  }
+
+  .g-catch .g-nav { justify-content: flex-start; }
+
+  .g-track { padding-bottom: 6px; }
+
   // Plein ecran, comme les sections `.screen` — cette section ne portant pas
   // cette classe, sa hauteur doit etre posee ici.
+  // Le vide de fin venait du centrage vertical dans une hauteur d'ecran que
+  // le contenu ne remplit pas tout a fait. Il occupe deja presque l'ecran :
+  // on lui rend sa hauteur naturelle plutot que de repartir du vide.
   .screen-galerie {
-    min-height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
+    min-height: 0;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    padding: 34px 0 40px;
   }
 
   .g-pin { min-height: 0; }

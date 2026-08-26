@@ -464,10 +464,25 @@ em {
 
 // --- Mobile.
 @media (max-width: 720px) {
+  // Pas de lisere sur mobile : un cadre interieur ne peut pas couvrir la
+  // barre d'etat (les elements `fixed` n'y ont pas acces sur iOS), et le
+  // contenu y defilait a nu. Sans cadre, la page occupe tout l'ecran et ce
+  // defilement redevient le comportement ordinaire du web.
+  body { padding: 0; }
+  body::after { display: none; }
+
+  // La barre de navigation devient le repere du haut : elle est deja collante
+  // et opaque, elle masque donc le contenu qui remonte sous elle.
+  .site-header { top: 0; }
+
+
   // Rangees d'etudes : la grille en QUATRE colonnes avec `nowrap` ne pouvait
   // pas casser — la ligne debordait et le titre se retrouvait pousse hors du
   // cadre. On empile : fleche + titre, puis le sous-titre dessous.
   .wk-row {
+    // Plus d'air sur les cotes : les rangees touchaient le bord de l'ecran.
+    padding-left: 22px;
+    padding-right: 22px;
     grid-template-columns: auto 1fr;
     grid-template-areas:
       "arrow title"

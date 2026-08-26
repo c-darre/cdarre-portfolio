@@ -38,6 +38,8 @@
     <%# Decor : le meme visuel que le survol « Study cases » de /travaux.
         `data-controller="reveal"` lui donne la derive au curseur ; aucune
         regle ne lisant `--flou` ici, il reste net. %>
+    <%# Sur mobile, c'est le visuel ORANGE qui sert de fond : le survol des
+        mots, qui le revele sur grand ecran, n'a pas d'equivalent au doigt. %>
     <% if (deco = works_image("cases")) %>
       <div class="hero-deco" aria-hidden="true" data-controller="reveal">
         <%= image_tag deco, class: "hero-deco-img hero-deco-base", alt: "" %>
@@ -48,11 +50,14 @@
       </div>
     <% end %>
 
-    <h1>Des <span class="surligne">idées</span> au
-      <em class="surligne">produit</em> :
-      <span class="surligne">concevoir,</span>
-      <span class="surligne">écrire,</span>
-      <span class="surligne">coder.</span></h1>
+    <%# Les `h1-l` restent en ligne sur grand ecran et s'empilent sur mobile. %>
+    <h1>
+      <span class="h1-l">Des <span class="surligne">idées</span></span>
+      <span class="h1-l">au <em class="surligne">produit</em> :</span>
+      <span class="h1-l"><span class="surligne">concevoir,</span></span>
+      <span class="h1-l"><span class="surligne">écrire,</span></span>
+      <span class="h1-l"><span class="surligne">coder.</span></span>
+    </h1>
   </section>
 </div>
 
@@ -79,9 +84,12 @@
     </div>
 
     <div class="profil-text">
-      <p class="lead">Transformer des <span class="inflexion nue surligne">idées</span> en
-        <span class="inflexion nue surligne">messages clairs,</span> <span class="inflexion surligne">engageants</span>
-        et porteurs de <span class="inflexion surligne">sens.</span></p>
+      <p class="lead">
+        <span class="ld-l">Transformer des <span class="inflexion nue surligne">idées</span></span>
+        <span class="ld-l">en <span class="inflexion nue surligne">messages clairs,</span></span>
+        <span class="ld-l"><span class="inflexion surligne">engageants</span> et</span>
+        <span class="ld-l">porteurs de <span class="inflexion surligne">sens.</span></span>
+      </p>
 
       <p>Une expertise <em>hybride</em>, de la stratégie à la production.
         Dix ans à concevoir des dispositifs de communication et des interfaces
@@ -129,7 +137,6 @@
     <p>Les études de cas arrivent : rédaction en cours.</p>
   <% end %>
 
-  <a class="scroll-cue mono" href="#galerie" aria-label="Défiler vers la galerie">↓</a>
 </section>
 
 <%# ================= (03) GALERIE ================= %>
