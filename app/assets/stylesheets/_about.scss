@@ -239,3 +239,24 @@
   .about-more .am-row .am-arrow,
   .cv-row .cv-arrow { transition: none; }
 }
+
+// ---- /a-propos sur mobile ---------------------------------------------
+// marges laterales de la page
+@media (max-width: 720px) {
+  // Les trois sections de la page recoivent la meme marge : la valeur de base
+  // (`clamp(20px, 3vw, 40px)`) tombait a 20 px sur petit ecran, et le lisere
+  // n'ajoute plus rien depuis qu'il est retire.
+  .about-intro,
+  .parcours,
+  .about-more,
+  .cv-block {
+    padding-left: 26px;
+    padding-right: 26px;
+  }
+
+  // Portrait reduit : il occupait 70 % de la largeur pour une page de texte.
+  .ai-figure {
+    width: min(176px, 52%);
+    margin: 10px 0 20px;
+  }
+}

@@ -488,7 +488,23 @@ em {
     padding-top: 64px;
     padding-bottom: 64px;
   }
-  .works-choice .wk-media { display: none; }
+  // Le visuel reste VISIBLE, mais fige sur le calque orange : la bascule au
+  // survol n'existe pas au doigt. Il passe derriere les deux lignes, qui
+  // gardent leur fond papier pour rester lisibles.
+  .works-choice .wk-media {
+    display: block;
+    width: min(86vw, 420px);
+    max-height: 46%;
+    opacity: .9;
+    z-index: 0;
+  }
+
+  .works-choice .wk-layer-base,
+  .works-choice .wk-layer-gallery { opacity: 0; }
+  .works-choice .wk-layer-cases   { opacity: 1; }
+
+  // Les lignes passent AU-DESSUS du decor.
+  .works-choice .wk-list { position: relative; z-index: 1; }
   .works-choice .wk-row { white-space: normal; }
   .works-choice .wk-row { grid-template-columns: auto 1fr; }
   .works-choice .wk-row .wk-sep { display: none; }
@@ -546,7 +562,9 @@ em {
   }
   .corner-bl, .corner-br { position: static; margin-top: 40px; text-align: left; display: block; }
   .scroll-cue { position: static; transform: none; align-self: center; margin-top: 32px; }
-  .works-choice { padding: 0; }
+  // Le `padding: 0` annulait AUSSI les marges laterales : les textes
+  // touchaient le bord de l'ecran. Seul le padding vertical doit tomber.
+  .works-choice { padding: 0 26px; }
   .works-choice .wc-band { min-height: 38vh; }
 }
 
@@ -609,5 +627,37 @@ em {
     height: auto;
     min-height: calc(100svh - #{$nav-h} - 2 * var(--pad-cadre));
     overflow: visible;
+  }
+}
+
+// ---- /travaux : calque fige sur mobile --------------------------------
+// Le controleur `works` pose `is-shown` sur le calque NEUTRE au repos. Sa
+// regle `.works-choice .wk-layer.is-shown` compte trois selecteurs : il faut
+// donc au moins autant pour la neutraliser. La classe repetee
+// (`.wk-layer-cases.wk-layer`) ajoute ce poids sans toucher au JavaScript.
+@media (max-width: 720px) {
+  .works-choice .wk-layer.is-shown { opacity: 0; }
+  .works-choice .wk-layer-base.wk-layer,
+  .works-choice .wk-layer-cases.wk-layer   { opacity: 0; }
+  .works-choice .wk-layer-gallery.wk-layer { opacity: 1; }
+}
+
+// ---- /travaux mobile : lignes en haut, visuel en bas ------------------
+// Marqueur : wk-media-decale
+@media (max-width: 720px) {
+  // Les lignes remontent : le contenu se cale vers le haut de la section
+  // plutot que d'etre centre dessus.
+  .works-choice {
+    justify-content: flex-start;
+    // Le libelle « TRAVAUX » est en position absolue : il ne suit pas ce
+    // retrait, qui ne fait donc descendre que la liste.
+    padding-top: 96px;
+  }
+
+  // Le visuel descend. Le decalage doit entrer dans le `transform` existant :
+  // une seconde declaration remplacerait le centrage.
+  .works-choice .wk-media {
+    top: 50%;
+    transform: translate(-50%, -50%) translateY(52%);
   }
 }
