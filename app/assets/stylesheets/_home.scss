@@ -220,9 +220,10 @@
   // Paragraphes resserres entre eux : ils respiraient trop pour un ecran
   // etroit, ou chacun occupe deja plusieurs lignes.
   .profil-text > p  { order: 2; margin-bottom: 12px; }
-  .frame            { order: 3; max-width: 190px; justify-self: start; }
-  .facts            { order: 4; margin-top: 8px; }
-  .profil-lien      { order: 5; margin-top: 6px; }
+  .frame            { order: 3; max-width: 190px; justify-self: start;
+                      margin-top: 22px; }
+  .facts            { order: 4; margin-top: 30px; }
+  .profil-lien      { order: 5; margin-top: 26px; }
 
   // L'accroche s'empile sur quatre lignes.
   .lead .ld-l { display: block; }
