@@ -9,7 +9,7 @@
 // Hauteur figée sur l'espace exact navbar → bas de fenêtre. L'accroche est
 // centrée sur l'axe horizontal, les catégories sont plaquées en bas.
 .csi-head {
-  height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
+  height: calc(100svh - #{$nav-h} - 2 * var(--pad-cadre));
   min-height: 0;
   display: grid;
   grid-template-rows: 1fr auto;      // 1 = l'accroche centrée · 2 = les filtres

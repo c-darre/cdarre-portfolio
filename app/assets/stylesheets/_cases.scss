@@ -7,7 +7,7 @@
   gap: clamp(32px, 5vw, 72px);
   align-items: stretch;
   padding: 0 clamp(20px, 3vw, 40px) clamp(48px, 7vh, 88px);
-  min-height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
+  min-height: calc(100svh - #{$nav-h} - 2 * var(--pad-cadre));
 }
 
 .csl-media {

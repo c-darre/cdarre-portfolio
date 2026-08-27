@@ -6,6 +6,13 @@
 $page-pad: clamp(10px, 1.4vw, 18px);  // épaisseur du pourtour grège
 $nav-h:    60px;                       // hauteur de la navbar
 
+// Epaisseur reelle du pourtour, en variable CSS : contrairement a une
+// variable Sass — resolue une fois pour toutes a la compilation — elle peut
+// changer selon la largeur d'ecran. Les hauteurs de section s'y referent,
+// donc elles suivent le retrait du lisere sur mobile sans etre retouchees.
+:root { --pad-cadre: #{$page-pad}; }
+@media (max-width: 720px) { :root { --pad-cadre: 0px; } }
+
 body {
   background: $grege;
   // Le pourtour englobe les zones sures : sur un iPhone a encoche, le
@@ -36,7 +43,7 @@ body::after {
 
 .sheet {
   background: $papier;
-  min-height: calc(100svh - 2 * #{$page-pad});
+  min-height: calc(100svh - 2 * var(--pad-cadre));
   display: flex;
   flex-direction: column;
 }
@@ -107,12 +114,44 @@ em {
   .site-nav-link { text-decoration: none; }
   .site-nav-link:hover,
   .site-nav-link.active { text-decoration: underline; text-underline-offset: 4px; }
+
+  // ---- Mobile ----------------------------------------------------------
+  // Pas de menu deroulant : trois entrees tiennent sur une ligne des lors
+  // qu'on retire l'interlettrage de la voix machine et qu'on resserre les
+  // ecarts. Un menu masque couterait un geste de plus pour rien.
+  @media (max-width: 720px) {
+    // `nowrap` : le retour a la ligne ferait grandir la barre, or sa hauteur
+    // sert de base a une dizaine de calculs `calc(100svh - #{$nav-h} - …)`.
+    nav { flex-wrap: nowrap; gap: 14px; }
+
+    .brand { font-size: 12px; letter-spacing: .04em; }
+
+    .site-nav-link {
+      font-size: 11px;
+      letter-spacing: .02em;
+      // Zone tactile : le texte fait 11 px, la cible doit en faire 44. Le
+      // padding l'etend sans changer la hauteur de la barre, fixee par
+      // `min-height`.
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 2px;
+    }
+  }
+
+  // Sous 380 px, la marque cede la place : les liens priment sur le nom, deja
+  // present dans le titre de la page et dans le pied.
+  @media (max-width: 379px) {
+    grid-template-columns: 1fr;
+    .brand { display: none; }
+    nav { justify-content: space-between; }
+  }
 }
 
 // --- Sections plein écran.
 .screen {
   position: relative;
-  min-height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
+  min-height: calc(100svh - #{$nav-h} - 2 * var(--pad-cadre));
   padding: clamp(64px, 10vh, 110px) clamp(20px, 3vw, 40px);
   display: flex;
   flex-direction: column;
@@ -309,7 +348,7 @@ em {
   background: $papier;
   // Hauteur VERROUILLÉE : l'espace exact entre navbar et footer.
   // (~61px de footer : padding 2×20px + ligne de texte mono.)
-  height: calc(100svh - #{$nav-h} - 61px - 2 * #{$page-pad});
+  height: calc(100svh - #{$nav-h} - 61px - 2 * var(--pad-cadre));
   min-height: 0;
   overflow: hidden;
   padding: 0 clamp(20px, 3vw, 40px);
@@ -444,7 +483,7 @@ em {
 @media (max-width: 960px), (max-height: 620px) {
   .works-choice {
     height: auto;
-    min-height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
+    min-height: calc(100svh - #{$nav-h} - 2 * var(--pad-cadre));
     overflow: visible;
     padding-top: 64px;
     padding-bottom: 64px;
@@ -481,8 +520,8 @@ em {
   // cadre. On empile : fleche + titre, puis le sous-titre dessous.
   .wk-row {
     // Plus d'air sur les cotes : les rangees touchaient le bord de l'ecran.
-    padding-left: 22px;
-    padding-right: 22px;
+    padding-left: 34px;
+    padding-right: 34px;
     grid-template-columns: auto 1fr;
     grid-template-areas:
       "arrow title"
@@ -501,7 +540,7 @@ em {
   // `height` : une section trop chargee (le profil) s'etend au lieu de
   // tronquer son contenu ou de reduire son texte a l'illisible.
   .screen {
-    min-height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
+    min-height: calc(100svh - #{$nav-h} - 2 * var(--pad-cadre));
     padding: 48px 20px;
     justify-content: center;
   }
@@ -538,4 +577,37 @@ em {
 }
 @media (prefers-reduced-motion: reduce) {
   .works-choice .wk-layer { transition: none; }
+}
+
+// ---- Zones tactiles ---------------------------------------------------
+@media (max-width: 720px) {
+  // Cibles tactiles : 44 px, seuil courant d'accessibilite. Le padding etend
+  // la zone sans grossir le texte.
+  .g-btn,
+  .cs-doc-btn,
+  .csi-filters button,
+  .lightbox-close {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .lien-discret,
+  .ct-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+// ---- Hauteur figee -> minimale sur mobile -----------------------------
+// `height` + `overflow: hidden` tronque des qu'un ecran est court. Sur
+// mobile, ces sections s'etendent plutot que de couper (option C).
+@media (max-width: 720px) {
+  .works-choice,
+  .contact-page,
+  .csi-head {
+    height: auto;
+    min-height: calc(100svh - #{$nav-h} - 2 * var(--pad-cadre));
+    overflow: visible;
+  }
 }

@@ -4,7 +4,7 @@
 // Landing : la phrase seule, plein écran.
 .gl-landing {
   position: relative;
-  min-height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
+  min-height: calc(100svh - #{$nav-h} - 2 * var(--pad-cadre));
   display: flex;
   flex-direction: column;
   justify-content: center;

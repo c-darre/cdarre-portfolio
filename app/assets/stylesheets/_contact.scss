@@ -60,9 +60,11 @@
     width: 100%;
     background: $papier;
     border: 1px solid $filet;
-    padding: 12px 14px;
+    padding: 13px 14px;
     font: inherit;
-    font-size: .95rem;
+    // 16 px MINIMUM : en dessous, Safari iOS agrandit la page au focus et ne
+    // la reduit jamais ensuite. C'est la seule valeur qui compte ici.
+    font-size: 16px;
     color: $encre;
 
     &:focus { border-color: $encre; }
@@ -157,7 +159,7 @@
   // et masque son debord, un cercle trop grand y serait tronque.
   .ct-deco { max-height: 68%; width: min(46vw, 520px); }
 
-  height: calc(100svh - #{$nav-h} - 61px - 2 * #{$page-pad});
+  height: calc(100svh - #{$nav-h} - 61px - 2 * var(--pad-cadre));
   min-height: 0;
   overflow: hidden;
   padding-top: 0;
@@ -177,7 +179,7 @@
 @media (max-width: 820px) {
   .contact-page {
     height: auto;
-    min-height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
+    min-height: calc(100svh - #{$nav-h} - 2 * var(--pad-cadre));
     overflow: visible;
     padding-top: clamp(64px, 10vh, 110px);
     padding-bottom: clamp(64px, 10vh, 110px);
@@ -211,5 +213,16 @@
 
   // Le cercle occupe presque toute la largeur : c'est lui qui porte la
   // section, le texte n'en couvre plus qu'une part.
-  .ct-deco { width: min(128vw, 760px); max-height: 82%; }
+  .ct-deco { width: min(82vw, 480px); max-height: 100%; }
+}
+
+// ---- Reglages mobiles reposes en fin de fichier ----
+@media (max-width: 720px) {
+  // Deux classes : `.contact .ct-deco` — la regle de base — l'emportait sur
+  // un `.ct-deco` seul, quelle que soit sa position.
+  .contact .ct-deco,
+  .contact-page .ct-deco {
+    width: min(82vw, 480px);
+    max-height: 100%;
+  }
 }

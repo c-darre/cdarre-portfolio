@@ -216,13 +216,22 @@
   .facts        { margin-top: 26px; }
 
   // De l'air avant l'accroche : elle collait au bord haut de la section.
-  .lead             { order: 1; margin-top: 42px; }
+  // Corps calibre pour que « en messages clairs, » — la ligne la plus longue —
+  // occupe la largeur d'ecran, marges comprises : 10,2 vw, mesure sur la
+  // chasse reelle de Bricolage 200.
+  .lead {
+    order: 1;
+    margin-top: 42px;
+    font-size: clamp(1.9rem, 10.2vw, 2.9rem);
+    line-height: 1.14;
+    max-width: none;
+  }
   // Paragraphes resserres entre eux : ils respiraient trop pour un ecran
   // etroit, ou chacun occupe deja plusieurs lignes.
   .profil-text > p  { order: 2; margin-bottom: 12px; }
   .frame            { order: 3; max-width: 190px; justify-self: start;
                       margin-top: 22px; }
-  .facts            { order: 4; margin-top: 30px; }
+  .facts            { order: 4; margin-top: 18px; }
   .profil-lien      { order: 5; margin-top: 26px; }
 
   // L'accroche s'empile sur quatre lignes.
@@ -379,8 +388,8 @@
 
   @media (max-width: 720px) {
     .ii-mot { display: block; }
-    font-size: clamp(3rem, 15vw, 4.4rem);
-    line-height: 1.05;
+    font-size: clamp(2.6rem, 14.5vw, 4.2rem);
+    line-height: 1.02;
     // Bloc centre dans la page, texte toujours ferre a gauche : `fit-content`
     // fait epouser la boite au texte, sans quoi le centrage n'aurait pas
     // d'effet visible.
@@ -585,7 +594,7 @@
   flex-direction: column;
   justify-content: center;
   gap: 28px;
-  min-height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
+  min-height: calc(100svh - #{$nav-h} - 2 * var(--pad-cadre));
   padding: clamp(64px, 10vh, 110px) 0 clamp(64px, 10vh, 110px) clamp(20px, 3vw, 40px);
 }
 
@@ -594,7 +603,7 @@
     position: sticky;
     top: calc(#{$page-pad} + #{$nav-h});
     min-height: 0;
-    height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
+    height: calc(100svh - #{$nav-h} - 2 * var(--pad-cadre));
     // Deux zones cote a cote : l'accroche fixe, puis la piste qui defile.
     flex-direction: row;
     align-items: stretch;
@@ -677,6 +686,9 @@
   padding-right: 8px;
 
   .g-catchline {
+    // Les lignes restent EN LIGNE sur grand ecran ; elles ne s'empilent que
+    // sur mobile. Une seule balise sert les deux mises en page.
+    .gc-l { display: inline; }
     font-family: $font-family-accent;
     font-synthesis: none;
     font-weight: 200;
@@ -752,23 +764,32 @@
   // pas ses enfants. Ainsi le texte et les fleches restent ferres a gauche,
   // tout en formant un bloc centre dans la page. Centrer les enfants
   // (`align-items: center`) aurait centre les fleches aussi.
-  .g-catch {
+  // `display: contents` dissout le bloc : accroche et fleches deviennent
+  // enfants directs de `.g-pin`, ce qui permet de les ranger de part et
+  // d'autre de la piste avec `order`.
+  .g-catch { display: contents; }
+
+  .g-pin .g-catchline {
+    order: 1;
+    text-align: left;
     width: fit-content;
     max-width: 100%;
-    margin-inline: auto;
-    align-items: flex-start;
-    gap: 30px;
-    padding-right: 0;
+    margin: 0 auto 26px;
+    // Quatre lignes, corps mesure sur « en passant par », la plus longue.
+    font-size: clamp(2.1rem, 9.6vw, 3.2rem);
+    line-height: 1.12;
+
+    .gc-l { display: block; }
   }
 
-  // Deux classes : sans quoi `.g-catch .g-catchline` — plus specifique —
-  // l'emporterait et garderait son `max-width: 13ch`.
-  .g-catch .g-catchline {
-    text-align: left;
-    max-width: 15ch;
-  }
+  .g-pin .g-track { order: 2; }
 
-  .g-catch .g-nav { justify-content: flex-start; }
+  // Les fleches passent APRES les visuels.
+  .g-pin .g-nav {
+    order: 3;
+    justify-content: center;
+    margin-top: 22px;
+  }
 
   .g-track { padding-bottom: 6px; }
 
@@ -787,4 +808,28 @@
 
   .g-pin { min-height: 0; }
   .g-col   { min-height: 58vh; }
+}
+
+// ---- Reglages mobiles reposes en fin de fichier ----
+// Ces regles arrivent apres toutes les autres et portent deux classes : elles
+// gagnent donc a la fois sur l'ordre et sur la specificite.
+@media (max-width: 720px) {
+  // Accroche du profil : corps calibre pour que « en messages clairs, » — la
+  // ligne la plus longue — occupe la largeur d'ecran, marges comprises.
+  .profil-text .lead {
+    font-size: clamp(1.9rem, 10.2vw, 2.9rem);
+    line-height: 1.14;
+    max-width: none;
+  }
+
+  // Accroche des study cases.
+  .index .index-intro,
+  .screen .index-intro {
+    font-size: clamp(2.6rem, 14.5vw, 4.2rem);
+    line-height: 1.02;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+  }
 }

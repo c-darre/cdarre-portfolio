@@ -31,7 +31,7 @@
   position: sticky;
   top: calc(#{$page-pad} + #{$nav-h} + 70px);
   margin: 70px 0 0 clamp(24px, 9vw, 120px);
-  height: calc(100svh - #{$nav-h} - 70px - 2 * #{$page-pad});
+  height: calc(100svh - #{$nav-h} - 70px - 2 * var(--pad-cadre));
   border: 1px solid $filet;
   background: $grege;
   overflow: hidden;
@@ -50,7 +50,7 @@
   grid-row: 1;
   z-index: 1;
   width: 90%;   // le titre occupe 90% de la largeur de l'écran
-  min-height: calc(100svh - #{$nav-h} - 2 * #{$page-pad});
+  min-height: calc(100svh - #{$nav-h} - 2 * var(--pad-cadre));
   align-content: center;
   padding: 40px 0;
   font-family: $font-family-accent;
