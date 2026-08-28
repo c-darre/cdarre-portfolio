@@ -40,7 +40,12 @@
                     data-src="<%= url_for(image) %>"
                     data-alt="<%= attachment_alt(image, fallback: work.display_title) %>"
                     aria-label="Agrandir : <%= work.display_title %>">
-              <%= image_tag image, loading: "lazy",
+              <%# Colonnes de 160 px sur mobile a 470 px sur grand ecran :
+                  la plus petite variante suffit largement au telephone. %>
+              <%= visuel_responsive image,
+                    largeurs: [ 320, 480, 720, 1000 ],
+                    sizes: "(max-width: 820px) 50vw, (max-width: 1400px) 33vw, 20vw",
+                    loading: "lazy",
                     alt: attachment_alt(image, fallback: work.display_title) %>
             </button>
           <% end %>

@@ -12,7 +12,9 @@
     <header class="cs-landing" aria-label="<%= @case_study.title %>">
       <div class="csl-media">
         <% if @case_study.hero_image.attached? %>
-          <%= image_tag @case_study.hero_image, class: "csl-img",
+          <%= visuel_responsive @case_study.hero_image, class: "csl-img",
+                largeurs: [ 480, 900, 1400 ],
+                sizes: "(max-width: 720px) 100vw, 900px",
                 alt: attachment_alt(@case_study.hero_image, fallback: @case_study.title) %>
         <% else %>
           <span class="csl-ph mono">Visuel · à venir</span>
@@ -152,7 +154,10 @@
                               data-src="<%= url_for(image) %>"
                               data-alt="<%= attachment_alt(image) %>"
                               aria-label="Agrandir : <%= attachment_alt(image) %>">
-                        <%= image_tag image, loading: "lazy", alt: attachment_alt(image) %>
+                        <%= visuel_responsive image,
+                              largeurs: [ 360, 560, 900 ],
+                              sizes: "(max-width: 720px) 90vw, 440px",
+                              loading: "lazy", alt: attachment_alt(image) %>
                       </button>
                     <% end %>
                   </figure>

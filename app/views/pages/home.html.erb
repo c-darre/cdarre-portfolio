@@ -71,7 +71,19 @@
     <figure class="frame" data-controller="reveal" data-flou="46" data-derive="9">
       <% if (portrait = about_portrait_path) %>
         <div class="reveal">
-          <%= image_tag portrait, class: "reveal-img", alt: "Portrait de Cyprien Darré" %>
+          <%# 17 Ko sur mobile au lieu de 178 : le navigateur choisit la version
+                utile grace au `srcset`. Repli sur l'original si les variantes
+                n'ont pas ete deposees. %>
+            <% if Rails.root.join("app/assets/images/portrait-about-400.jpg").exist? %>
+              <%= image_tag "portrait-about-800.jpg", class: "reveal-img",
+                    srcset: "#{asset_path('portrait-about-400.jpg')} 400w, " \
+                            "#{asset_path('portrait-about-800.jpg')} 800w, " \
+                            "#{asset_path('portrait-about-1200.jpg')} 1200w",
+                    sizes: "(max-width: 720px) 190px, 360px",
+                    alt: "Portrait de Cyprien Darré" %>
+            <% else %>
+              <%= image_tag portrait, class: "reveal-img", alt: "Portrait de Cyprien Darré" %>
+            <% end %>
         </div>
       <% end %>
     </figure>
@@ -176,7 +188,10 @@
                 <source src="<%= url_for(media) %>" type="<%= media.content_type %>">
               </video>
             <% else %>
-              <%= image_tag media, class: "g-bg", loading: "lazy",
+              <%= visuel_responsive media, class: "g-bg",
+                    largeurs: [ 480, 720, 1000 ],
+                    sizes: "(max-width: 720px) 62vw, 420px",
+                    loading: "lazy",
                     alt: attachment_alt(media, fallback: work.title) %>
             <% end %>
           <% end %>
