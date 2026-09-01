@@ -22,7 +22,7 @@
       </div>
 
       <div class="csl-info">
-        <p class="eyebrow mono">Study case</p>
+        <p class="eyebrow mono">Case study</p>
         <h1 class="csl-title"><%= @case_study.title %></h1>
         <% if @case_study.subtitle.present? %>
           <p class="csl-sub"><%= @case_study.subtitle %></p>
@@ -171,7 +171,7 @@
 
     <%# ---------- Bas de page ---------- %>
     <nav class="cs-next" aria-label="Navigation entre études">
-      <%= link_to "← Back to Study cases", case_studies_path, class: "mono" %>
+      <%= link_to "← Back", case_studies_path, class: "mono" %>
       <% if @next_case_study %>
         <%= link_to "Next : #{@next_case_study.title} →",
               case_study_path(@next_case_study), class: "next-link" %>

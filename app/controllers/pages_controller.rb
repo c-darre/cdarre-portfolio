@@ -8,7 +8,7 @@ class PagesController < ApplicationController
                               .order(Arel.sql("RANDOM()")).limit(5)
   end
 
-  def works; end   # écran de choix Study cases / Galerie
+  def works; end   # écran de choix Case studies / Galerie
 
   def about; end
   def contact; end
