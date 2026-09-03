@@ -23,9 +23,12 @@ env:
     - RAILS_MASTER_KEY
     - POSTGRES_PASSWORD
     - CDARRE_PORTFOLIO_DATABASE_PASSWORD
+    - SMTP_PASSWORD
   clear:
     SOLID_QUEUE_IN_PUMA: true
     DB_HOST: cdarre_portfolio-db
+    SMTP_USER: cyprien.darre@gmail.com
+    CONTACT_NOTIFY_TO: cyprien.darre@gmail.com
 
 aliases:
   console: app exec --interactive --reuse "bin/rails console"

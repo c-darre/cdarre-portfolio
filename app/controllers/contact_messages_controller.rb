@@ -13,6 +13,7 @@ class ContactMessagesController < ApplicationController
 
     @message = ContactMessage.new(message_params)
     if @message.save
+      ContactMailer.new_message(@message).deliver_later
       redirect_back fallback_location: root_path,
                     notice: "Message envoyé. Merci, je reviens vers vous rapidement."
     else

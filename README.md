@@ -5,10 +5,6 @@ Application Ruby on Rails, conçue, développée et déployée de bout en bout.
 
 **En ligne : [cdarre.fr](https://cdarre.fr)**
 
-<!-- Déposer les captures sous docs/ ; les liens restent inertes tant qu'elles
-     ne sont pas présentes. -->
-![Page d'accueil](docs/apercu-accueil.png)
-
 ---
 
 ## Ce que fait le site

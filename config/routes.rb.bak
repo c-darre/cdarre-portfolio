@@ -1,11 +1,4 @@
 Rails.application.routes.draw do
-  # --- Canonisation : www -> apex, en 301 ---
-  constraints(host: /\Awww\./) do
-    match "(*path)", via: :all, to: redirect(status: 301) { |_, req|
-      "https://" + req.host.delete_prefix("www.") + req.fullpath
-    }
-  end
-
   # --- Auth admin ---
   devise_for :admin_users,
              path: "admin",

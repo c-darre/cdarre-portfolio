@@ -1,0 +1,10 @@
+Nouveau message reçu sur cdarre.fr.
+
+Nom    : <%= @message.name %>
+Email  : <%= @message.email %>
+Reçu le: <%= l @message.created_at, format: :long rescue @message.created_at %>
+
+<%= @message.body %>
+
+--
+Répondre à ce courriel répond directement à l'expéditeur.
