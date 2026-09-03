@@ -1,6 +1,20 @@
 <% content_for :title, "Messages · Admin" %>
 
-<h1 class="h3 mb-4">Messages reçus <span class="text-body-secondary">(<%= @messages.size %>)</span></h1>
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+  <h1 class="h3 mb-0">Messages reçus</h1>
+  <div class="btn-group">
+    <%= link_to "Légitimes (#{@nb_ok})", admin_contact_messages_path,
+          class: "btn btn-sm #{@filtre == 'legitimes' ? 'btn-dark' : 'btn-outline-dark'}" %>
+    <%= link_to "Indésirables (#{@nb_spam})", admin_contact_messages_path(filtre: "indesirables"),
+          class: "btn btn-sm #{@filtre == 'indesirables' ? 'btn-dark' : 'btn-outline-dark'}" %>
+  </div>
+</div>
+
+<% if @filtre == "indesirables" && @nb_spam > 0 %>
+  <%= button_to "Vider les indésirables", purge_admin_contact_messages_path, method: :delete,
+        class: "btn btn-sm btn-outline-danger mb-3",
+        form: { data: { turbo_confirm: "Supprimer les #{@nb_spam} messages indésirables ?" } } %>
+<% end %>
 
 <% if @messages.any? %>
   <div class="list-group">
@@ -23,5 +37,5 @@
     <% end %>
   </div>
 <% else %>
-  <p class="text-body-secondary">Aucun message pour l'instant.</p>
+  <p class="text-body-secondary">Aucun message dans cette vue.</p>
 <% end %>

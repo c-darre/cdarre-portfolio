@@ -29,7 +29,9 @@ Rails.application.routes.draw do
     end
 
     resources :awards
-    resources :contact_messages, only: %i[index destroy]
+    resources :contact_messages, only: %i[index destroy] do
+      collection { delete :purge }
+    end
   end
 
   # --- Pages publiques ---

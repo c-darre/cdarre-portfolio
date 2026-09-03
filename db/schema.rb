@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_19_000002) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_03_071256) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -108,8 +108,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_19_000002) do
     t.datetime "created_at", null: false
     t.string "email", null: false
     t.string "name", null: false
+    t.boolean "spam", default: false, null: false
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_contact_messages_on_created_at"
+    t.index ["spam"], name: "index_contact_messages_on_spam"
   end
 
   create_table "visual_works", force: :cascade do |t|
