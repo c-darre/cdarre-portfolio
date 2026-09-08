@@ -1,0 +1,75 @@
+<% content_for :title, "FAQ" %>
+<% content_for :meta_description,
+   "Questions fréquentes : profil hybride design et code, postes visés, niveau de " \
+   "développement, méthode de travail avec l'IA, mobilité et disponibilité." %>
+
+<section class="prose" aria-label="Questions fréquentes">
+  <div class="prose-body">
+    <p class="pb-label mono">FAQ</p>
+    <h1 class="prose-title">Six questions, <em>six réponses</em>.</h1>
+
+    <details class="faq-item">
+      <summary><span>Designer ou développeur ?</span><span class="faq-sign" aria-hidden="true"></span></summary>
+      <div class="faq-answer">
+        <p>Les deux, et c'est le point de départ. Dix ans de design graphique, de communication
+           d'entreprise et d'UX/UI, dont cinq à la direction des systèmes d'information de Renault
+           Group. Puis un titre RNCP de niveau 6 de concepteur développeur d'applications web, et
+           deux applications en production.</p>
+        <p>Je conçois des interfaces en sachant ce qui tourne derrière, et je code ce que je conçois
+           quand c'est le chemin le plus court.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary><span>Quel poste visez-vous ?</span><span class="faq-sign" aria-hidden="true"></span></summary>
+      <div class="faq-answer">
+        <p>Product designer, UX/UI, design engineer, chef de projet digital, consultant en
+           transformation.</p>
+        <p>Le titre dépend de l'entreprise, le travail reste le même : cadrer un besoin, concevoir le
+           parcours, écrire l'interface, prototyper, transmettre aux équipes qui reprendront la suite.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary><span>À quel niveau codez-vous ?</span><span class="faq-sign" aria-hidden="true"></span></summary>
+      <div class="faq-answer">
+        <p>Ruby on Rails, JavaScript, HTML, CSS, SQL. Deux applications déployées.</p>
+        <p>FIB__R estime l'impact environnemental d'un vêtement à partir de trois photos guidées :
+           analyse par modèle de langage à sortie contrainte par schéma, appel à l'API publique
+           Ecobalyse de l'ADEME, chat expert contextuel. Équipe de quatre, où j'ai tenu l'idée, le
+           lead technique et la conduite du projet. Déployée sur Heroku.</p>
+        <p>Ce site est la seconde : Rails 8, PostgreSQL, back-office d'édition, déploiement en Kamal
+           et Docker sur un VPS, intégration continue GitHub Actions. Le dépôt est public.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary><span>Comment travaillez-vous avec l'IA ?</span><span class="faq-sign" aria-hidden="true"></span></summary>
+      <div class="faq-answer">
+        <p>Ce portfolio a été conçu et codé en travaillant avec l'IA sur toute la chaîne, y compris
+           sur des tâches que j'aurais faites plus vite à la main, à titre d'apprentissage délibéré.</p>
+        <p>L'étude de cas <%= link_to "Portfolio 2026", "/projets/portfolio-2026" %> raconte ce qui a
+           servi, ce que ça a coûté, ce qui a été refusé, et les quatre règles que j'en ai tirées.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary><span>Vous travaillez en anglais ?</span><span class="faq-sign" aria-hidden="true"></span></summary>
+      <div class="faq-answer">
+        <p>Anglais professionnel, TOEIC 825. Six ans en environnement international, sur des systèmes
+           déployés dans 35 pays.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary><span>Où êtes-vous, et à partir de quand ?</span><span class="faq-sign" aria-hidden="true"></span></summary>
+      <div class="faq-answer">
+        <p>Bordeaux, mobile en France. Disponible immédiatement, sans préavis.</p>
+      </div>
+    </details>
+
+    <p class="prose-date mono">
+      Une question qui n'est pas là ? <%= link_to "Écrivez-moi", contact_path %>.
+    </p>
+  </div>
+</section>

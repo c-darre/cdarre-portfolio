@@ -40,6 +40,10 @@ Rails.application.routes.draw do
   get "a-propos", to: "pages#about",   as: :about
   get "contact",  to: "pages#contact", as: :contact
 
+  get "mentions-legales", to: "pages#legal",   as: :legal
+  get "confidentialite",  to: "pages#privacy", as: :privacy
+  get "faq",              to: "pages#faq",     as: :faq
+
   resources :case_studies, only: %i[index show], param: :slug, path: "projets"
   resources :visual_works, only: %i[index],                    path: "galerie"
   resources :contact_messages, only: :create, path: "messages"

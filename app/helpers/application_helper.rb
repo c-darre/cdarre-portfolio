@@ -6,7 +6,7 @@ module ApplicationHelper
     pitch:    "Des idées au produit : concevoir, écrire, coder.",
     location: "Bordeaux → Paris",
     email:    "cyprien.darre@gmail.com",
-    linkedin: "https://www.linkedin.com/in/cyprien-darre",
+    linkedin: "https://www.linkedin.com/in/c-darre",
     github:   "https://github.com/c-darre"
   }.freeze
 

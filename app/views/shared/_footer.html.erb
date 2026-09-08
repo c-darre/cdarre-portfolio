@@ -1,3 +1,8 @@
 <footer class="site-footer mono">
   <span>© 2026 - <%= profile[:name] %></span>
+  <nav class="ft-links" aria-label="Liens de pied de page">
+    <%= link_to "FAQ", faq_path %>
+    <%= link_to "Mentions légales", legal_path %>
+    <%= link_to "Confidentialité", privacy_path %>
+  </nav>
 </footer>

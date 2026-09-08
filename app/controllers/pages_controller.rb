@@ -12,4 +12,8 @@ class PagesController < ApplicationController
 
   def about; end
   def contact; end
+
+  def legal;   end
+  def privacy; end
+  def faq;     end
 end

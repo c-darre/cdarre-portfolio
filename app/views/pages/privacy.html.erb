@@ -1,0 +1,72 @@
+<% content_for :title, "Politique de confidentialité" %>
+<% content_for :meta_description,
+   "Traitement des données personnelles sur cdarre.fr : ce qui est collecté, " \
+   "pourquoi, combien de temps, et comment exercer ses droits." %>
+
+<section class="prose" aria-label="Politique de confidentialité">
+  <div class="prose-body">
+    <p class="pb-label mono">Données personnelles</p>
+    <h1 class="prose-title">Politique de <em>confidentialité</em></h1>
+
+    <div class="prose-block">
+      <p class="pb-label mono">Responsable du traitement</p>
+      <p>Cyprien Darré, éditeur du site. Contact : <%= mail_to profile[:email] %></p>
+    </div>
+
+    <div class="prose-block">
+      <p class="pb-label mono">Ce qui est collecté</p>
+      <p>Le formulaire de contact enregistre trois informations : le nom saisi, l'adresse email
+         saisie, le message. Rien d'autre.</p>
+      <p>Le site ne collecte ni adresse IP, ni identifiant de navigateur, ni donnée de navigation.
+         Aucun profilage, aucune décision automatisée.</p>
+    </div>
+
+    <div class="prose-block">
+      <p class="pb-label mono">Pourquoi, et sur quelle base</p>
+      <p>La seule finalité est de répondre au message reçu.</p>
+      <p>La base légale est l'intérêt légitime, au sens de l'article 6.1.f du RGPD : c'est le
+         visiteur qui engage le contact, et y répondre suppose de conserver le moyen de le joindre.</p>
+    </div>
+
+    <div class="prose-block">
+      <p class="pb-label mono">Qui y a accès</p>
+      <p>L'éditeur du site est le destinataire unique des messages.</p>
+      <p>Deux prestataires interviennent techniquement : OVH SAS, qui héberge le site et sa base de
+         données, et Google, dont le service Gmail achemine et reçoit la notification du message.</p>
+      <p>Aucune donnée n'est vendue, louée, ni transmise à des fins commerciales.</p>
+    </div>
+
+    <div class="prose-block">
+      <p class="pb-label mono">Combien de temps</p>
+      <p>Les messages sont conservés douze mois, puis supprimés automatiquement.</p>
+      <p>Les messages classés indésirables par le filtre anti-spam sont supprimés au bout de
+         trente jours.</p>
+    </div>
+
+    <div class="prose-block">
+      <p class="pb-label mono">Vos droits</p>
+      <p>Accès, rectification, effacement, limitation, opposition, portabilité. Une demande à
+         <%= mail_to profile[:email] %> suffit, et elle est traitée sous un mois.</p>
+      <p>En cas de désaccord, une réclamation peut être déposée auprès de la CNIL, 3 place de
+         Fontenoy, 75334 Paris Cedex 07, <a href="https://www.cnil.fr" target="_blank" rel="noopener">cnil.fr ↗</a>.</p>
+    </div>
+
+    <div class="prose-block">
+      <p class="pb-label mono">Cookies</p>
+      <p>Ce site dépose un seul cookie : la session Rails, qui porte le jeton de protection contre
+         la falsification de requête. Il est nécessaire au fonctionnement du formulaire, expire à la
+         fermeture du navigateur, et ne sert ni à mesurer ni à cibler.</p>
+      <p>Aucun outil de mesure d'audience, aucun traceur publicitaire, aucun script tiers n'est
+         chargé. C'est pourquoi ce site n'affiche pas de bandeau de consentement : les traceurs
+         strictement nécessaires en sont dispensés au titre de l'article 82 de la loi Informatique
+         et Libertés.</p>
+    </div>
+
+    <div class="prose-block">
+      <p class="pb-label mono">Éditeur et hébergeur</p>
+      <p>Voir les <%= link_to "mentions légales", legal_path %>.</p>
+    </div>
+
+    <p class="prose-date mono">Mise à jour : septembre 2026</p>
+  </div>
+</section>

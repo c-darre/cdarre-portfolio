@@ -1,0 +1,56 @@
+<% content_for :title, "Mentions légales" %>
+<% content_for :meta_description,
+   "Mentions légales du site cdarre.fr : éditeur, directeur de la publication, " \
+   "hébergeur, propriété intellectuelle." %>
+
+<section class="prose" aria-label="Mentions légales">
+  <div class="prose-body">
+    <p class="pb-label mono">Informations légales</p>
+    <h1 class="prose-title">Mentions <em>légales</em></h1>
+
+    <div class="prose-block">
+      <p class="pb-label mono">Éditeur</p>
+      <p>Cyprien Darré, personne physique éditant ce site à titre non professionnel.</p>
+      <p>Directeur de la publication : Cyprien Darré.</p>
+      <p>Contact : <%= mail_to profile[:email] %></p>
+      <p>Ce site présente un parcours et des travaux. Il ne vend rien, n'ouvre aucun compte,
+         n'héberge aucun contenu déposé par des tiers.</p>
+      <p>Conformément à l'article 1-1 de la loi n° 2004-575 du 21 juin 2004 pour la confiance
+         dans l'économie numérique, les coordonnées complètes de l'éditeur ont été communiquées
+         à l'hébergeur.</p>
+    </div>
+
+    <div class="prose-block">
+      <p class="pb-label mono">Hébergeur</p>
+      <p>OVH SAS</p>
+      <p>2 rue Kellermann, 59100 Roubaix, France</p>
+      <p>RCS Lille Métropole 424 761 419. Téléphone : 1007.</p>
+      <p><a href="https://www.ovhcloud.com/fr/" target="_blank" rel="noopener">ovhcloud.com ↗</a></p>
+    </div>
+
+    <div class="prose-block">
+      <p class="pb-label mono">Propriété intellectuelle</p>
+      <p>Les textes, la direction artistique et le code de ce site sont l'œuvre de Cyprien Darré.
+         Le code source est public sur
+         <a href="<%= profile[:github] %>/cdarre-portfolio" target="_blank" rel="noopener">GitHub ↗</a>.</p>
+      <p>Les travaux présentés ont été réalisés en alternance, en poste ou en prestation, pour le
+         compte des organisations citées. Marques, logos, visuels et contenus restent la propriété
+         de leurs titulaires respectifs. Ils figurent ici à seule fin de rendre compte du travail
+         accompli, sans usage commercial.</p>
+      <p>Toute demande de retrait adressée à <%= mail_to profile[:email] %> sera traitée sans délai.</p>
+    </div>
+
+    <div class="prose-block">
+      <p class="pb-label mono">Liens sortants</p>
+      <p>Le site renvoie vers des ressources extérieures dont le contenu n'engage que leurs éditeurs.</p>
+    </div>
+
+    <div class="prose-block">
+      <p class="pb-label mono">Données personnelles</p>
+      <p>Le traitement des données est décrit dans la
+         <%= link_to "politique de confidentialité", privacy_path %>.</p>
+    </div>
+
+    <p class="prose-date mono">Mise à jour : septembre 2026</p>
+  </div>
+</section>
