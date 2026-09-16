@@ -2,7 +2,7 @@ module ApplicationHelper
   # Source unique des infos de profil du site public.
   PROFILE = {
     name:     "Cyprien Darré",
-    tagline:  "Product Designer × Design Engineer",
+    tagline:  "Chef de projet digital, UX/UI et communication",
     pitch:    "Des idées au produit : concevoir, écrire, coder.",
     location: "Bordeaux → Paris",
     email:    "cyprien.darre@gmail.com",
@@ -23,8 +23,9 @@ module ApplicationHelper
   def meta_description
     return content_for(:meta_description) if content_for?(:meta_description)
 
-    "Portfolio de #{PROFILE[:name]}, #{PROFILE[:tagline]} : études de cas UX/UI, " \
-      "design system et développement Ruby on Rails. #{PROFILE[:pitch]}"
+    "Portfolio de #{PROFILE[:name]} : pilotage de projets numériques, UX/UI, " \
+      "design system et conduite du changement, sur des portails internes " \
+      "à 100 000 utilisateurs. #{PROFILE[:pitch]}"
   end
 
   def cv_path_if_available
