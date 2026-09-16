@@ -46,6 +46,12 @@ Rails.application.routes.draw do
 
   resources :case_studies, only: %i[index show], param: :slug, path: "projets"
   resources :visual_works, only: %i[index],                    path: "galerie"
+
+  # Pages de detail de la galerie supprimees le 20/08/2026 (commit 1aeb2c5).
+  # Google demande encore /galerie/4 a /galerie/7 : on les renvoie au feed
+  # plutot que de servir un 404, qui ne transmet rien.
+  get "galerie/:id", to: redirect("/galerie", status: 301),
+      constraints: { id: /[0-9]+/ }
   resources :contact_messages, only: :create, path: "messages"
 
   # --- SEO / infra ---
