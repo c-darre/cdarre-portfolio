@@ -381,6 +381,18 @@
   }
 }
 
+// Legende d'un visuel : meme grammaire que `.gl-post-legende` en galerie.
+// Elle ne peut pas etre plus large que le visuel qu'elle accompagne.
+.cs-shot-legende {
+  margin-top: 8px;
+  color: $median;
+  font-size: .92rem;
+  line-height: 1.45;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
 // ---------- Bas de page ----------
 .cs-next {
   border-top: 1px solid $filet;

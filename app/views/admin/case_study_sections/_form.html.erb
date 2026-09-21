@@ -29,13 +29,19 @@
     <% if section.images.attached? %>
       <div class="d-flex flex-wrap gap-2 mb-2">
         <% section.images.each do |image| %>
-          <label class="border rounded p-1" style="cursor: pointer;">
-            <%= image_tag image, style: "height: 90px; width: auto; display: block;" %>
-            <span class="small d-block text-center mt-1">
+          <%# Le champ de legende sort du <label> : sinon, cliquer dedans
+              cocherait la case « supprimer ». %>
+          <div class="border rounded p-1" style="width: 180px;">
+            <%= image_tag image, style: "height: 90px; width: auto; display: block; margin: 0 auto;" %>
+            <%= text_field_tag "case_study_section[captions][#{image.id}]",
+                  image.blob.metadata["caption"],
+                  class: "form-control form-control-sm mt-1",
+                  placeholder: "Légende (facultatif)" %>
+            <label class="small d-block text-center mt-1" style="cursor: pointer;">
               <%= check_box_tag "case_study_section[purge_image_ids][]", image.id, false, class: "form-check-input me-1" %>
               supprimer
-            </span>
-          </label>
+            </label>
+          </div>
         <% end %>
       </div>
     <% end %>
@@ -48,7 +54,8 @@
       <strong>Nom du fichier = ordre et taille</strong> :
       <code>01-…</code>, <code>02-…</code> pour l'ordre ·
       suffixe <code>-grand</code> ou <code>-plein</code> pour agrandir ·
-      suffixe <code>-doc</code> pour envoyer la page dans la visionneuse.
+      suffixe <code>-doc</code> pour envoyer la page dans la visionneuse.<br>
+      La <strong>légende</strong> se saisit sous chaque image, après envoi.
     </div>
   </div>
 

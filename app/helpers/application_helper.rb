@@ -4,7 +4,7 @@ module ApplicationHelper
     name:     "Cyprien Darré",
     tagline:  "Chef de projet digital, UX/UI et communication",
     pitch:    "Des idées au produit : concevoir, écrire, coder.",
-    location: "Bordeaux → Paris",
+    location: "Île-de-France, Rennes, Orléans",
     email:    "cyprien.darre@gmail.com",
     linkedin: "https://www.linkedin.com/in/c-darre",
     github:   "https://github.com/c-darre"
@@ -73,5 +73,13 @@ module ApplicationHelper
   def attachment_alt(attachment, fallback: "Visuel")
     name = attachment.filename.base.to_s.tr("-_", " ").squish
     name.present? ? name.upcase_first : fallback
+  end
+
+  # Legende d'un visuel d'etude de cas. Stockee dans les metadonnees du blob
+  # plutot que dans une table dediee : Active Storage les serialise deja, et
+  # une piece jointe sans legende n'a alors aucune ligne fantome en base.
+  # Saisie dans le back-office, section par section.
+  def attachment_caption(attachment)
+    attachment.blob.metadata["caption"].presence
   end
 end

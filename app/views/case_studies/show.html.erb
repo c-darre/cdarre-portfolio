@@ -160,6 +160,12 @@
                               loading: "lazy", alt: attachment_alt(image) %>
                       </button>
                     <% end %>
+
+                    <%# Legende facultative : sans elle, le visuel vit seul.
+                        Jamais de texte de remplacement. %>
+                    <% if (legende = attachment_caption(image)) %>
+                      <figcaption class="cs-shot-legende"><%= legende %></figcaption>
+                    <% end %>
                   </figure>
                 <% end %>
               </div>

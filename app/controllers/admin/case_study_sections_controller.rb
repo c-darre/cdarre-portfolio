@@ -22,6 +22,7 @@ module Admin
     def update
       if @section.update(section_params)
         purge_selected_images(@section)   # retire celles cochées « supprimer »
+        save_captions(@section)           # légendes des images déjà attachées
         attach_new_images(@section)       # ajoute les nouvelles (sans écraser les autres)
         redirect_to edit_admin_case_study_path(@section.case_study), notice: "Section mise à jour."
       else
@@ -66,6 +67,21 @@ module Admin
     def purge_selected_images(section)
       ids = Array(params.dig(:case_study_section, :purge_image_ids)).reject(&:blank?)
       section.images.where(id: ids).each(&:purge) if ids.any?  # purge synchrone : ok à cette échelle
+    end
+
+    # La legende vit dans les metadonnees du blob. On FUSIONNE au lieu de
+    # remplacer : ecraser la cle `analyzed` relancerait l'analyse d'Active
+    # Storage, qui recalculerait les dimensions a chaque enregistrement.
+    def save_captions(section)
+      legendes = params.dig(:case_study_section, :captions)
+      return if legendes.blank?
+
+      legendes.each do |id, texte|
+        blob = section.images.find_by(id: id)&.blob
+        next if blob.nil?
+
+        blob.update(metadata: blob.metadata.merge("caption" => texte.to_s.strip.presence))
+      end
     end
 
     # Images gérées séparément → volontairement HORS des params d'assignation.
