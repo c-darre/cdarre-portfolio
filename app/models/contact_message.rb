@@ -28,6 +28,25 @@ class ContactMessage < ApplicationRecord
     latin = body.to_s.count("A-Za-zÀ-ÿ")
     score += 1 if body.to_s.length > 20 && latin < body.to_s.length * 0.5
 
+    # Ajouts du 24/09/2026, apres le passage d'un message de test automatise
+    # sans lien, sans caractere non latin et avec un temps de remplissage
+    # plausible : les criteres precedents lui donnaient 1.
+
+    # Un corps de plus de 20 caracteres sans le moindre espace n'est pas une
+    # phrase, c'est une chaine de test. Signal le plus fort du lot.
+    score += 3 if body.to_s.length > 20 && !body.to_s.include?(" ")
+
+    # Un nom de personne ne porte pas de chiffres.
+    score += 1 if name.to_s.match?(/\d/)
+
+    # Cinq consonnes d'affilee : aucun mot francais ni anglais n'en produit.
+    suite = /[bcdfghjklmnpqrstvwxz]{5,}/i
+    score += 1 if name.to_s.match?(suite) || body.to_s.match?(suite)
+
+    # Meme suite de chiffres dans le nom ET dans le corps : identifiant de
+    # campagne, pose par le robot pour relier l'envoi a la reception.
+    score += 2 if (name.to_s.scan(/\d{4,}/) & body.to_s.scan(/\d{4,}/)).any?
+
     score
   end
 end
