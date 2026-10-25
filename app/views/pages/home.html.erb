@@ -58,6 +58,8 @@
       <span class="h1-l"><span class="surligne">déployer,</span></span>
       <span class="h1-l"><span class="surligne">faire adopter.</span></span>
     </h1>
+
+    <p class="dispo mono">Disponible immédiatement · Mobile en France, Paris et Rennes en priorité · CDI, CDD ou mission</p>
   </section>
 </div>
 
@@ -105,19 +107,17 @@
         <span class="ld-l">qu'elles <span class="inflexion surligne">l'utilisent.</span></span>
       </p>
 
-      <p>Une expertise <em>hybride</em>, de la stratégie à la production.
-        Dix ans à concevoir des dispositifs de communication et des interfaces
-        pour de grands groupes : direction artistique, UX/UI, design system,
-        UX writing bilingue, sur des systèmes utilisés par plus de
-        100&nbsp;000&nbsp;personnes dans 35&nbsp;pays.</p>
+      <p>Une expertise <em>hybride</em>, de la stratégie à la production.</p>
 
-      <p>Renforcée depuis 2026 par l'ingénierie : développement full-stack
-        Ruby on Rails et intégration d'IA (LLM, RAG), certifiés par un titre
-        RNCP niveau&nbsp;6 et une application déployée.</p>
-
-      <p>L'objectif : des écosystèmes de marque cohérents, des workflows
-        fluides entre création, contenu et technique. Allier esthétique et
-        <em>performance</em>.</p>
+      <p>Dix ans en communication et en conception numérique, dont cinq à la
+        direction des systèmes d'information de Renault Group. J'y ai piloté la
+        communication d'une direction de 368 collaborateurs, en reporting direct
+        au vice-président. J'ai conçu et déployé son portail interne, puis formé
+        les équipes à le tenir elles-mêmes. En 2026, j'ai obtenu le titre de
+        concepteur développeur d'applications web, filière IA, pour comprendre
+        de l'intérieur les outils que je fais adopter. J'ai aussi mené la refonte
+        d'un portail de services couvrant 35&nbsp;pays et plus de
+        100&nbsp;000&nbsp;utilisateurs.</p>
 
       <div class="facts">
         <div class="fact mono"><span>Pilotage</span><span>Cadrage · Conduite du changement · Adoption · Formation</span></div>
@@ -133,7 +133,7 @@
 
 <%# ================= (02) TRAVAUX ================= %>
 <section id="travaux" class="screen screen-negatif" aria-label="Travaux">
-  <span class="corner corner-tl mono">(02) · Case studies</span>
+  <span class="corner corner-tl mono">(02) · Travaux</span>
   <span class="corner corner-tr mono">Études de cas</span>
 
   <p class="index-intro">
@@ -152,64 +152,6 @@
     <p>Les études de cas arrivent : rédaction en cours.</p>
   <% end %>
 
-</section>
-
-<%# ================= (03) GALERIE ================= %>
-<section id="galerie" class="screen-galerie" aria-label="Galerie visuelle"
-         data-controller="hscroll">
-  <div class="g-pin" data-hscroll-target="pin">
-    <span class="corner corner-tl mono">(03) · Galerie</span>
-    <span class="corner corner-tr mono">Identités · Concepts · Motion</span>
-
-    <%# L'accroche est SORTIE de la piste : elle ne defile plus avec elle. %>
-    <div class="g-catch">
-      <p class="g-catchline">
-        <span class="gc-l">De la <span class="inflexion">surface</span></span>
-        <span class="gc-l">au <span class="inflexion">fond</span>,</span>
-        <span class="gc-l">en passant par</span>
-        <span class="gc-l">la <span class="inflexion">forme</span>.</span>
-      </p>
-      <div class="g-nav">
-        <button type="button" class="g-btn mono" data-action="hscroll#prev" aria-label="Créations précédentes">←</button>
-        <button type="button" class="g-btn mono" data-action="hscroll#next" aria-label="Créations suivantes">→</button>
-      </div>
-    </div>
-
-    <div class="g-track" data-hscroll-target="track" tabindex="0"
-         role="region" aria-label="Créations visuelles, défilement horizontal">
-
-      <% @visual_works.each do |work| %>
-        <%# Toutes les cartes menent a la galerie complete, pas au detail. %>
-        <%= link_to visual_works_path, class: "g-col g-card", data: { hscroll_card: true } do %>
-          <% if work.images.attached? %>
-            <% media = work.images.first %>
-            <% if media.content_type.to_s.start_with?("video/") %>
-              <video class="g-bg" autoplay muted loop playsinline preload="metadata"
-                     disablepictureinpicture tabindex="-1" aria-hidden="true">
-                <source src="<%= url_for(media) %>" type="<%= media.content_type %>">
-              </video>
-            <% else %>
-              <%= visuel_responsive media, class: "g-bg",
-                    largeurs: [ 480, 720, 1000 ],
-                    sizes: "(max-width: 720px) 62vw, 420px",
-                    loading: "lazy",
-                    alt: attachment_alt(media, fallback: work.title) %>
-            <% end %>
-          <% end %>
-          <div class="g-veil" aria-hidden="true"></div>
-          <div class="g-info">
-            <span class="g-title"><%= work.title %></span>
-          </div>
-        <% end %>
-      <% end %>
-
-      <%# Carte finale : l'invitation a voir toute la galerie. %>
-      <%= link_to visual_works_path, class: "g-col g-more lien-discret mono",
-            data: { hscroll_card: true } do %>
-        Voir plus <span class="g-more-fleche" aria-hidden="true">→</span>
-      <% end %>
-    </div>
-  </div>
 </section>
 
 <%# ================= (04) CONTACT ================= %>

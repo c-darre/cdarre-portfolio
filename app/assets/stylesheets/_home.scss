@@ -833,3 +833,15 @@
     max-width: 100%;
   }
 }
+
+// --- Ligne de disponibilite, sous le titre (00) et sur /contact.
+// Typographie heritee de `mono`, couleur du token des metadonnees. Elle
+// passe AU-DESSUS du decor, comme le titre : sans `z-index`, un enfant en
+// position absolue la recouvrirait.
+.dispo {
+  position: relative;
+  z-index: 1;
+  margin: clamp(20px, 3vh, 34px) 0 0;
+  color: $median;
+  max-width: 62ch;
+}
