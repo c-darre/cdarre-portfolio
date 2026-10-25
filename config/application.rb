@@ -14,7 +14,9 @@ module CdarrePortfolio
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
-    config.autoload_lib(ignore: %w[assets tasks])
+    # `documents` porte le CV en PDF, servi par PagesController#cv : aucun
+    # fichier Ruby a charger, et surtout rien a recharger en developpement.
+    config.autoload_lib(ignore: %w[assets tasks documents])
 
     # Configuration for the application, engines, and railties goes here.
     #

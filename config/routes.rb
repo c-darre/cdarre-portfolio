@@ -44,6 +44,12 @@ Rails.application.routes.draw do
   get "confidentialite",  to: "pages#privacy", as: :privacy
   get "faq",              to: "pages#faq",     as: :faq
 
+  # CV : servi par le routeur, PAS depuis public/. Les fichiers de public/
+  # portent un cache-control d'un an (voir production.rb) : une nouvelle
+  # version ne serait jamais relue par un navigateur qui a deja l'ancienne.
+  # L'URL ne change pas : les liens deja envoyes en candidature tiennent.
+  get "cv-cyprien-darre.pdf", to: "pages#cv", as: :cv
+
   resources :case_studies, only: %i[index show], param: :slug, path: "projets"
   resources :visual_works, only: %i[index],                    path: "galerie"
 

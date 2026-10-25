@@ -28,8 +28,14 @@ module ApplicationHelper
       "à 100 000 utilisateurs. #{PROFILE[:pitch]}"
   end
 
+  # Le fichier vit sous lib/documents et sort par PagesController#cv.
+  # L'URL publique, elle, n'a pas bouge.
   def cv_path_if_available
-    "/cv-cyprien-darre.pdf" if File.exist?(Rails.root.join("public/cv-cyprien-darre.pdf"))
+    "/cv-cyprien-darre.pdf" if File.exist?(PagesController::CV_PATH)
+  end
+
+  def cv_file_size
+    File.size(PagesController::CV_PATH)
   end
 
   # Portrait de la page À propos : dépose la photo sous

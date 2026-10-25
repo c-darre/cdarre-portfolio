@@ -106,7 +106,7 @@
       <%= link_to cv, class: "cv-btn", download: "CV-Cyprien-Darre.pdf" do %>
         Télécharger le CV <span class="cv-arrow" aria-hidden="true">↓</span>
       <% end %>
-      <span class="cv-meta mono">PDF · <%= number_to_human_size(File.size(Rails.root.join("public#{cv}"))) %></span>
+      <span class="cv-meta mono">PDF · <%= number_to_human_size(cv_file_size) %></span>
     </div>
   <% end %>
 </section>
