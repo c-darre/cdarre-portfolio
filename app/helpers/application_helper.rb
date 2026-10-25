@@ -23,9 +23,11 @@ module ApplicationHelper
   def meta_description
     return content_for(:meta_description) if content_for?(:meta_description)
 
-    "Portfolio de #{PROFILE[:name]} : pilotage de projets numériques, UX/UI, " \
-      "design system et conduite du changement, sur des portails internes " \
-      "à 100 000 utilisateurs. #{PROFILE[:pitch]}"
+    # 149 caracteres : sous le seuil de troncature de Google. Le pitch n'est
+    # plus concatene ici, il faisait deborder la phrase au-dela de 200.
+    "Portfolio de #{PROFILE[:name]} : communication interne et éditoriale, " \
+      "conduite du changement et adoption des outils en direction des " \
+      "systèmes d'information."
   end
 
   # Le fichier vit sous lib/documents et sort par PagesController#cv.
