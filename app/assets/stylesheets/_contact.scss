@@ -200,7 +200,7 @@
   .contact .corner-tr { top: 42px; }
 
   .ct-text h2 {
-    // Deux lignes : « Let's » puis « connect. »
+    // Une seule ligne : « Parlons-en. » ne se coupe pas proprement.
     .ct-l { display: block; }
     font-size: clamp(3rem, 15vw, 4.6rem);
     line-height: 1.02;
