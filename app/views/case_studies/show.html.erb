@@ -60,10 +60,18 @@
         </nav>
       <% end %>
 
+      <%# Une etude peut porter deux sections du meme type, par exemple deux
+          Demarche. Le libelle ne s + %Q{affiche qu} + a la PREMIERE : repete, il se
+          lisait comme un doublon de rendu. Les suivantes vivent par leur
+          propre titre, saisi en back-office. %>
+      <% types_vus = [] %>
       <div class="cs-sections">
         <% @sections.each do |section| %>
           <section id="section-<%= section.id %>" class="cs-section">
-            <p class="sec-label mono"><%= section_type_label(section.section_type) %></p>
+            <% unless types_vus.include?(section.section_type) %>
+              <p class="sec-label mono"><%= section_type_label(section.section_type) %></p>
+              <% types_vus << section.section_type %>
+            <% end %>
             <% if section.heading.present? %><h2><%= section.heading %></h2><% end %>
 
             <div class="case-prose"><%= section.body %></div>

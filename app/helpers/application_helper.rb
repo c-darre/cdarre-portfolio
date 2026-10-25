@@ -76,9 +76,17 @@ module ApplicationHelper
             aria: { current: (active ? "page" : nil) }
   end
 
-  def attachment_alt(attachment, fallback: "Visuel")
-    name = attachment.filename.base.to_s.tr("-_", " ").squish
-    name.present? ? name.upcase_first : fallback
+  # Texte alternatif d'un visuel, dans cet ordre : la legende saisie en
+  # back-office, puis le repli fourni par la vue (titre de l'oeuvre ou de
+  # l'etude), puis un mot neutre.
+  #
+  # Le NOM DE FICHIER ne sert plus : il arrivait en premier et gagnait
+  # toujours, ce qui affichait « Magazine Mockup 6 copie » aux lecteurs
+  # d'ecran et aux moteurs.
+  def attachment_alt(attachment, fallback: nil)
+    attachment_caption(attachment).presence ||
+      fallback.presence ||
+      "Visuel"
   end
 
   # Legende d'un visuel d'etude de cas. Stockee dans les metadonnees du blob
