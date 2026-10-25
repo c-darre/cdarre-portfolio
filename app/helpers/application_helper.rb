@@ -2,8 +2,8 @@ module ApplicationHelper
   # Source unique des infos de profil du site public.
   PROFILE = {
     name:     "Cyprien Darré",
-    tagline:  "Chef de projet digital, UX/UI et communication",
-    pitch:    "Des idées au produit : concevoir, écrire, coder.",
+    tagline:  "Communication interne, éditorial et conduite du changement",
+    pitch:    "De l'idée à l'usage : concevoir, déployer, faire adopter.",
     location: "Île-de-France, Rennes, Orléans",
     email:    "cyprien.darre@gmail.com",
     linkedin: "https://www.linkedin.com/in/c-darre",
