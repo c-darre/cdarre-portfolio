@@ -1,6 +1,7 @@
 class CaseStudy < ApplicationRecord
   # Catégories canoniques — source unique (helper + pages y puisent).
-  CATEGORIES = [ "Produit", "Design System", "Full-stack", "IA appliquée", "Stratégie de marque" ].freeze
+  CATEGORIES = [ "Communication interne", "Éditorial", "Adoption",
+                 "Formation", "UX", "IA appliquée" ].freeze
 
   # DEUX visuels obligatoires : celui du repos et celui du survol, sur /projets.
   # Aucune migration : Active Storage stocke les pieces jointes a part.
