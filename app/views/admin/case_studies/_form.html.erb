@@ -37,8 +37,23 @@
   <div class="mb-3">
     <%= form.label :categories, "Catégories (séparées par des virgules)", class: "form-label" %>
     <%= form.text_field :categories, class: "form-control",
-          placeholder: "Produit, Design System, Full-stack, IA appliquée" %>
+          placeholder: "Communication interne, Adoption, Formation" %>
     <div class="form-text">Valeurs autorisées : <%= CaseStudy::CATEGORIES.join(", ") %>.</div>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :demo_url, "Lien vers la démo en ligne (optionnel)", class: "form-label" %>
+    <%= form.url_field :demo_url, class: "form-control",
+          placeholder: "https://www.exemple.space" %>
+    <div class="form-text">
+      Rempli, un bloc « Tester » apparaît en fin de page publique. Vide, rien ne s'affiche.
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :demo_note, "Note d'usage sous le lien (optionnel)", class: "form-label" %>
+    <%= form.text_area :demo_note, class: "form-control", rows: 2 %>
+    <div class="form-text">Une ou deux phrases. Texte simple, sans mise en forme.</div>
   </div>
 
   <div class="mb-3">

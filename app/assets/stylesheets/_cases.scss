@@ -393,6 +393,21 @@
   hyphens: auto;
 }
 
+// ---------- Essayer la demo ----------
+// Le filet, la fleche et le survol viennent de `.cross-row`. Ne restent ici
+// que le cadrage lateral, calque sur `.cs-next`, et la note.
+.cs-demo {
+  padding: 0 clamp(20px, 3vw, 40px);
+}
+
+.cs-demo-note {
+  margin: 12px 0 0;
+  max-width: 62ch;
+  color: $median;
+  font-size: .95rem;
+  line-height: 1.5;
+}
+
 // ---------- Bas de page ----------
 .cs-next {
   border-top: 1px solid $filet;

@@ -65,7 +65,7 @@ module Admin
     def case_study_params
       params.require(:case_study).permit(
         :title, :subtitle, :role, :context, :key_metric, :slug, :categories, :published,
-        :hero_image, :hover_image
+        :demo_url, :demo_note, :hero_image, :hover_image
       )
     end
   end

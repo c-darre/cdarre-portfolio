@@ -183,6 +183,23 @@
       </div>
     </div>
 
+    <%# ---------- Essayer la demo ---------- %>
+    <%# Visible seulement si l'etude porte un lien. Le dispositif est celui
+        de `.cross-row`, deja utilise en bas de /projets : filet au-dessus,
+        filet en dessous, fleche qui passe au vermillon au survol. %>
+    <% if @case_study.demo_url.present? %>
+      <div class="cs-demo">
+        <%= link_to @case_study.demo_url, class: "cross-row",
+              target: "_blank", rel: "noopener" do %>
+          <span class="mono">Tester <%= @case_study.title %> en ligne</span>
+          <span class="x-arrow" aria-hidden="true">↗</span>
+        <% end %>
+        <% if @case_study.demo_note.present? %>
+          <p class="cs-demo-note"><%= @case_study.demo_note %></p>
+        <% end %>
+      </div>
+    <% end %>
+
     <%# ---------- Bas de page ---------- %>
     <nav class="cs-next" aria-label="Navigation entre études">
       <%= link_to "← Retour", case_studies_path, class: "mono" %>
