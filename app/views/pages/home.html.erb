@@ -6,29 +6,19 @@
     <section class="video-landing" aria-label="Introduction animée">
       <%# Zero interaction : ni controles, ni menu contextuel, ni image dans
           l'image, ni capture du pointeur. La video est purement decorative. %>
-      <%# `preload` vaut AUTO, pas none. Avec none, Safari iOS ne telecharge
-          rien et attend une demande de lecture qui n'arrive jamais : plus de
-          controles, et `pointer-events: none` sur l'element. La video restait
-          noire indefiniment. La version portrait pese 332 Ko, il n'y a rien a
-          economiser. Le `poster` couvre le temps de telechargement. %>
-      <%# DEUX balises, une seule affichee : `media` sur <source> n'est plus
-          honore par Chrome, qui prenait la premiere source lisible — donc la
-          version portrait pour tout le monde. Le CSS, lui, est fiable. %>
-      <video class="video-landing-media est-paysage" autoplay muted loop playsinline
+      <%# UNE SEULE balise. La source est posee par Stimulus apres mesure de
+          l'orientation : `media` sur <source> n'est plus honore, et
+          `display: none` n'empeche PAS une video de se telecharger. Avec deux
+          balises, le mobile tirait 2,2 Mo dont 1,9 inutile, mesure dans les
+          journaux du proxy. L'image d'attente est un fond CSS, donc peinte
+          avant meme que ce script tourne. %>
+      <video class="video-landing-media" autoplay muted loop playsinline
              disablepictureinpicture disableremoteplayback preload="auto"
-             <%= "poster=#{intro_poster_path(:paysage)}" if intro_poster_path(:paysage) %>
-             tabindex="-1" aria-hidden="true" oncontextmenu="return false">
-        <source src="<%= video %>" type="video/mp4">
-      </video>
+             data-controller="intro-video"
+             data-intro-video-paysage-value="<%= video %>"
+             data-intro-video-portrait-value="<%= intro_video_mobile_path %>"
+             tabindex="-1" aria-hidden="true" oncontextmenu="return false"></video>
 
-      <% if (video_mobile = intro_video_mobile_path) %>
-        <video class="video-landing-media est-portrait" autoplay muted loop playsinline
-               disablepictureinpicture disableremoteplayback preload="auto"
-               <%= "poster=#{intro_poster_path(:portrait)}" if intro_poster_path(:portrait) %>
-               tabindex="-1" aria-hidden="true" oncontextmenu="return false">
-          <source src="<%= video_mobile %>" type="video/mp4">
-        </video>
-      <% end %>
       <p class="video-kicker mono">Communication · Design · Code</p>
 
       <span class="video-cue" aria-hidden="true">

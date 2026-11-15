@@ -71,15 +71,6 @@ module ApplicationHelper
     "/media/#{nom}" if Rails.public_path.join("media", nom).exist?
   end
 
-  # Image d'attente de la video d'intro : meme nom de fichier, extension
-  # .jpg. Elle s'affiche des la premiere peinture, pendant que le media se
-  # telecharge. Sans elle, l'ecran reste noir le temps du chargement.
-  def intro_poster_path(variante)
-    video = variante == :portrait ? INTRO_VIDEO_MOBILE : INTRO_VIDEO
-    nom   = video.sub(/\.mp4\z/, ".jpg")
-    "/media/#{nom}" if Rails.public_path.join("media", nom).exist?
-  end
-
   def nav_link(label, path)
     active = current_page?(path)
     link_to label, path,

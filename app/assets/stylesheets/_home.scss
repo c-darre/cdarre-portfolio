@@ -264,16 +264,18 @@
   // Marge negative : la video occupe l'ecran ENTIER, liseré et navbar compris.
   margin: calc(-1 * (#{$nav-h} + #{$page-pad})) calc(-1 * #{$page-pad}) 0;
   overflow: hidden;
-  background: $encre;      // le temps que la premiere image arrive
+  // Image d'attente en FOND, pas en attribut `poster` : le navigateur la peint
+  // des la feuille de style lue, sans attendre le script qui pose la source de
+  // la video. Chaque orientation a la sienne, choisie ici, donc une seule des
+  // deux part sur le reseau.
+  background: $encre center / cover no-repeat
+              url("/media/cyprien-darre-logo-loop.jpg");
 }
 
-// Une seule des deux balises est affichee. `display: none` + `preload="none"`
-// garantit que la version masquee n'est jamais telechargee.
-.video-landing-media.est-portrait { display: none; }
-
 @media (max-aspect-ratio: 1 / 1) {
-  .video-landing-media.est-paysage  { display: none; }
-  .video-landing-media.est-portrait { display: block; }
+  .video-landing {
+    background-image: url("/media/cyprien-darre-logo-loop-mobile.jpg");
+  }
 }
 
 .video-landing-media {
