@@ -642,22 +642,12 @@ em {
   .works-choice .wk-layer-gallery.wk-layer { opacity: 1; }
 }
 
-// ---- /travaux mobile : lignes en haut, visuel en bas ------------------
-// Marqueur : wk-media-decale
+// ---- /travaux mobile : texte seul ------------------------------------
+// Le visuel etait decale sous les deux lignes, faute de place. Au doigt il
+// ne servait a rien : la bascule entre ses trois calques se fait au survol,
+// qui n'existe pas ici, et il restait donc fige sur le meme calque. Decale
+// et inerte, il brouillait la lecture. Sur mobile la page n'est plus que
+// ses deux lignes, centrees comme ailleurs.
 @media (max-width: 720px) {
-  // Les lignes remontent : le contenu se cale vers le haut de la section
-  // plutot que d'etre centre dessus.
-  .works-choice {
-    justify-content: flex-start;
-    // Le libelle « TRAVAUX » est en position absolue : il ne suit pas ce
-    // retrait, qui ne fait donc descendre que la liste.
-    padding-top: 96px;
-  }
-
-  // Le visuel descend. Le decalage doit entrer dans le `transform` existant :
-  // une seconde declaration remplacerait le centrage.
-  .works-choice .wk-media {
-    top: 50%;
-    transform: translate(-50%, -50%) translateY(52%);
-  }
+  .works-choice .wk-media { display: none; }
 }
