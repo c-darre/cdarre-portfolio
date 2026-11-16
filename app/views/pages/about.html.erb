@@ -12,7 +12,7 @@
       <figure class="ai-figure" data-controller="reveal" data-derive="9">
         <% if (portrait = about_portrait_path) %>
           <div class="reveal">
-            <%# 17 Ko sur mobile au lieu de 178 : le navigateur choisit la version
+            <%# 30 Ko sur mobile au lieu de 151 : le navigateur choisit la version
                 utile grace au `srcset`. Repli sur l'original si les variantes
                 n'ont pas ete deposees. %>
             <% if Rails.root.join("app/assets/images/portrait-about-400.jpg").exist? %>
