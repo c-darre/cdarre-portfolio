@@ -264,18 +264,7 @@
   // Marge negative : la video occupe l'ecran ENTIER, liseré et navbar compris.
   margin: calc(-1 * (#{$nav-h} + #{$page-pad})) calc(-1 * #{$page-pad}) 0;
   overflow: hidden;
-  // Image d'attente en FOND, pas en attribut `poster` : le navigateur la peint
-  // des la feuille de style lue, sans attendre le script qui pose la source de
-  // la video. Chaque orientation a la sienne, choisie ici, donc une seule des
-  // deux part sur le reseau.
-  background: $encre center / cover no-repeat
-              url("/media/cyprien-darre-logo-loop.jpg");
-}
-
-@media (max-aspect-ratio: 1 / 1) {
-  .video-landing {
-    background-image: url("/media/cyprien-darre-logo-loop-mobile.jpg");
-  }
+  background: $encre;      // le temps que l'image d'attente arrive
 }
 
 .video-landing-media {
@@ -286,6 +275,20 @@
   // Aucune prise : ni clic, ni menu contextuel, ni selection.
   pointer-events: none;
   user-select: none;
+
+  // Image d'attente portee par la balise video ELLE-MEME, et non par la
+  // section : une video sans image a afficher est peinte opaque et masquerait
+  // un fond pose sur le parent. Chaque orientation a la sienne, donc une
+  // seule des deux part sur le reseau. Elle reste visible tant que la lecture
+  // n'a pas commence, refus de demarrage compris.
+  background: $encre center / cover no-repeat
+              url("/media/cyprien-darre-logo-loop.jpg");
+}
+
+@media (max-aspect-ratio: 1 / 1) {
+  .video-landing-media {
+    background-image: url("/media/cyprien-darre-logo-loop-mobile.jpg");
+  }
 }
 
 // Pose sur la ligne des DEUX TIERS : `top: 66.667%` place cette ligne, et
