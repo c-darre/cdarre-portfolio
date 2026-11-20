@@ -146,6 +146,64 @@
 
 </section>
 
+<%# ================= (03) GALERIE ================= %>
+<section id="galerie" class="screen-galerie" aria-label="Galerie visuelle"
+         data-controller="hscroll">
+  <div class="g-pin" data-hscroll-target="pin">
+    <span class="corner corner-tl mono">(03) · Galerie</span>
+    <span class="corner corner-tr mono">Identités · Concepts · Motion</span>
+
+    <%# L'accroche est SORTIE de la piste : elle ne defile plus avec elle. %>
+    <div class="g-catch">
+      <p class="g-catchline">
+        <span class="gc-l">De la <span class="inflexion">surface</span></span>
+        <span class="gc-l">au <span class="inflexion">fond</span>,</span>
+        <span class="gc-l">en passant par</span>
+        <span class="gc-l">la <span class="inflexion">forme</span>.</span>
+      </p>
+      <div class="g-nav">
+        <button type="button" class="g-btn mono" data-action="hscroll#prev" aria-label="Créations précédentes">←</button>
+        <button type="button" class="g-btn mono" data-action="hscroll#next" aria-label="Créations suivantes">→</button>
+      </div>
+    </div>
+
+    <div class="g-track" data-hscroll-target="track" tabindex="0"
+         role="region" aria-label="Créations visuelles, défilement horizontal">
+
+      <% @visual_works.each do |work| %>
+        <%# Toutes les cartes menent a la galerie complete, pas au detail. %>
+        <%= link_to visual_works_path, class: "g-col g-card", data: { hscroll_card: true } do %>
+          <% if work.images.attached? %>
+            <% media = work.images.first %>
+            <% if media.content_type.to_s.start_with?("video/") %>
+              <video class="g-bg" autoplay muted loop playsinline preload="metadata"
+                     disablepictureinpicture tabindex="-1" aria-hidden="true">
+                <source src="<%= url_for(media) %>" type="<%= media.content_type %>">
+              </video>
+            <% else %>
+              <%= visuel_responsive media, class: "g-bg",
+                    largeurs: [ 480, 720, 1000 ],
+                    sizes: "(max-width: 720px) 62vw, 420px",
+                    loading: "lazy",
+                    alt: attachment_alt(media, fallback: work.title) %>
+            <% end %>
+          <% end %>
+          <div class="g-veil" aria-hidden="true"></div>
+          <div class="g-info">
+            <span class="g-title"><%= work.title %></span>
+          </div>
+        <% end %>
+      <% end %>
+
+      <%# Carte finale : l'invitation a voir toute la galerie. %>
+      <%= link_to visual_works_path, class: "g-col g-more lien-discret mono",
+            data: { hscroll_card: true } do %>
+        Voir plus <span class="g-more-fleche" aria-hidden="true">→</span>
+      <% end %>
+    </div>
+  </div>
+</section>
+
 <%# ================= (04) CONTACT ================= %>
 <section id="contact" class="screen contact screen-negatif" aria-label="Contact">
   <span class="corner corner-tl mono">(04) · Contact</span>
